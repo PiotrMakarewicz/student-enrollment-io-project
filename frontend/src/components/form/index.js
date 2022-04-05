@@ -2,11 +2,8 @@
  *  @namespace Form
  */
 
+import * as basic from "./basic";
+import ExampleForm from "./ExampleForm";
+import LecturerForm from "./LecturerForm";
 
-import * as basic from './basic'
-import ExampleForm from './ExampleForm'
-
-export {
-    basic,
-    ExampleForm,
-}
+export { basic, ExampleForm, LecturerForm };
