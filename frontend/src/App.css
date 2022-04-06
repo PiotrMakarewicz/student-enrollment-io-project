@@ -1,7 +1,5 @@
-*,
-*::after,
-*::before {
-  box-sizing: border-box;
+:root {
+  --header-h: 3.25rem;
 }
 
 .App {
@@ -11,13 +9,15 @@
 
 .App-body {
   background-color: var(--bs-gray-200);
-  min-height: calc(100vh - 3rem);
+  min-height: calc(100vh - var(--header-h));
   padding: 1em;
+  display: flex;
+  justify-content: center;
 }
 
 .App-header {
   background-color: #282c34;
-  min-height: 3rem;
+  height: var(--header-h);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -35,7 +35,7 @@
 }
 
 .App-header ul li {
-  margin: 0 0.5em;
+  margin: 0 0.75em;
 }
 
 .App-header a {
@@ -44,7 +44,8 @@
 }
 
 .App-header a:hover {
-  text-decoration: underline;
+  opacity: 75%;
+  /* text-decoration: underline; */
 }
 
 .App-link {

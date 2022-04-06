@@ -50,7 +50,7 @@ function LecturerForm() {
         placeholder={""}
       />
 
-      <div className="flex flex-row my-2 mw-75">
+      <div className="flex flex-column my-2">
         <label>Data wygaśnięcia ankiety</label>
         <DatePicker
           defaultValue={new Date()}

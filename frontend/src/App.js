@@ -11,7 +11,7 @@ function App() {
             <Link to="/">Strona główna</Link>
             <ul>
               <li>
-                <Link to="/new-form">Utwórz nową ankietę</Link>
+                <Link to="/new-form">Nowa ankieta</Link>
               </li>
               <li>
                 <Link to="/my-forms">Twoje ankiety</Link>
