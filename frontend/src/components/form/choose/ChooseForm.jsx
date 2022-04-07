@@ -28,7 +28,7 @@ function createListElement (id, name, state) {
     badgeValue = "zakończona";
   } else if (state === 2){
     badgeType = "badge bg-primary rounded-pill";
-    badgeValue = "dzieli na grupy";
+    badgeValue = "w trakcie podziału";
   } else if (state === 3){
     badgeType = "badge bg-danger rounded-pill";
     badgeValue = "nieudany podział";
@@ -45,7 +45,7 @@ function createListElement (id, name, state) {
 
 function ChooseForm(){
 
-  const forms=[[0, "Ankieta 15555555555555555555", 0], [1, "Ankieta 2", 1]];
+  const forms=[[0, "Ankieta 15555555555555555555", 0], [1, "Ankieta 2", 1], [2, "Ankieta 23", 2], [3, "Ankieta 24", 3]];
   // TODO get a list of forms from database (current format is [form id], [form label], [form state] 
 
   // (form state has to be calculated on backend using [expiration date] and [student-form] relation (if states 2 and 3 were to be implemented))
