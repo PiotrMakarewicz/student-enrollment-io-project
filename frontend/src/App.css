@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+.calendar-cell{
+  opacity: 0.8;
+  transition: 0.3s;
+}
+
+.calendar-cell:hover{
+  transition: 0.3s;
+  opacity: 1;
+}
+table{
+  width: 80%;
+  margin: 10%;
+}
