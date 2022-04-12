@@ -23,7 +23,7 @@ import CalendarHeader from "./CalendarHeader";
 
 function Calendar({ termsInfo, selectedTerms, toggleTerm, availableTermsSet }) {
   return (
-    <table id="calendar-table">
+    <table className="calendar">
       <CalendarHeader labels={termsInfo.headers} />
       <CalendarBody
         termRows={termsInfo.rows}

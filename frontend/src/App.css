@@ -36,16 +36,3 @@
     transform: rotate(360deg);
   }
 }
-<<<<<<< HEAD
-
-.calendar-cell{
-  opacity: 0.8;
-  transition: 0.3s;
-}
-
-.calendar-cell:hover{
-  transition: 0.3s;
-  opacity: 1;
-}
-=======
->>>>>>> parent of 548d9dd... Add Calendar components

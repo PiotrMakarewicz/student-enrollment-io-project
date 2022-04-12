@@ -1,52 +1,46 @@
-
-table {
+.calendar {
   table-layout: fixed;
   width: 96%;
   text-align: center;
   margin: 2%;
 }
 
-tbody{
-  width: 100%;
-}
-
-.calendar-cell{
-  padding:0.9em 0;
-  border:0.5px solid;
+.calendar-cell {
+  padding: 0.9em 0;
+  border: 0.5px solid;
   transition: 0.3s;
-  font-size:  min(2.3vw, 1em);;
-
+  font-size: min(2.3vw, 1em);
 }
 
-.calendar-cell-label{
-  user-select: none; 
+.calendar-cell-label {
+  user-select: none;
   background-color: orange;
   opacity: 1;
 }
 
-.calendar-cell-chosen{
+.calendar-cell-chosen {
   cursor: pointer;
   opacity: 0.8;
   background-color: green;
 }
 
-.calendar-cell-available{
+.calendar-cell-available {
   opacity: 0.6;
   cursor: pointer;
-  background-color:lightgray;
+  background-color: lightgray;
 }
 
-.calendar-cell-not-available{
+.calendar-cell-not-available {
   opacity: 1;
-  background-color:dimgray;
+  background-color: dimgray;
 }
 
-.calendar-cell-available:hover{
+.calendar-cell-available:hover {
   opacity: 1;
   transition: 0.3s;
 }
 
-.calendar-cell-chosen:hover{
+.calendar-cell-chosen:hover {
   opacity: 1;
   transition: 0.3s;
 }
