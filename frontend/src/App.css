@@ -36,6 +36,7 @@
     transform: rotate(360deg);
   }
 }
+<<<<<<< HEAD
 
 .calendar-cell{
   opacity: 0.8;
@@ -46,7 +47,5 @@
   transition: 0.3s;
   opacity: 1;
 }
-table{
-  width: 80%;
-  margin: 10%;
-}
+=======
+>>>>>>> parent of 548d9dd... Add Calendar components

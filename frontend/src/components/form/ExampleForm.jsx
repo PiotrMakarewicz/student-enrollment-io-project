@@ -1,6 +1,9 @@
 import React,{useState} from 'react'
-import {Input, Select, CheckBox , TextArea , Submit} from './basic'
-
+import {Input} from './basic'
+import Select from './basic/Select'
+import CheckBox from './basic/CheckBox'
+import TextArea from './basic/TextArea'
+import Submit from './basic/Submit'
 
 
 /**
