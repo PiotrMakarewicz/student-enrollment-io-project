@@ -11,7 +11,6 @@ public class ErrorMessage {
         this.status = status;
         this.message = message;
     }
-
     public HttpStatus getStatus(){
         return status;
     }
