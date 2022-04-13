@@ -1,49 +1,35 @@
 import React from "react";
-import {useTable}  from 'react-table'
-import Headers from './basic/Headers'
-import Row from "./basic/Row";
+import { Headers } from "./basic";
+import { Row } from "./basic";
 
 /**
  *
- * Forms a table 
- * 
- * 
+ * Forms a table
+ *
+ *
  * @memberOf Table
- * @param   headers  Array of headers {Header: , accessor: }
- * @param   records  Array of records
- * 
- * 
+ * @param   {Array.<Array.<string>>} headers  Array of arrays of headers [[head1],[head2]]
+ * @param   {Array.<Array.<string>>} records  Array of records
+ * @param   {function(string):string} lambda   Function that modifies cells of array
+ *
+ *
  * @example
- * 
- *  <Table headers={dummy_headers} records={dummy_data} />
+ *
+ *  <Table headers={headers} records={records} lambda={cell => cell=="Yes"? "bg-success": ""} />
  */
 
+function Table({ headers, records, lambda }) {
+  return (
+    <table
+      className="table table-results"
+      striped={"true"}
+      bordered={"true"}
+      hover={"true"}
+    >
+      <Headers headers={headers} />
+      <Row records={records} lambda={lambda} />
+    </table>
+  );
+}
 
- function Table({headers, records}){
-    const columns = React.useMemo(
-      () =>  headers,
-      []
-    );
-    const data = React.useMemo(() => records, [])
-    const {
-          getTableProps,
-          headerGroups,
-          rows,
-          prepareRow,
-        } = useTable({
-          columns,
-          data
-        });
-    return(
-      <table class="table" striped bordered hover size="sm" {...getTableProps()}>
-          <thead>
-            <Headers headerGroups={headerGroups}/>
-          </thead>
-          <tbody>
-            <Row rows={rows} prepareRow={prepareRow}/>
-          </tbody>
-      </table>
-    );
-  }
-
-  export default Table;
+export default Table;

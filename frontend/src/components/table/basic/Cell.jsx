@@ -6,28 +6,19 @@ import React from "react";
  * 
  * 
  * @memberOf Table.Basic
- * @param   {Cell} cell  cell
+ * @param   {string} cell Single cell from record
+ * @param   {function(string):string} lambda Function that modifies cells of array
  * 
  * 
  * @example
  * 
  *  <Cell 
-        cell={cell}
+        cell={cell} lambda={lambda}
     />
  */
 
-
-function Cell({cell}){
-  var color;
-  if (cell.value === "Yes"){
-    color="bg-success";
-  }
-  else color="";
-  return(
-    <td class={color} {...cell.getCellProps()}>
-      {cell.render('Cell')}
-    </td>
-  );
+function Cell({ cell, lambda }) {
+  return <td className={lambda(cell)}>{cell}</td>;
 }
 
 export default Cell;

@@ -1,39 +1,38 @@
 import React from "react";
-import Cell from './Cell';
+import { Cell } from ".";
 
 /**
  *
- * Forms rows in the table
+ * Forms records in the table
  * 
  * 
  * @memberOf Table.Basic
- * @param   {Row<{}>[]} rows  Rows
- * @param   {(row: Row<{}>) => void} prepareRow  preparsRows get from useTable
+ * @param  {Array.<Array.<string>>} records  Array of records
+ * @param  {function(string):string} lambda  Function that modifies cells of array
+ *
  * 
  * 
  * @example
  * 
  *  <Row 
-        rows={rows}
+        rows={rows} lambda={lambda}
     />
  */
 
-
-function Row({rows, prepareRow}){
-    return(
-        <>
-        {rows.map((row) => {
-            prepareRow(row)
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(cell => 
-                  <Cell cell={cell}/>
-                  )}
-              </tr>
-            )
-          })}
-        </>
-    );
+function Row({ records, lambda }) {
+  return (
+    <tbody>
+      {records.map((record, key) => {
+        return (
+          <tr key={key}>
+            {record.map((cell, key) => (
+              <Cell cell={cell} key={key} lambda={lambda} />
+            ))}
+          </tr>
+        );
+      })}
+    </tbody>
+  );
 }
 
 export default Row;

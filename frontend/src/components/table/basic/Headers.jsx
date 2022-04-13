@@ -6,29 +6,26 @@ import React from "react";
  * 
  * 
  * @memberOf Table.Basic
- * @param   {HeaderGroup} headerGroup  Headers got from useTable
+ * @param  {Array.<string>} Headers Array of headers 
  * 
  * 
  * @example
  * 
  *  <Headers 
-        headerGroup={headerGroup}
+        headers={headers}
     />
  */
 
-
-function Headers({headerGroups}){
-    return(
+function Headers({ headers }) {
+  return (
+    <thead className="thead">
       <tr>
-        {
-        headerGroups[0].headers.map(column => (
-          <th {...column.getHeaderProps()}>
-            {column.render('Header')}
-          </th>  
-        ))
-        }
+        {headers.map((head, key) => (
+          <th key={key}>{head}</th>
+        ))}
       </tr>
-    );
+    </thead>
+  );
 }
 
 export default Headers;
