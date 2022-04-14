@@ -20,8 +20,8 @@ function Headers({ headers }) {
   return (
     <thead className="thead">
       <tr>
-        {headers.map((head, key) => (
-          <th key={key}>{head}</th>
+        {headers.map((label, key) => (
+          <th key={key}>{label}</th>
         ))}
       </tr>
     </thead>

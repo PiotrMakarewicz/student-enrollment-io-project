@@ -1,5 +1,5 @@
 /**
- *  @namespace basic
+ *  @namespace Table.Basic
  */
 
 import Cell from "./Cell";

@@ -1,12 +1,13 @@
 import React from "react";
-import { Headers } from "./basic";
-import { Row } from "./basic";
+import { Headers, Row } from "./basic";
 
 /**
  *
  * Forms a table
  *
- *
+ * Table should be import from index.js, to load propely css stylesheet.
+ * 
+ * 
  * @memberOf Table
  * @param   {Array.<Array.<string>>} headers  Array of arrays of headers [[head1],[head2]]
  * @param   {Array.<Array.<string>>} records  Array of records

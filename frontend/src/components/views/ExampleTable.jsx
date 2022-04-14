@@ -1,5 +1,5 @@
 import React from "react";
-import Table from "./Table";
+import {Table} from "../table";
 
 const dummy_data = [
   ["john doe", "No", "Yes", "No", "Yes"],
@@ -15,7 +15,7 @@ const dummy_headers = [
   ["th_16_10"],
 ];
 
-function ExampleTable() {
+function QuestionnaireResults() {
   return (
     <div>
       <Table
@@ -26,4 +26,4 @@ function ExampleTable() {
     </div>
   );
 }
-export default ExampleTable;
+export default QuestionnaireResults;
