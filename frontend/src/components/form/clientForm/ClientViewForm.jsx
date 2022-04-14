@@ -1,10 +1,11 @@
 import React,{useState} from 'react'
-import { Input } from "./basic";
-import Submit from './basic/Submit'
+import { Input } from "../basic";
+import Submit from '../basic/Submit'
+import Calendar from '../calendar/Calendar'
 
 
 
-function ClientViewForm() {
+function ClientViewForm({availableTerms, selectedTerms, toggleTerm}) {
     
     const [state, setState] = useState({
         name:"",
@@ -19,6 +20,7 @@ function ClientViewForm() {
         surname:"",
         index:"",
         email:"",
+        s: selectedTerms
     })
     }
     return (
@@ -47,11 +49,13 @@ function ClientViewForm() {
                 onChange={(v) => setState({...state,email:v})}
                 id="email"
             />
+            <Calendar availableTerms={availableTerms} selectedTerms={selectedTerms} toggleTerm={toggleTerm}/>
             <Submit 
                 value={"Send form"} 
                 onSubmit={onSubmit} 
             />
         </form>
+
       );
 }
 
