@@ -11,9 +11,21 @@ public class Term {
     private int day;
     private int week;
 
+    public Term(Long id, int day, int week, Timeslot timeslot) {
+        this.id = id;
+        this.day = day;
+        this.week = week;
+        this.timeslot = timeslot;
+    }
+
     @ManyToOne
     @JoinColumn(name = "timeslot_id")
     private Timeslot timeslot;
+
+    public Term() {
+
+    }
+
 
     public Long getId() {
         return id;

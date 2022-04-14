@@ -14,6 +14,16 @@ public class Questionnaire {
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
+    public Questionnaire(Long id,  LocalDateTime expirationDate, String label) {
+        this.id = id;
+        this.expirationDate = expirationDate;
+        this.label = label;
+    }
+
+
+    public Questionnaire() {
+    }
+
     @OneToMany(mappedBy = "questionnaire")
     private List<QuestionnaireAccess> questionnaireAccesses;
 
