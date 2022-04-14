@@ -1,0 +1,18 @@
+.table-results{
+
+    width: 96%;
+    margin: 2%;
+    
+  }
+
+td{
+    border: 0.5px solid;
+  }
+  thead{
+    background-color: lightgray;
+  }
+  th{
+    border: 0.5px solid;
+  
+  }
+  
