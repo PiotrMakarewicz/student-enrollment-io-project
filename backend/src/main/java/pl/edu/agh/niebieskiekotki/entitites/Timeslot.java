@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 public class Timeslot {
@@ -12,8 +13,24 @@ public class Timeslot {
     @GeneratedValue
     private Long id;
 
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private LocalTime startTime;
+    private LocalTime endTime;
+
+    public Timeslot(Long id, LocalTime startTime, LocalTime endTime) {
+        this.id = id;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public Timeslot() {
+
+    }
+
+    @Override
+    public String toString() {
+        return this.startTime.getHour() + ":" + startTime.getMinute() +
+                " - " + this.endTime.getHour() + ":" + endTime.getMinute() ;
+    }
 
     public Long getId() {
         return id;
@@ -23,19 +40,19 @@ public class Timeslot {
         this.id = id;
     }
 
-    public LocalDateTime getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public LocalTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
 }
