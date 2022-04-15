@@ -58,4 +58,23 @@ public class Term {
     public void setTimeslot(Timeslot timeslot) {
         this.timeslot = timeslot;
     }
+
+    @Override
+    public String toString() {
+
+        switch (day){
+            case 0:
+                return "Monday " + timeslot;
+            case 1:
+                return "Tuesday " + timeslot;
+            case 2:
+                return "Wednesday " + timeslot;
+            case 3:
+                return "Thursday " + timeslot;
+            case 4:
+                return "Friday " + timeslot;
+        }
+
+        return "";
+    }
 }
