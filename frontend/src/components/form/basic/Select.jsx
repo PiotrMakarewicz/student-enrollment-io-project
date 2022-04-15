@@ -28,27 +28,33 @@
  * 
  */
 
-
-function Select({label, options, value, onChange,  placeholder, id}) {
-    
+function Select({ label, options, value, onChange, placeholder, id }) {
     const onChangeWrapper = (e) => {
-        if(onChange) onChange(e.target.value);
-    }
+        if (onChange) onChange(e.target.value);
+    };
 
-    const mappedOptions = options.map( o => {
-        return <option key={o.value} value={o.value}>{o.label}</option>
-    })
+    const mappedOptions = options.map((o) => {
+        return (
+            <option key={o.value} value={o.value}>
+                {o.label}
+            </option>
+        );
+    });
 
-    if(!value) value = 'DEFOULT';
+    if (!value) value = "DEFOULT";
 
-    return (  
-    <div className="form-group">
-        <label htmlFor={id}>{label}</label>
-        <select className="form-control" id={id} onChange={onChangeWrapper} value={value} >
-            {value === 'DEFOULT' && <option disabled value="DEFOULT" >{placeholder}</option> }
-            {mappedOptions}
-        </select>
-    </div> 
+    return (
+        <div className='form-group'>
+            <label htmlFor={id}>{label}</label>
+            <select className='form-control' id={id} onChange={onChangeWrapper} value={value}>
+                {value === "DEFOULT" && (
+                    <option disabled value='DEFOULT'>
+                        {placeholder}
+                    </option>
+                )}
+                {mappedOptions}
+            </select>
+        </div>
     );
 }
 

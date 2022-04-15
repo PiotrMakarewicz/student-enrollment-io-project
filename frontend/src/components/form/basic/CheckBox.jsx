@@ -23,26 +23,24 @@
  * 
  */
 
-
-function CheckBox({label, value, onChange, id}) {
- 
+function CheckBox({ label, value, onChange, id }) {
     const onChangeWrapper = (e) => {
-        if(onChange) onChange(e.target.checked);
-    }
+        if (onChange) onChange(e.target.checked);
+    };
 
-    return (    
-        <div className="form-check">
-            <input 
-                type="checkbox" 
-                className="form-check-input" 
-                id={id} checked={value} 
+    return (
+        <div className='form-check'>
+            <input
+                type='checkbox'
+                className='form-check-input'
+                id={id}
+                checked={value}
                 onChange={onChangeWrapper}
             />
-            <label 
-                className="form-check-label" 
-                htmlFor={id}
-            >{label}</label>
-        </div> 
+            <label className='form-check-label' htmlFor={id}>
+                {label}
+            </label>
+        </div>
     );
 }
 
