@@ -29,15 +29,18 @@ function CheckBox({ label, value, onChange, id }) {
     };
 
     return (
-        <div className='form-check'>
+        <div className="form-check">
             <input
-                type='checkbox'
-                className='form-check-input'
+                type="checkbox"
+                className="form-check-input"
                 id={id}
                 checked={value}
                 onChange={onChangeWrapper}
             />
-            <label className='form-check-label' htmlFor={id}>
+            <label
+                className="form-check-label"
+                htmlFor={id}
+            >
                 {label}
             </label>
         </div>

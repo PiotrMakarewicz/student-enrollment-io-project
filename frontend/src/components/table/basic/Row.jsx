@@ -20,19 +20,23 @@ import { Cell } from ".";
  */
 
 function Row({ records, lambda }) {
-  return (
-    <tbody>
-      {records.map((record, key) => {
-        return (
-          <tr key={key}>
-            {record.map((cell, key) => (
-              <Cell cell={cell} key={key} lambda={lambda} />
-            ))}
-          </tr>
-        );
-      })}
-    </tbody>
-  );
+    return (
+        <tbody>
+            {records.map((record, key) => {
+                return (
+                    <tr key={key}>
+                        {record.map((cell, key) => (
+                            <Cell
+                                cell={cell}
+                                key={key}
+                                lambda={lambda}
+                            />
+                        ))}
+                    </tr>
+                );
+            })}
+        </tbody>
+    );
 }
 
 export default Row;

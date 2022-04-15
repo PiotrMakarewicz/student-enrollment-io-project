@@ -17,15 +17,15 @@ import React from "react";
  */
 
 function Headers({ headers }) {
-  return (
-    <thead className="thead">
-      <tr>
-        {headers.map((label, key) => (
-          <th key={key}>{label}</th>
-        ))}
-      </tr>
-    </thead>
-  );
+    return (
+        <thead className="thead">
+            <tr>
+                {headers.map((label, key) => (
+                    <th key={key}>{label}</th>
+                ))}
+            </tr>
+        </thead>
+    );
 }
 
 export default Headers;

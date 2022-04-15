@@ -28,15 +28,16 @@ function TextArea({ label, value, placeholder, onChange, id }) {
     };
 
     return (
-        <div className='form-group'>
+        <div className="form-group">
             {label && <label htmlFor={id}>{label}</label>}
             <textarea
-                className='form-control'
+                className="form-control"
                 onChange={onChangeWrapper}
                 placeholder={placeholder}
                 value={value}
                 id={id}
-                rows='3'></textarea>
+                rows="3"
+            ></textarea>
         </div>
     );
 }

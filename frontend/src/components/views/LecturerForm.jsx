@@ -3,8 +3,8 @@ import DatePicker from "react-widgets/DatePicker";
 import TimeInput from "react-widgets/TimeInput";
 import "react-widgets/styles.css";
 
-import { Input } from "../basic";
-import Submit from "../basic/Submit";
+import { Input } from "../form/basic";
+import Submit from "../form/basic/Submit";
 import FormWrapper from "../FormWrapper";
 
 /**

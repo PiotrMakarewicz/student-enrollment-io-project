@@ -21,10 +21,9 @@
         "sourceType": "module"
     },
     "plugins": ["react", "import", "jsx-a11y"],
-    "ignorePatterns": ["/docs"],
+    "ignorePatterns": ["/docs","/node_modules"],
     "rules": {
         "indent": ["warn", 4],
-        "linebreak-style": ["error", "windows"],
         "quotes": ["off", "double"],
         "semi": ["warn", "always"],
         "no-multi-spaces": ["error"],

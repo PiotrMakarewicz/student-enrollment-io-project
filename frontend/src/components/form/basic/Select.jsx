@@ -35,7 +35,10 @@ function Select({ label, options, value, onChange, placeholder, id }) {
 
     const mappedOptions = options.map((o) => {
         return (
-            <option key={o.value} value={o.value}>
+            <option
+                key={o.value}
+                value={o.value}
+            >
                 {o.label}
             </option>
         );
@@ -44,11 +47,19 @@ function Select({ label, options, value, onChange, placeholder, id }) {
     if (!value) value = "DEFOULT";
 
     return (
-        <div className='form-group'>
+        <div className="form-group">
             <label htmlFor={id}>{label}</label>
-            <select className='form-control' id={id} onChange={onChangeWrapper} value={value}>
+            <select
+                className="form-control"
+                id={id}
+                onChange={onChangeWrapper}
+                value={value}
+            >
                 {value === "DEFOULT" && (
-                    <option disabled value='DEFOULT'>
+                    <option
+                        disabled
+                        value="DEFOULT"
+                    >
                         {placeholder}
                     </option>
                 )}
