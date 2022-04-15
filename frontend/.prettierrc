@@ -3,13 +3,13 @@
     "tabWidth": 4,
     "useTabs": false,
     "printWidth": 100,
-    "singleQuote": true,
+    "singleQuote": false,
     "trailingComma": "none",
     "bracketSpacing": true,
     "bracketSameLine": false,
     "insertPragma": false,
     "singleAttributePerLine": true,
     "proseWrap": "preserve",
-    "htmlWhitespaceSensitivity": "ignore",
+    "htmlWhitespaceSensitivity": "css",
     "arrowParens": "always"
 }
