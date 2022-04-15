@@ -1,4 +1,5 @@
 :root {
+<<<<<<< HEAD
     --header-h: 3.5rem;
 }
 
@@ -61,4 +62,57 @@ label {
 
 title {
     display: block;
+=======
+  --header-h: 3.25rem;
+}
+
+.App {
+  margin: 0;
+  padding: 0;
+}
+
+.App-body {
+  background-color: var(--bs-gray-200);
+  min-height: calc(100vh - var(--header-h));
+  padding: 1em;
+  display: flex;
+  justify-content: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  height: var(--header-h);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-header ul {
+  list-style: none;
+  font-size: calc(8px + 1vmin);
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+}
+
+.App-header ul li {
+  margin: 0 0.75em;
+>>>>>>> 311fd3607fbd1b190f44e707382f7e707ef500c4
+}
+
+.App-header a {
+  color: white;
+  text-decoration: none;
+}
+
+.App-header a:hover {
+  opacity: 75%;
+  /* text-decoration: underline; */
+}
+
+.App-link {
+  color: #61dafb;
 }
