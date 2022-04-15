@@ -1,17 +1,26 @@
 import React,{useState} from 'react'
 import { Input } from "../basic";
 import Submit from '../basic/Submit'
-import Calendar from '../calendar/Calendar'
+import {Calendar} from '../calendar'
 
+/**
+ * View form for client
+ * 
+ * @param formId @type int @description questionnaire ID  
+ * @example
+ * <ClientViewForm formId={1}>
+ * 
+ */
 
-
-function ClientViewForm({availableTerms, selectedTerms, toggleTerm}) {
+function ClientViewForm({formId}) {
     
     const [state, setState] = useState({
         name:"",
         surname:"",
         index:"",
         email:"",
+        availableTermsSet:new Set([1,6,9,12,18,24,28]),
+        selectedTerms:new Set()
       })
     const onSubmit = () => {
     console.log(state)
@@ -20,9 +29,30 @@ function ClientViewForm({availableTerms, selectedTerms, toggleTerm}) {
         surname:"",
         index:"",
         email:"",
-        s: selectedTerms
+        s: state.selectedTerms
     })
     }
+    var termsInfo= {
+    headers: ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+    rows: [{label:"8:00-9:30",cells:[{ id: 1,isAvailable: true},{id:2,isAvailable:false},{id: 3,isAvailable: true},{id: 4,isAvailable: true},{id: 5,isAvailable: false}]},
+            {label:"9:35-11:05",cells:[{ id: 6,isAvailable: true},{id: 7,isAvailable: true},{id: 8,isAvailable: true},{id: 9,isAvailable: false},{id: 10,isAvailable: true}]},
+            {label:"11:15-12:45",cells:[{ id: 11,isAvailable: false},{id: 12,isAvailable: true},{id: 13,isAvailable: false},{id: 14,isAvailable: true},{id: 15,isAvailable: true}]},
+            {label:"12:50-14:20",cells:[{ id: 16,isAvailable: true},{id: 17,isAvailable: false},{id: 18,isAvailable: true},{id: 19,isAvailable: true},{id: 20,isAvailable: false}]},
+            {label:"14:40-16:10",cells:[{ id: 21,isAvailable:false},{id: 22,isAvailable: false},{id: 23,isAvailable: true},{id: 24,isAvailable: false},{id: 25,isAvailable: true}]},
+            {label:"16:15-17:45",cells:[{ id: 26,isAvailable: false},{id: 27,isAvailable: true},{id: 28,isAvailable: true},{id: 29,isAvailable: true},{id: 30,isAvailable: true}]},
+            {label:"17:50-19:20",cells:[{ id: 31,isAvailable: true},{id: 32,isAvailable: true},{id: 33,isAvailable: false},{id: 34,isAvailable: true},{id: 35,isAvailable: false}]}]
+    }
+
+    var toggleTerm=(id)=>{
+        const {selectedTerms}=state;
+        if (selectedTerms.has(id)){
+            selectedTerms.delete(id);
+              }
+              else{
+                selectedTerms.add(id);
+               }
+        setState({...state})
+      }
     return (
         <form>
             <Input
@@ -49,7 +79,7 @@ function ClientViewForm({availableTerms, selectedTerms, toggleTerm}) {
                 onChange={(v) => setState({...state,email:v})}
                 id="email"
             />
-            <Calendar availableTerms={availableTerms} selectedTerms={selectedTerms} toggleTerm={toggleTerm}/>
+            <Calendar termsInfo={termsInfo} selectedTerms={state.selectedTerms} toggleTerm={toggleTerm} availableTermsSet={state.availableTermsSet}/>
             <Submit 
                 value={"Send form"} 
                 onSubmit={onSubmit} 

@@ -1,6 +1,6 @@
 /**
  *Creates CalendarCell
- * @memberof CalendarLabel and Calendar
+ * @memberof Form.Calendar
  *
  * @param id int,slot number
  * @param label string,displayed label

@@ -5,7 +5,7 @@ import CalendarLabel from "./CalendarLabel";
  *
  * Creates table header of the table
  *
- * @memberof Calendar
+ * @memberof Form.Calendar
  * @param labels Array of labels ["Monday",...]
  *
  * @example <CalendarHeader labels = {["Ala","ma","kota"]}

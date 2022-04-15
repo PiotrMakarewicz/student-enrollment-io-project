@@ -4,7 +4,7 @@ import CalendarHeader from "./CalendarHeader";
 /**
  * Creates calendar as a table
  * 
- * @memberof ClientViewForm
+ * @memberof Form.Calendar
  * @param termsInfo Dictionary with terms info like data and id numbers 
  * {
  * headers : ["Monday","Tuesday"]  - available days
