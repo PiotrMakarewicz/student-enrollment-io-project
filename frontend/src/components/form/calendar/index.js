@@ -1,3 +1,8 @@
+/**
+ * @namespace Form.Calendar
+ * @memberof Form
+ */
+
 import Calendar from "./Calendar";
 import CalendarCell from "./CalendarCell";
 import CalendarHeader from "./CalendarHeader";

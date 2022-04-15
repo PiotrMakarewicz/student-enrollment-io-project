@@ -2,7 +2,7 @@ import CalendarCell from "./CalendarCell";
 /**
  * Creates labelField in Calendar
  *
- * @memberOf CalendarHeader and Calendar
+ * @memberOf Form.Calendar
  * @param label
  *
  * @example <Calendarlabel label ={"Monday"}

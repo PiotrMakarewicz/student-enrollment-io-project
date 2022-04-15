@@ -2,7 +2,7 @@ import CalendarRow from "./CalendarRow";
 
 /**
  * Create calendar body without headers
- * @memberof Calendar
+ * @memberof Form.Calendar
  * @param termRows list of objects which contains info about specific term
  * [{label:"8:00-9:30",cells:[{ id: 1,isAvailable: true},{id:-1,isAvailable: false}...]
  * @param selectedTerms set contains selected terms
