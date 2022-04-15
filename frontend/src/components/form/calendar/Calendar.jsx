@@ -1,5 +1,8 @@
+import React,{useState} from 'react'
 import CalendarBody from "./CalendarBody";
 import CalendarHeader from "./CalendarHeader";
+import http from '../../../services/http';
+import { useEffect } from "react";
 
 /**
  * Creates calendar as a table
@@ -21,18 +24,38 @@ import CalendarHeader from "./CalendarHeader";
  * 
  */
 
-function Calendar({ termsInfo, selectedTerms, toggleTerm, availableTermsSet }) {
-  return (
-    <table className="calendar">
-      <CalendarHeader labels={termsInfo.headers} />
-      <CalendarBody
-        termRows={termsInfo.rows}
-        availableTermsSet={availableTermsSet}
-        selectedTerms={selectedTerms}
-        toggleTerm={toggleTerm}
-      />
-    </table>
-  );
+function Calendar({selectedTerms, toggleTerm, availableTermsSet }) {
+  
+  const [state, setState] = useState({
+    termsInfo: null,
+    loading: true
+  })
+
+  var response;
+  useEffect(()=> {
+      (async function(){
+        response = await http.get("/terms");
+        console.log(response);
+        setState({loading:false,termsInfo:response["data"]});
+      })()
+    },[])
+  return (<>
+    {state.loading ?
+    <><p>wait</p></>
+    :
+    <>
+      <table className="calendar">
+        <CalendarHeader labels={state.termsInfo.headers} />
+        <CalendarBody
+          termRows={state.termsInfo.rows}
+          availableTermsSet={availableTermsSet}
+          selectedTerms={selectedTerms}
+          toggleTerm={toggleTerm}
+        />
+      </table>
+    </>
+  }
+  </> );
 }
 
 export default Calendar;
