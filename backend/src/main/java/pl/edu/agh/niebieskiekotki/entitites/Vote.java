@@ -23,6 +23,17 @@ public class Vote {
     private Term term;
 
 
+    public Vote(Questionnaire questionnaire, Student student, int type, Term term, String note) {
+        this.questionnaire = questionnaire;
+        this.student = student;
+        this.type = type;
+        this.term = term;
+        this.note = note;
+    }
+
+    public Vote() {
+    }
+
     private String note;
 
     public Long getId() {

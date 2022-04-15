@@ -83,7 +83,7 @@ public class DataBaseMock {
             new QuestionnaireTerm( questionnaires.get(2), terms.get(22))
     );
 
-    public static  List<Student> students;
+    public static  List<Student> students = new ArrayList<>();
 
 
     public static List<Vote> votes = new ArrayList<>();
