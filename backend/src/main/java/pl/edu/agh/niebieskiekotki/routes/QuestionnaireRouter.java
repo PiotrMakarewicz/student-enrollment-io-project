@@ -14,6 +14,7 @@ import pl.edu.agh.niebieskiekotki.views.QuestionnaireDetail;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -23,12 +24,15 @@ import java.util.List;
 @RestController
 public class QuestionnaireRouter {
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     List<Questionnaire> questionnaires = new ArrayList<>();
 
     QuestionnaireRouter(){
         Questionnaire q = new Questionnaire();
         q.setLabel("Example Questionnaire");
-        q.setId(123l);
+        q.setId(123L);
         questionnaires.add(q);
     }
 
@@ -36,15 +40,7 @@ public class QuestionnaireRouter {
     @GetMapping(value="/questionnaires")
     public List<Questionnaire> GetAll(){
 
-        EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("1234");
-        EntityManager entityManager = emf.createEntityManager();
-        // Get the Hibernate Session from the EntityManager in JPA
-        Session session = entityManager.unwrap(org.hibernate.Session.class);
-        //SessionFactory factory = session.getSessionFactory();
-
-
-        //Session session = HibernateUtil.getHibernateSession();
+        Session session = entityManager.unwrap(Session.class);
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Questionnaire> criteriaQuery = builder.createQuery(Questionnaire.class);
 
@@ -52,10 +48,8 @@ public class QuestionnaireRouter {
         criteriaQuery.select(root);
         Query<Questionnaire> query = session.createQuery(criteriaQuery);
         List<Questionnaire> results = query.getResultList();
-        System.out.println("Query: " + results);
-
-
-        return questionnaires;
+        System.out.println("Query results: " + results);
+        return results;
     }
 
     @GetMapping(value="/questionnaires/{id}")
