@@ -19,22 +19,21 @@
     />
  */
 
-function Input({ label, placeholder, value, onChange, type , id}) {
-    
+function Input({ label, placeholder, value, onChange, type, id }) {
     const onChangeWrapper = (e) => {
-        if(onChange) onChange(e.target.value);
-    }
+        if (onChange) onChange(e.target.value);
+    };
 
     return (
         <div className="form-group">
             {label && <label htmlFor={id}>{label}</label>}
-            <input 
+            <input
                 type={type}
                 value={value}
-                className="form-control" 
-                id={id} 
-                placeholder={placeholder} 
-                onChange={onChangeWrapper} 
+                className="form-control"
+                id={id}
+                placeholder={placeholder}
+                onChange={onChangeWrapper}
             />
         </div>
     );
