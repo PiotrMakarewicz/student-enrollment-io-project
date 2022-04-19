@@ -83,13 +83,33 @@ public class DataBaseMock {
             new QuestionnaireTerm( questionnaires.get(2), terms.get(22))
     );
 
-    public static  List<Student> students = new ArrayList<>();
+    public static  List<Student> students = Arrays.asList(
+        new Student("Bob", "Nowak", "a@a.pl", 123456),
+        new Student("Alice", "Kowalski", "a@b.pl", 456321),
+        new Student("Jan", "Nowak", "c@a.pl", 654321)
+    );
 
 
-    public static List<Vote> votes = new ArrayList<>();
+    public static List<Vote> votes = Arrays.asList(
+            new Vote(questionnaires.get(0), students.get(0),  1 ,terms.get(0),""),
+            new Vote(questionnaires.get(0), students.get(0),  1 ,terms.get(31),""),
+            new Vote(questionnaires.get(0), students.get(1),  1 ,terms.get(12),""),
+            new Vote(questionnaires.get(0), students.get(1),  1 ,terms.get(32),""),
+            new Vote(questionnaires.get(0), students.get(2),  1 ,terms.get(12),""),
+            new Vote(questionnaires.get(0), students.get(2),  1 ,terms.get(31),""),
+
+            new Vote(questionnaires.get(1), students.get(0),  1 ,terms.get(6),""),
+            new Vote(questionnaires.get(1), students.get(0),  1 ,terms.get(31),""),
+            new Vote(questionnaires.get(1), students.get(1),  1 ,terms.get(10),""),
+            new Vote(questionnaires.get(1), students.get(1),  1 ,terms.get(31),""),
+            new Vote(questionnaires.get(1), students.get(2),  1 ,terms.get(10),""),
+            new Vote(questionnaires.get(1), students.get(2),  1 ,terms.get(6),""),
+            new Vote(questionnaires.get(1), students.get(2),  1 ,terms.get(31),""),
 
 
-
-
-
+            new Vote(questionnaires.get(2), students.get(0),  1 ,terms.get(15),""),
+            new Vote(questionnaires.get(2), students.get(0),  1 ,terms.get(22),""),
+            new Vote(questionnaires.get(2), students.get(1),  1 ,terms.get(15),""),
+            new Vote(questionnaires.get(2), students.get(2),  1 ,terms.get(22),"")
+    );
 }
