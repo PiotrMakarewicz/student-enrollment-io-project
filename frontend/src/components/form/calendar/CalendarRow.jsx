@@ -20,7 +20,7 @@ function CalendarRow({
       key={key}
       id={c}
       onClick={toggleTerm}
-      isAvailable={availableTermsSet.has(c)}
+      isAvailable={availableTermsSet== "All" || availableTermsSet.has(c)}
       isChosen={selectedTerms.has(c)}
     />
   ));
