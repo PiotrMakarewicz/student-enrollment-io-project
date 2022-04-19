@@ -10,7 +10,7 @@ import java.util.List;
 public class DataBaseMock {
 
     public static List<Timeslot> timeslots =
-            Arrays.asList(
+            new ArrayList<>(Arrays.asList(
                     new Timeslot(0l, LocalTime.of(8, 0), LocalTime.of(9, 30)),
                     new Timeslot(1l, LocalTime.of(9, 35), LocalTime.of(11, 30)),
                     new Timeslot(2l, LocalTime.of(11, 15), LocalTime.of(12, 30)),
@@ -18,10 +18,10 @@ public class DataBaseMock {
                     new Timeslot(4l, LocalTime.of(14, 40), LocalTime.of(16, 10)),
                     new Timeslot(5l, LocalTime.of(16, 15), LocalTime.of(17, 45)),
                     new Timeslot(6l, LocalTime.of(17, 50), LocalTime.of(19, 20))
-            );
+            ));
 
     public static List<Term> terms =
-            Arrays.asList(
+            new ArrayList<>(Arrays.asList(
                     new Term(1l,0,0,timeslots.get(0)),
                     new Term(2l,0,0,timeslots.get(1)),
                     new Term(3l,0,0,timeslots.get(2)),
@@ -61,17 +61,17 @@ public class DataBaseMock {
                     new Term(45l,4,0,timeslots.get(4)),
                     new Term(46l,4,0,timeslots.get(5)),
                     new Term(47l,4,0,timeslots.get(6))
-            );
+            ));
 
 
-    public static List<Questionnaire> questionnaires = Arrays.asList(
-            new Questionnaire(1l, LocalDateTime.of(2022,6,1,10,10),"First Questionnaire"),
-            new Questionnaire(2l, LocalDateTime.of(2022,3,1,10,10),"Second Questionnaire"),
-            new Questionnaire(3l, LocalDateTime.of(2025,6,1,10,10),"Third Questionnaire")
-    );
+    public static List<Questionnaire> questionnaires = new ArrayList<>(Arrays.asList(
+            new Questionnaire( LocalDateTime.of(2022,6,1,10,10),"First Questionnaire"),
+            new Questionnaire( LocalDateTime.of(2022,3,1,10,10),"Second Questionnaire"),
+            new Questionnaire( LocalDateTime.of(2025,6,1,10,10),"Third Questionnaire")
+    ));
 
 
-    public static List<QuestionnaireTerm> questionnaireTerms = Arrays.asList(
+    public static List<QuestionnaireTerm> questionnaireTerms = new ArrayList<>(Arrays.asList(
             new QuestionnaireTerm( questionnaires.get(0), terms.get(0)),
             new QuestionnaireTerm( questionnaires.get(0), terms.get(31)),
             new QuestionnaireTerm( questionnaires.get(0), terms.get(32)),
@@ -81,16 +81,16 @@ public class DataBaseMock {
             new QuestionnaireTerm( questionnaires.get(1), terms.get(10)),
             new QuestionnaireTerm( questionnaires.get(2), terms.get(15)),
             new QuestionnaireTerm( questionnaires.get(2), terms.get(22))
-    );
+    ));
 
-    public static  List<Student> students = Arrays.asList(
+    public static  List<Student> students = new ArrayList<>(Arrays.asList(
         new Student("Bob", "Nowak", "a@a.pl", 123456),
         new Student("Alice", "Kowalski", "a@b.pl", 456321),
         new Student("Jan", "Nowak", "c@a.pl", 654321)
-    );
+    ));
 
 
-    public static List<Vote> votes = Arrays.asList(
+    public static List<Vote> votes = new ArrayList<>(Arrays.asList(
             new Vote(questionnaires.get(0), students.get(0),  1 ,terms.get(0),""),
             new Vote(questionnaires.get(0), students.get(0),  1 ,terms.get(31),""),
             new Vote(questionnaires.get(0), students.get(1),  1 ,terms.get(12),""),
@@ -111,5 +111,5 @@ public class DataBaseMock {
             new Vote(questionnaires.get(2), students.get(0),  1 ,terms.get(22),""),
             new Vote(questionnaires.get(2), students.get(1),  1 ,terms.get(15),""),
             new Vote(questionnaires.get(2), students.get(2),  1 ,terms.get(22),"")
-    );
+    ));
 }

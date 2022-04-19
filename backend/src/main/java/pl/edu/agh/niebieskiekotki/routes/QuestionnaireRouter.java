@@ -1,30 +1,20 @@
 package pl.edu.agh.niebieskiekotki.routes;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
-import org.hibernate.query.criteria.HibernateCriteriaBuilder;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.niebieskiekotki.DataBaseMock;
 import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
+import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireTerm;
+import pl.edu.agh.niebieskiekotki.entitites.Term;
 import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.NotFoundException;
+import pl.edu.agh.niebieskiekotki.views.AddQuestionnaireView;
 import pl.edu.agh.niebieskiekotki.views.QuestionnaireDetail;
 
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
 @RestController
 public class QuestionnaireRouter {
-
 
     @GetMapping(value="/questionnaires")
     public List<Questionnaire> GetAll(){
@@ -47,15 +37,22 @@ public class QuestionnaireRouter {
     }
 
     @PostMapping(value="/questionnaires")
-    public List<Questionnaire> Post(@RequestBody Questionnaire questionnaire){
+    public List<Questionnaire> Post(@RequestBody AddQuestionnaireView addQuestionnaireView){
+        System.out.println(addQuestionnaireView);
+        Questionnaire questionnaire = new Questionnaire(addQuestionnaireView.getExpirationDate(),addQuestionnaireView.getLabel());
+
+        if(addQuestionnaireView.getAvailableTerms() != null)
+        for( Term term : DataBaseMock.terms )
+            if(addQuestionnaireView.getAvailableTerms().contains(term.getId())){
+                DataBaseMock.questionnaireTerms.add(new QuestionnaireTerm(questionnaire,term));
+            }
+
         DataBaseMock.questionnaires.add(questionnaire);
         return  DataBaseMock.questionnaires;
     }
 
     @PutMapping(value="/questionnaires/{id}")
     public Questionnaire Put(@PathVariable Long id,@RequestBody Questionnaire questionnaire) throws Exception{
-
-        System.out.println("Enter put");
 
         Questionnaire toReturn =  DataBaseMock.questionnaires
                 .stream()
