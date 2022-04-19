@@ -6,6 +6,7 @@ import "react-widgets/styles.css";
 import { Input } from "../form/basic";
 import Submit from "../form/basic/Submit";
 import FormWrapper from "../FormWrapper";
+import { Calendar } from "react-widgets";
 
 /**
  *
@@ -81,6 +82,8 @@ function LecturerForm() {
                         />
                     </div>
                 </div>
+
+                <Calendar />
 
                 <Submit
                     value={"Continue"}

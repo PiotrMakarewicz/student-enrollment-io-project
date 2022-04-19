@@ -1,5 +1,9 @@
+import React, { useState } from "react";
 import CalendarBody from "./CalendarBody";
 import CalendarHeader from "./CalendarHeader";
+import http from "../../../services/http";
+import { Spinner } from "react-bootstrap";
+import { useEffect } from "react";
 
 /**
  * Creates calendar as a table
@@ -21,17 +25,41 @@ import CalendarHeader from "./CalendarHeader";
  * 
  */
 
-function Calendar({ termsInfo, selectedTerms, toggleTerm, availableTermsSet }) {
+function Calendar({ selectedTerms, toggleTerm, availableTermsSet }) {
+  const [state, setState] = useState({
+    val: 1,
+    termsInfo: null,
+    loading: true,
+  });
+
+  var response;
+  useEffect(() => {
+    (async function () {
+      response = await http.get("/terms");
+      response = response["data"];
+      setState({ termsInfo: response, loading: false });
+    })();
+  }, []);
   return (
-    <table className="calendar">
-      <CalendarHeader labels={termsInfo.headers} />
-      <CalendarBody
-        termRows={termsInfo.rows}
-        availableTermsSet={availableTermsSet}
-        selectedTerms={selectedTerms}
-        toggleTerm={toggleTerm}
-      />
-    </table>
+    <>
+      {state.loading ? (
+        <>
+          <Spinner animation="border" />
+        </>
+      ) : (
+        <>
+          <table className="calendar">
+            <CalendarHeader labels={state.termsInfo["headers"]} />
+            <CalendarBody
+              termRows={state.termsInfo["rows"]}
+              availableTermsSet={availableTermsSet}
+              selectedTerms={selectedTerms}
+              toggleTerm={toggleTerm}
+            />
+          </table>
+        </>
+      )}
+    </>
   );
 }
 
