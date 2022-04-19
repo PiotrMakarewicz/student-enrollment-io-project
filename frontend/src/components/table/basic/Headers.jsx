@@ -20,6 +20,7 @@ function Headers({ headers }) {
     return (
         <thead className="thead">
             <tr>
+                <th>{"Students"}</th>
                 {headers.map((label, key) => (
                     <th key={key}>{label}</th>
                 ))}
