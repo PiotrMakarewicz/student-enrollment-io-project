@@ -40,9 +40,10 @@ public class QuestionnaireResults{
                 if(row.student == vote.getStudent().getIndexNumber())
                     questionnaireResultsRow = row;
 
-        if(questionnaireResultsRow == null)
+        if(questionnaireResultsRow == null) {
             questionnaireResultsRow = new QuestionnaireResultsRow(vote.getStudent().getIndexNumber());
             rows.add(questionnaireResultsRow);
+        }
         questionnaireResultsRow.setTerm(vote.getTerm());
 
         }
