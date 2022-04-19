@@ -1,14 +1,12 @@
 package pl.edu.agh.niebieskiekotki.routes;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
-import org.hibernate.query.criteria.HibernateCriteriaBuilder;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.niebieskiekotki.DataBaseMock;
 import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
+import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireTerm;
+import pl.edu.agh.niebieskiekotki.entitites.Term;
 import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.NotFoundException;
+import pl.edu.agh.niebieskiekotki.views.AddQuestionnaireView;
 import pl.edu.agh.niebieskiekotki.views.QuestionnaireDetail;
 
 
@@ -25,18 +23,6 @@ import java.util.List;
 @CrossOrigin
 @RestController
 public class QuestionnaireRouter {
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    List<Questionnaire> questionnaires = new ArrayList<>();
-
-    QuestionnaireRouter(){
-        Questionnaire q = new Questionnaire();
-        q.setLabel("Example Questionnaire");
-        q.setId(123L);
-        questionnaires.add(q);
-    }
 
 
     @GetMapping(value="/questionnaires")

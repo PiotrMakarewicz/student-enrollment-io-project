@@ -19,6 +19,7 @@ public class VoteRouter {
     @PostMapping(value="/vote")
     public void AddVote(@RequestBody VoteView vote){
         Student student = new Student(vote.getFirstName(), vote.getLastName(), vote.getEmailAddress(), vote.getIndexNumber());
+        System.out.println(DataBaseMock.students);
         DataBaseMock.students.add( student );
 
         Questionnaire questionnaire = null;

@@ -14,12 +14,25 @@ public class Questionnaire {
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
-    public Questionnaire(Long id,  LocalDateTime expirationDate, String label) {
-        this.id = id;
+    public static Long lastId = 1l;
+
+    public Questionnaire(  LocalDateTime expirationDate, String label) {
+        this.id = Questionnaire.lastId;
+        Questionnaire.lastId++;
         this.expirationDate = expirationDate;
         this.label = label;
     }
 
+    @Override
+    public String toString() {
+        return "Questionnaire{" +
+                "id=" + id +
+                ", teacher=" + teacher +
+                ", questionnaireAccesses=" + questionnaireAccesses +
+                ", expirationDate=" + expirationDate +
+                ", label='" + label + '\'' +
+                '}';
+    }
 
     public Questionnaire() {
     }
