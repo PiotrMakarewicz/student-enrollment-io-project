@@ -9,12 +9,13 @@ import CalendarCell from "./CalendarCell";
  * @param availableTermsSet set contains available terms
  */
 function CalendarRow({
-  label,
-  cells,
-  selectedTerms,
-  toggleTerm,
-  availableTermsSet,
+    label,
+    cells,
+    selectedTerms,
+    toggleTerm,
+    availableTermsSet,
 }) {
+
   var fields = cells.map((c, key) => (
     <CalendarCell
       key={key}

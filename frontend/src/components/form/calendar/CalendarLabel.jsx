@@ -8,7 +8,7 @@ import CalendarCell from "./CalendarCell";
  * @example <Calendarlabel label ={"Monday"}
  */
 function CalendarLabel({ label }) {
-  return <CalendarCell label={label} isAvailable={false} isLabel={true} />;
+    return <CalendarCell label={label} isAvailable={false} isLabel={true} />;
 }
 
 export default CalendarLabel;
