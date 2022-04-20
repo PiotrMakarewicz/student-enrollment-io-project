@@ -25,14 +25,13 @@ function LecturerForm() {
         time_input: new Date(new Date().setHours(0, 0, 0, 0)),
         selected_terms: new Set()
     });
-
     const onSubmit = async () => {
         const { date_input, time_input, name_input, selected_terms } = state;
         const response = await http.post("/questionnaires", {
             expirationDate: new Date(
                 date_input.getFullYear(),
                 date_input.getMonth(),
-                date_input.getDay(),
+                date_input.getDate(),
                 time_input.getHours(),
                 time_input.getMinutes()
             ),
@@ -41,7 +40,6 @@ function LecturerForm() {
         });
 
         if (response.ok) {
-            window.location.replace("/questionnaires");
             setState({
                 name_input: "",
                 fullname_input: "",
@@ -54,7 +52,6 @@ function LecturerForm() {
 
     const toggleTerm = (id) => {
         const { selected_terms } = state;
-        console.log("toogle", selected_terms);
 
         if (selected_terms.has(id)) {
             selected_terms.delete(id);
@@ -94,6 +91,7 @@ function LecturerForm() {
                             value={state.date_input}
                             id="date_picker"
                             onChange={(v) => setState({ ...state, date_input: v })}
+                            
                         />
                     </div>
                     <div className="col-xs-12 col-sm-6">

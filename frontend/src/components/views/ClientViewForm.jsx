@@ -40,7 +40,6 @@ function ClientViewForm() {
         })();
     }, []);
     const onSubmit = () => {
-        console.log(state);
         setState({
             firstName: "",
             lastName: "",
