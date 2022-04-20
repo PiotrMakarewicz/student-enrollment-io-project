@@ -18,6 +18,7 @@
         "react-time-input": "^1.0.1",
         "react-toastify": "^8.2.0",
         "react-widgets": "^5.8.4",
+        "scss": "^0.2.4",
         "web-vitals": "^2.1.4"
     },
     "scripts": {

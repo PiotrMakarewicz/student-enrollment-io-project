@@ -7,10 +7,10 @@ function optionsObjectToString(options) {
 
     let optionsSting;
 
-    Object.entries(options).forEach((value) => {
-        if (!optionsSting) optionsSting = `?${value[0]}=${value[1]}`;
-        else optionsSting += `&${value[0]}=${value[1]}`;
-    });
+  Object.entries(options).forEach((value) => {
+    if (!optionsSting) optionsSting = `?${value[0]}=${value[1]}`;
+    else optionsSting += `&${value[0]}=${value[1]}`;
+  });
 
     return optionsSting;
 }
@@ -48,13 +48,14 @@ const get = async (path, options) => {
 };
 
 const post = async (path, body) => {
-    await fetch(serverUrl + path, {
+    const response = await fetch(serverUrl + path, {
         method: "POST",
         body: JSON.stringify(body),
         headers: {
             "Content-Type": "application/json",
         },
     });
+    return await proccesResponse(response, "GET " + path);
 };
 
 const http = {

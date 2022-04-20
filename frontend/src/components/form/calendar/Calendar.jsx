@@ -61,6 +61,7 @@ function Calendar({ selectedTerms, toggleTerm, availableTermsSet }) {
             )}
         </>
     );
+
 }
 
 export default Calendar;

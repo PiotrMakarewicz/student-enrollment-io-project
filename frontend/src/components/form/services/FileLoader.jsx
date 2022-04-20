@@ -21,6 +21,7 @@ function FileLoader() {
             console.log(JSON.stringify(students));
         });
         reader.readAsText(v.target.files[0]);
+
         
     }}></input>);
 }

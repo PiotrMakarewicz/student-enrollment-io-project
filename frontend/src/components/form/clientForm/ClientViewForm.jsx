@@ -6,7 +6,6 @@ import http from "../../../services/http";
 import { useEffect } from "react";
 import { Spinner } from "react-bootstrap";
 
-
 /**
  * View form for client
  *
