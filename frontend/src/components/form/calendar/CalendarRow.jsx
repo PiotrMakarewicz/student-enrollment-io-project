@@ -18,10 +18,10 @@ function CalendarRow({
   var fields = cells.map((c, key) => (
     <CalendarCell
       key={key}
-      id={c.id}
+      id={c}
       onClick={toggleTerm}
-      isAvailable={availableTermsSet.has(c.id)}
-      isChosen={selectedTerms.has(c.id)}
+      isAvailable={availableTermsSet== "All" || availableTermsSet.has(c)}
+      isChosen={selectedTerms.has(c)}
     />
   ));
   return (
