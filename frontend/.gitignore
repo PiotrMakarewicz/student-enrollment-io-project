@@ -3,10 +3,12 @@ pac
 package-lock.json
 /.docz
 /docs
+/.vscode
 # dependencies
 /node_modules
 /.pnp
 .pnp.js
+package-lock.json
 
 # testing
 /coverage

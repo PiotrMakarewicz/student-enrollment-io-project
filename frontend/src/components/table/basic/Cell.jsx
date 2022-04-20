@@ -18,7 +18,7 @@ import React from "react";
  */
 
 function Cell({ cell, lambda }) {
-  return <td className={lambda(cell)}>{cell}</td>;
+    return <td className={lambda(cell)}>{cell}</td>;
 }
 
 export default Cell;

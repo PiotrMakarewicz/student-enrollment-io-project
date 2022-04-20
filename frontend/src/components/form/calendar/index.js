@@ -17,4 +17,4 @@ export{
     CalendarCell,
     CalendarHeader,
     CalendarLabel
-}
+};

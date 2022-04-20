@@ -15,20 +15,21 @@
     />
  */
 
-function Submit({onSubmit, value, disable}) {
-
+function Submit({ onSubmit, value, disable }) {
     const onSubbmitWraper = (e) => {
         e.preventDefault();
         onSubmit();
-    }
+    };
 
-    return (   
-        <button 
-            type="submit" 
-            className="btn btn-primary" 
-            onClick={onSubbmitWraper} 
+    return (
+        <button
+            type="submit"
+            className="btn btn-primary"
+            onClick={onSubbmitWraper}
             disabled={disable}
-        >{value}</button>
+        >
+            {value}
+        </button>
     );
 }
 

@@ -26,41 +26,41 @@ import { useEffect } from "react";
  */
 
 function Calendar({ selectedTerms, toggleTerm, availableTermsSet }) {
-  const [state, setState] = useState({
-    val: 1,
-    termsInfo: null,
-    loading: true,
-  });
+    const [state, setState] = useState({
+        val: 1,
+        termsInfo: null,
+        loading: true,
+    });
 
-  var response;
-  useEffect(() => {
-    (async function () {
-      response = await http.get("/terms");
-      response = response["data"];
-      setState({ termsInfo: response, loading: false });
-    })();
-  }, []);
-  return (
-    <>
-      {state.loading ? (
+    var response;
+    useEffect(() => {
+        (async function () {
+            response = await http.get("/terms");
+            response = response["data"];
+            setState({ termsInfo: response, loading: false });
+        })();
+    }, []);
+    return (
         <>
-          <Spinner animation="border" />
+            {state.loading ? (
+                <>
+                    <Spinner animation="border" />
+                </>
+            ) : (
+                <>
+                    <table className="calendar">
+                        <CalendarHeader labels={state.termsInfo["headers"]} />
+                        <CalendarBody
+                            termRows={state.termsInfo["rows"]}
+                            availableTermsSet={availableTermsSet}
+                            selectedTerms={selectedTerms}
+                            toggleTerm={toggleTerm}
+                        />
+                    </table>
+                </>
+            )}
         </>
-      ) : (
-        <>
-          <table className="calendar">
-            <CalendarHeader labels={state.termsInfo["headers"]} />
-            <CalendarBody
-              termRows={state.termsInfo["rows"]}
-              availableTermsSet={availableTermsSet}
-              selectedTerms={selectedTerms}
-              toggleTerm={toggleTerm}
-            />
-          </table>
-        </>
-      )}
-    </>
-  );
+    );
 }
 
 export default Calendar;

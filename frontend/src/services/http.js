@@ -3,65 +3,63 @@ import { toast } from "react-toastify";
 const serverUrl = "http://localhost:8080";
 
 function optionsObjectToString(options) {
-  if (!options) return "";
+    if (!options) return "";
 
-  let optionsSting;
+    let optionsSting;
 
-  Object.entries(options).forEach((value, key) => {
-    if (!optionsSting) optionsSting = `?${value[0]}=${value[1]}`;
-    else optionsSting += `&${value[0]}=${value[1]}`;
-  });
+    Object.entries(options).forEach((value) => {
+        if (!optionsSting) optionsSting = `?${value[0]}=${value[1]}`;
+        else optionsSting += `&${value[0]}=${value[1]}`;
+    });
 
-  return optionsSting;
+    return optionsSting;
 }
 async function proccesResponse(response, toastComunicat) {
-  if (response.ok) {
-    toast.success(`${toastComunicat}`);
-    const data = await response.json();
+    if (response.ok) {
+        toast.success(`${toastComunicat}`);
+        const data = await response.json();
 
-    return {
-      ok: true,
-      data,
-    };
-  } else {
-    const text = await response.text();
-    toast.error(`${toastComunicat} \n ${text}`);
-    return {
-      ok: false,
-      data: text,
-    };
-  }
+        return {
+            ok: true,
+            data,
+        };
+    } else {
+        const text = await response.text();
+        toast.error(`${toastComunicat} \n ${text}`);
+        return {
+            ok: false,
+            data: text,
+        };
+    }
 }
 
 const get = async (path, options) => {
-  const response = await fetch(
-    serverUrl + path + optionsObjectToString(options),
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+    const response = await fetch(
+        serverUrl + path + optionsObjectToString(options),
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }
+    );
 
-  return await proccesResponse(response, "GET " + path);
+    return await proccesResponse(response, "GET " + path);
 };
 
 const post = async (path, body) => {
-  const response = await fetch(serverUrl + path, {
-    method: "POST",
-    body: JSON.stringify(body),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-  return await proccesResponse(response, "POST " + path);
+    await fetch(serverUrl + path, {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
 };
 
 const http = {
-  get,
-  post,
+    get,
+    post,
 };
 
 export default http;

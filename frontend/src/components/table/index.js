@@ -2,9 +2,8 @@
  *  @namespace Table
  */
 
- import "./index.css"
- import * as basic from './basic'
- import Table from './Table'
- import ExampleTable from './ExampleTable'
+import "./index.css";
+import * as basic from "./basic";
+import Table from "./Table";
 
- export { basic, Table, ExampleTable };
+export { basic, Table };

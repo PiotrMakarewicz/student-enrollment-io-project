@@ -12,23 +12,23 @@ import CalendarRow from "./CalendarRow";
  *
  */
 function CalendarBody({
-  termRows,
-  selectedTerms,
-  toggleTerm,
-  availableTermsSet,
+    termRows,
+    selectedTerms,
+    toggleTerm,
+    availableTermsSet,
 }) {
-  var calendarRows = termRows.map((r, key) => (
-    <CalendarRow
-      key={key}
-      label={r.label}
-      cells={r.cells}
-      availableTermsSet={availableTermsSet}
-      selectedTerms={selectedTerms}
-      toggleTerm={toggleTerm}
-    />
-  ));
+    var calendarRows = termRows.map((r, key) => (
+        <CalendarRow
+            key={key}
+            label={r.label}
+            cells={r.cells}
+            availableTermsSet={availableTermsSet}
+            selectedTerms={selectedTerms}
+            toggleTerm={toggleTerm}
+        />
+    ));
 
-  return <tbody>{calendarRows}</tbody>;
+    return <tbody>{calendarRows}</tbody>;
 }
 
 export default CalendarBody;
