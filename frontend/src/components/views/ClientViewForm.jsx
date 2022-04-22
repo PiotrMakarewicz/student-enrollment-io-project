@@ -6,7 +6,8 @@ import { Calendar } from "../form/calendar";
 import SimpleWrapper from "../SimpleWrapper";
 import http from "../../services/http";
 import { useEffect } from "react";
-import { Spinner } from "react-bootstrap";
+//import { Spinner } from "react-bootstrap";
+import Confetti from 'react-confetti'
 
 /**
  * View form for client
@@ -66,7 +67,9 @@ function ClientViewForm() {
         <>
             {state.loading ? (
                 <>
-                    <Spinner animation="border" />
+                    <h1>Thanks!</h1>
+                    <Confetti width={1500} height={700}
+    />
                 </>
             ) : (
                 <>

@@ -5,6 +5,9 @@ import CheckBox from "./basic/CheckBox";
 import TextArea from "./basic/TextArea";
 import Submit from "./basic/Submit";
 import FileLoader from "./services/FileLoader";
+
+
+
 /**
  * Example form
  *
@@ -12,6 +15,9 @@ import FileLoader from "./services/FileLoader";
  *
  *
  */
+
+
+
 function ExampleForm() {
     const [state, setState] = useState({
         input: "",
@@ -29,6 +35,7 @@ function ExampleForm() {
             textArea: ""
         });
     };
+
 
     return (
         <form>
