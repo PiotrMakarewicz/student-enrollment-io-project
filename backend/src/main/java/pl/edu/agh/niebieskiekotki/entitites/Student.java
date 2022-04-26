@@ -14,6 +14,16 @@ public class Student {
     private String emailAddress;
     private int indexNumber;
 
+    public Student(String firstName, String lastName, String emailAddress, int indexNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.emailAddress = emailAddress;
+        this.indexNumber = indexNumber;
+    }
+
+    public Student() {
+    }
+
     @OneToMany(mappedBy = "student")
     private List<QuestionnaireAccess> questionnaireAccesses;
 
