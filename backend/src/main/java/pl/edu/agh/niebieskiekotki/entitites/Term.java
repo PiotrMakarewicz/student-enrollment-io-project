@@ -62,19 +62,26 @@ public class Term {
     @Override
     public String toString() {
 
-        switch (day){
-            case 0:
-                return "Monday " + timeslot;
-            case 1:
-                return "Tuesday " + timeslot;
-            case 2:
-                return "Wednesday " + timeslot;
-            case 3:
-                return "Thursday " + timeslot;
-            case 4:
-                return "Friday " + timeslot;
-        }
+        return switch (day) {
+            case 0 -> "Monday " + timeslot;
+            case 1 -> "Tuesday " + timeslot;
+            case 2 -> "Wednesday " + timeslot;
+            case 3 -> "Thursday " + timeslot;
+            case 4 -> "Friday " + timeslot;
+            default -> "";
+        };
 
-        return "";
+    }
+
+    public String getShortLabel(){
+        return switch (day) {
+            case 0 -> "Pon " + timeslot;
+            case 1 -> "Wt " + timeslot;
+            case 2 -> "Śr " + timeslot;
+            case 3 -> "Czw " + timeslot;
+            case 4 -> "Pt " + timeslot;
+            default -> "";
+        };
+
     }
 }

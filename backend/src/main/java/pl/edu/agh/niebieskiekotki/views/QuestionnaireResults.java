@@ -61,6 +61,10 @@ public class QuestionnaireResults {
         this.rows = rows;
     }
 
+    public List<Term> getQuestionnaireAvailableTerms() {
+        return questionnaireAvailableTerms;
+    }
+
     public class QuestionnaireResultsRow{
         private Student student;
         private int[] studentChoose;
