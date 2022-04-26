@@ -1,16 +1,12 @@
 package pl.edu.agh.niebieskiekotki.views;
 
 import pl.edu.agh.niebieskiekotki.DataBaseMock;
-import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
-import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireTerm;
-import pl.edu.agh.niebieskiekotki.entitites.Term;
-import pl.edu.agh.niebieskiekotki.entitites.Vote;
+import pl.edu.agh.niebieskiekotki.entitites.*;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionnaireResults{
+public class QuestionnaireResults {
 
     List<String> headers;
     List<QuestionnaireResultsRow> rows;
@@ -37,14 +33,14 @@ public class QuestionnaireResults{
             if(! vote.getQuestionnaire().getId().equals(questionnaire.getId())) continue;
 
             for(QuestionnaireResultsRow row : rows)
-                if(row.student == vote.getStudent().getIndexNumber())
+                if(row.student == vote.getStudent())
                     questionnaireResultsRow = row;
 
-        if(questionnaireResultsRow == null) {
-            questionnaireResultsRow = new QuestionnaireResultsRow(vote.getStudent().getIndexNumber());
-            rows.add(questionnaireResultsRow);
-        }
-        questionnaireResultsRow.setTerm(vote.getTerm());
+            if(questionnaireResultsRow == null) {
+                questionnaireResultsRow = new QuestionnaireResultsRow(vote.getStudent());
+                rows.add(questionnaireResultsRow);
+            }
+            questionnaireResultsRow.setTerm(vote.getTerm());
 
         }
     }
@@ -65,11 +61,11 @@ public class QuestionnaireResults{
         this.rows = rows;
     }
 
-    class QuestionnaireResultsRow{
-        int student;
-        int[] studentChoose;
+    public class QuestionnaireResultsRow{
+        private Student student;
+        private int[] studentChoose;
 
-        public QuestionnaireResultsRow(int student) {
+        public QuestionnaireResultsRow(Student student) {
             this.student = student;
             studentChoose = new int[questionnaireAvailableTerms.size()];
         }
@@ -83,11 +79,15 @@ public class QuestionnaireResults{
             studentChoose[index] = 1;
         }
 
-        public int getStudent() {
+        public int getStudentIndex() {
+            return student.getIndexNumber();
+        }
+
+        public Student getStudent() {
             return student;
         }
 
-        public void setStudent(int student) {
+        public void setStudent(Student student) {
             this.student = student;
         }
 
@@ -97,6 +97,16 @@ public class QuestionnaireResults{
 
         public void setStudentChoose(int[] studentChoose) {
             this.studentChoose = studentChoose;
+        }
+
+        public List<Term> getTermList(){
+            ArrayList<Term> result = new ArrayList<>();
+            for (int i = 0; i < studentChoose.length; i++) {
+                if (studentChoose[i] == 1){
+                    result.add(questionnaireAvailableTerms.get(i));
+                }
+            }
+            return result;
         }
     }
 }
