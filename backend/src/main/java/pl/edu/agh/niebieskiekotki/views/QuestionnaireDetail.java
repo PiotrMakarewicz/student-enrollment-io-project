@@ -1,6 +1,7 @@
 package pl.edu.agh.niebieskiekotki.views;
 
 import pl.edu.agh.niebieskiekotki.DataBaseMock;
+import pl.edu.agh.niebieskiekotki.HibernateAdapter;
 import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
 import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireTerm;
 import pl.edu.agh.niebieskiekotki.entitites.Term;
@@ -29,11 +30,12 @@ public class QuestionnaireDetail {
         this.terms = terms;
     }
 
-    public QuestionnaireDetail(Questionnaire questionnaire){
+    public QuestionnaireDetail(Questionnaire questionnaire ){
         this.detail = questionnaire;
         this.terms = new ArrayList<>();
+        List<QuestionnaireTerm> questionnaireTerms = HibernateAdapter.getAll(QuestionnaireTerm.class);
 
-        for (QuestionnaireTerm term : DataBaseMock.questionnaireTerms) {
+        for (QuestionnaireTerm term : questionnaireTerms) {
             if(term.getQuestionnaire().getId().equals(questionnaire.getId()))
                 terms.add(term.getTerm().getId());
         }

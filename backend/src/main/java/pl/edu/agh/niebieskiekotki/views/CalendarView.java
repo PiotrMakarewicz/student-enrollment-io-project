@@ -24,7 +24,7 @@ public class CalendarView {
         }
 
         for(Term term: terms) {
-            rows.get(Math.toIntExact(term.getTimeslot().getId()))
+            rows.get(Math.toIntExact(term.getTimeslot().getId() - 1))
                     .add(Math.toIntExact(term.getDay()),term.getId());
         }
     }

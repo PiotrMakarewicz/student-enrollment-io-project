@@ -1,7 +1,11 @@
 package pl.edu.agh.niebieskiekotki.routes;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.niebieskiekotki.DataBaseMock;
+import pl.edu.agh.niebieskiekotki.HibernateAdapter;
 import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
 import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireTerm;
 import pl.edu.agh.niebieskiekotki.entitites.Term;
@@ -24,41 +28,56 @@ import java.util.List;
 @RestController
 public class QuestionnaireRouter {
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    List<Questionnaire> questionnaires = new ArrayList<>();
+
 
     @GetMapping(value="/questionnaires")
     public List<Questionnaire> GetAll(){
-
-        Session session = entityManager.unwrap(Session.class);
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<Questionnaire> criteriaQuery = builder.createQuery(Questionnaire.class);
-
-        Root<Questionnaire> root = criteriaQuery.from(Questionnaire.class);
-        criteriaQuery.select(root);
-        Query<Questionnaire> query = session.createQuery(criteriaQuery);
-        List<Questionnaire> results = query.getResultList();
-        System.out.println("Query results: " + results);
-        return results;
+        HibernateAdapter.entityManager = entityManager;
+        return new HibernateAdapter().getAll(Questionnaire.class);
     }
 
     @GetMapping(value="/questionnaires/{id}")
     public QuestionnaireDetail GetOne(@PathVariable Long id) throws NotFoundException {
-        Questionnaire toReturn = questionnaires
-                .stream()
-                .filter( q -> q.getId() != null && q.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-        System.out.println(id);
-        System.out.println(toReturn);
+
+        Questionnaire toReturn = HibernateAdapter.getById(Questionnaire.class, id);
+
         if(toReturn == null)
             throw new NotFoundException("Not found questionnare with id:" + id );
+
+        List<QuestionnaireTerm> questionnaireTerms = HibernateAdapter.getAll(QuestionnaireTerm.class);
 
         return new QuestionnaireDetail(toReturn);
     }
 
+
     @PostMapping(value="/questionnaires")
-    public List<Questionnaire> Post(@RequestBody Questionnaire questionnaire){
-        questionnaires.add(questionnaire);
-        return questionnaires;
+    public QuestionnaireDetail Post(@RequestBody AddQuestionnaireView addQuestionnaireView){
+
+        Questionnaire newQuestionnaire = new Questionnaire();
+
+        if(addQuestionnaireView.getTeacher_id() == null) addQuestionnaireView.setTeacher_id(1l);
+
+        newQuestionnaire.setExpirationDate(addQuestionnaireView.getExpirationDate());
+        newQuestionnaire.setLabel(addQuestionnaireView.getLabel());
+        newQuestionnaire.getTeacher().setId(addQuestionnaireView.getTeacher_id());
+
+
+        HibernateAdapter.save(newQuestionnaire);
+
+        List<Term> allTerms = HibernateAdapter.getAll(Term.class);
+
+        for( Term term : allTerms){
+            if(addQuestionnaireView.getAvailableTerms().contains(term.getId())) {
+                QuestionnaireTerm qt = new  QuestionnaireTerm(newQuestionnaire, term);
+                HibernateAdapter.save(qt);
+            }
+        }
+
+        return new QuestionnaireDetail(newQuestionnaire);
     }
 
     @PutMapping(value="/questionnaires/{id}")
