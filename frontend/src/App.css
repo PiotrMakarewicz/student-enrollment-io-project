@@ -1,41 +1,66 @@
 :root {
-  --header-h: 3.25rem;
+    --header-h: 3.5rem;
 }
 
 .App {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .App-body {
-  background-color: var(--bs-gray-200);
-  min-height: calc(100vh - var(--header-h));
-  padding: 1em;
-  display: flex;
-  justify-content: center;
+    background-color: var(--bs-gray-300);
+    min-height: calc(100vh - var(--header-h));
+    padding: 1em;
+    display: flex;
+    justify-content: center;
 }
 
 .App-header {
-  background-color: #282c34;
-  height: var(--header-h);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    background-color: #282c34;
+    height: var(--header-h);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    padding: 3em auto;
 }
 
 .App-header ul {
-  list-style: none;
-  font-size: calc(8px + 1vmin);
-  display: flex;
-  flex-direction: row;
-  margin: 0;
+    list-style: none;
+    font-size: calc(8px + 1vmin);
+    display: flex;
+    flex-direction: row;
+    margin: 0;
 }
 
 .App-header ul li {
-  margin: 0 0.75em;
+    margin: 0 1.25em;
+    display: flex;
+    align-items: center;
+    border-radius: 0.125em;
+}
+
+.App-header a {
+    color: white;
+    text-decoration: none;
+}
+
+.App-header a:hover {
+    opacity: 75%;
+}
+
+.App-header li[data-active="true"] a {
+    text-decoration: underline;
+}
+
+label {
+    margin-bottom: 0.25em;
+}
+
+title {
+    display: block;
 }
 
 .App-header a {

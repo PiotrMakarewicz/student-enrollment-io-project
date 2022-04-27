@@ -22,25 +22,24 @@
     />
  */
 
-
-function TextArea({label, value,placeholder, onChange, id}) {
-
+function TextArea({ label, value, placeholder, onChange, id }) {
     const onChangeWrapper = (e) => {
-        if(onChange) onChange(e.target.value);
-    }
+        if (onChange) onChange(e.target.value);
+    };
 
     return (
-    <div className="form-group">
-        {label &&  <label htmlFor={id} >{label}</label>}
-        <textarea 
-            className="form-control" 
-            onChange={onChangeWrapper} 
-            placeholder={placeholder} 
-            value={value}
-            id={id} rows="3" 
-        ></textarea>
-    </div> 
-  );
+        <div className="form-group">
+            {label && <label htmlFor={id}>{label}</label>}
+            <textarea
+                className="form-control"
+                onChange={onChangeWrapper}
+                placeholder={placeholder}
+                value={value}
+                id={id}
+                rows="3"
+            ></textarea>
+        </div>
+    );
 }
 
 export default TextArea;
