@@ -7,10 +7,10 @@ function optionsObjectToString(options) {
 
     let optionsSting;
 
-  Object.entries(options).forEach((value) => {
-    if (!optionsSting) optionsSting = `?${value[0]}=${value[1]}`;
-    else optionsSting += `&${value[0]}=${value[1]}`;
-  });
+    Object.entries(options).forEach((value) => {
+        if (!optionsSting) optionsSting = `?${value[0]}=${value[1]}`;
+        else optionsSting += `&${value[0]}=${value[1]}`;
+    });
 
     return optionsSting;
 }
@@ -21,28 +21,25 @@ async function proccesResponse(response, toastComunicat) {
 
         return {
             ok: true,
-            data,
+            data
         };
     } else {
         const text = await response.text();
         toast.error(`${toastComunicat} \n ${text}`);
         return {
             ok: false,
-            data: text,
+            data: text
         };
     }
 }
 
 const get = async (path, options) => {
-    const response = await fetch(
-        serverUrl + path + optionsObjectToString(options),
-        {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
+    const response = await fetch(serverUrl + path + optionsObjectToString(options), {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
         }
-    );
+    });
 
     return await proccesResponse(response, "GET " + path);
 };
@@ -52,15 +49,15 @@ const post = async (path, body) => {
         method: "POST",
         body: JSON.stringify(body),
         headers: {
-            "Content-Type": "application/json",
-        },
+            "Content-Type": "application/json"
+        }
     });
     return await proccesResponse(response, "GET " + path);
 };
 
 const http = {
     get,
-    post,
+    post
 };
 
 export default http;

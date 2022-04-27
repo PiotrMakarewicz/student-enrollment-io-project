@@ -15,13 +15,14 @@
     ],
     "parserOptions": {
         "ecmaFeatures": {
-            "jsx": false
+            "jsx": true
         },
         "ecmaVersion": "latest",
-        "sourceType": "module"
+        "sourceType": "module",
+        "requireConfigFile": false
     },
-    "plugins": ["react", "import", "jsx-a11y"],
-    "ignorePatterns": ["/docs","/node_modules"],
+    "plugins": ["react", "import", "jsx-a11y", "prettier"],
+    "ignorePatterns": ["/docs", "/node_modules"],
     "rules": {
         "indent": ["warn", 4],
         "quotes": ["off", "double"],

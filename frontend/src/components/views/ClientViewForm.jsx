@@ -25,9 +25,9 @@ function ClientViewForm() {
         emailAdress: "",
         availableTermsSet: new Set(),
         selectedTerms: new Set(),
-        loading: true,
+        loading: true
     });
-    let {id} = useParams();
+    let { id } = useParams();
     var response;
     useEffect(() => {
         (async function () {
@@ -35,7 +35,7 @@ function ClientViewForm() {
             setState({
                 ...state,
                 availableTermsSet: new Set(response["data"]["terms"]),
-                loading: false,
+                loading: false
             });
         })();
     }, []);
@@ -46,13 +46,20 @@ function ClientViewForm() {
             indexNumber: "",
             emailAdress: "",
             s: state.selectedTerms,
-            loading : true
+            loading: true
         });
-        
-        const {firstName,lastName,indexNumber,emailAdress} = state
-        http.post("/vote",{firstName,lastName,indexNumber,emailAdress, selected_terms : Array.from(state.selectedTerms), questionnaire_id : id});
+
+        const { firstName, lastName, indexNumber, emailAdress } = state;
+        http.post("/vote", {
+            firstName,
+            lastName,
+            indexNumber,
+            emailAdress,
+            selected_terms: Array.from(state.selectedTerms),
+            questionnaire_id: id
+        });
     };
-  
+
     var toggleTerm = (id) => {
         const { selectedTerms } = state;
         if (selectedTerms.has(id)) {
@@ -101,7 +108,10 @@ function ClientViewForm() {
                                 toggleTerm={toggleTerm}
                                 availableTermsSet={state.availableTermsSet}
                             />
-                            <Submit value={"Send form"} onSubmit={onSubmit} />
+                            <Submit
+                                value={"Send form"}
+                                onSubmit={onSubmit}
+                            />
                         </form>
                     </SimpleWrapper>
                 </>
@@ -109,6 +119,5 @@ function ClientViewForm() {
         </>
     );
 }
-  
+
 export default ClientViewForm;
-  
