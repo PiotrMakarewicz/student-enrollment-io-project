@@ -10,7 +10,6 @@
 function ImportFileButton({ fileHandler }) {
     return (
         <>
-            <p></p>
             <input
                 type="file"
                 id="file_selector"
@@ -19,7 +18,6 @@ function ImportFileButton({ fileHandler }) {
                     fileHandler(v.target.files);
                 }}
             ></input>
-            <p></p>
         </>
     );
 }
