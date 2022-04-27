@@ -1,13 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar";
-import {
-    ChooseForm,
-    ClientViewForm,
-    QuestionnaireResults,
-    LecturerForm,
-    GroupView
-} from "./components/views";
+import { ChooseForm, ClientViewForm, LecturerForm, ViewSwitch } from "./components/views";
 
 function App() {
     return (
@@ -32,12 +26,7 @@ function App() {
                             />
                             <Route
                                 path="/questionnaire/:id"
-                                element={
-                                    <>
-                                        <QuestionnaireResults />
-                                        <GroupView />
-                                    </>
-                                }
+                                element={<ViewSwitch />}
                             />
 
                             <Route

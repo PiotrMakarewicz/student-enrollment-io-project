@@ -28,6 +28,7 @@
         "quotes": ["off", "double"],
         "semi": ["warn", "always"],
         "no-multi-spaces": ["error"],
+        "no-unused-vars": ["warn"],
         "import/no-unresolved": ["off", { "caseSensitive": false }],
         "react/prop-types": "off",
         "react/react-in-jsx-scope": "off",
