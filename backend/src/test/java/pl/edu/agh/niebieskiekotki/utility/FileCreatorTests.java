@@ -11,7 +11,7 @@ import static pl.edu.agh.niebieskiekotki.utility.FileCreator.createFileWithPrefe
 public class FileCreatorTests {
     public static void main(String[] args) {
         try {
-            createFileWithPreferences(DataBaseMock.questionnaires.get(0));
+            createFileWithPreferences(DataBaseMock.questionnaires.get(0), Language.POLISH);
         } catch (ParserConfigurationException | TransformerException e) {
             throw new RuntimeException(e);
         }

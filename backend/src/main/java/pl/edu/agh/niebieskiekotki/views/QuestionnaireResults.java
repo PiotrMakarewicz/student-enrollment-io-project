@@ -21,6 +21,8 @@ public class QuestionnaireResults {
             if(term.getQuestionnaire().getId().equals(questionnaire.getId()))
                 questionnaireAvailableTerms.add(term.getTerm());
 
+        questionnaireAvailableTerms.sort(Term::compareTo);
+
         headers = new ArrayList<>();
         for(Term term : questionnaireAvailableTerms){
             headers.add(term.toString());

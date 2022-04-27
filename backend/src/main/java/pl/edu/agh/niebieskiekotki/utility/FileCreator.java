@@ -29,7 +29,25 @@ public class FileCreator {
         }
     }
 
-    public static void createFileWithPreferences(Questionnaire questionnaire)
+    private static void createHeaders(Language language, HSSFRow rowhead, QuestionnaireResults results){
+        if (language == Language.POLISH) {
+            rowhead.createCell(0).setCellValue("Indeks");
+            rowhead.createCell(1).setCellValue("Imie");
+            rowhead.createCell(2).setCellValue("Nazwisko");
+            rowhead.createCell(3).setCellValue("e-mail");
+        } else if (language == Language.ENGLISH){
+            rowhead.createCell(0).setCellValue("Index");
+            rowhead.createCell(1).setCellValue("Name");
+            rowhead.createCell(2).setCellValue("Surname");
+            rowhead.createCell(3).setCellValue("e-mail");
+        }
+        List<Term> terms = results.getQuestionnaireAvailableTerms();
+        for (int i = 0; i < terms.size(); i++) {
+            rowhead.createCell(4 + i).setCellValue(terms.get(i).getShortLabel(language));
+        }
+    }
+
+    public static void createFileWithPreferences(Questionnaire questionnaire, Language language)
             throws ParserConfigurationException, TransformerException {
 
         QuestionnaireResults results = new QuestionnaireResults(DataBaseMock.votes, questionnaire);
@@ -40,28 +58,19 @@ public class FileCreator {
 
         try
         {
-
             HSSFWorkbook workbook = new HSSFWorkbook();
             HSSFSheet sheet = workbook.createSheet(questionnaire.getLabel());
             HSSFRow rowhead = sheet.createRow((short)0);
 
-            rowhead.createCell(0).setCellValue("Indeks");
-            rowhead.createCell(1).setCellValue("Imie");
-            rowhead.createCell(2).setCellValue("Nazwisko");
-            rowhead.createCell(3).setCellValue("e-mail");
-            List<Term> terms = results.getQuestionnaireAvailableTerms();
-            int columns = 4;
-            for (int i = 0; i < terms.size(); i++) {
-                rowhead.createCell(4 + i).setCellValue(terms.get(i).getShortLabel());
-                columns ++;
-            }
+            createHeaders(language, rowhead, results);
 
             int i = 1;
             for (QuestionnaireResults.QuestionnaireResultsRow row : results.getRows()) {
                 addRow(row.getStudent(), row.getStudentChoose(), sheet, i);
                 i++;
             }
-            for (int j = 0; j < columns; j++) {
+
+            for (int j = 0; j < results.getHeaders().size() + 4; j++) {
                 sheet.autoSizeColumn(j);
             }
 
