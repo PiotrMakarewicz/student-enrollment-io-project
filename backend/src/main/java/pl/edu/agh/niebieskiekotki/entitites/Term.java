@@ -10,6 +10,9 @@ public class Term {
 
     private int day;
     private int week;
+    @ManyToOne
+    @JoinColumn(name = "timeslot_id")
+    private Timeslot timeslot;
 
     public Term(Long id, int day, int week, Timeslot timeslot) {
         this.id = id;
@@ -17,10 +20,6 @@ public class Term {
         this.week = week;
         this.timeslot = timeslot;
     }
-
-    @ManyToOne
-    @JoinColumn(name = "timeslot_id")
-    private Timeslot timeslot;
 
     public Term() {
 
@@ -62,7 +61,7 @@ public class Term {
     @Override
     public String toString() {
 
-        switch (day){
+        switch (day) {
             case 0:
                 return "Monday " + timeslot;
             case 1:

@@ -1,50 +1,47 @@
 package pl.edu.agh.niebieskiekotki.views;
 
-import pl.edu.agh.niebieskiekotki.DataBaseMock;
-import pl.edu.agh.niebieskiekotki.HibernateAdapter;
 import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
 import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireTerm;
 import pl.edu.agh.niebieskiekotki.entitites.Term;
 import pl.edu.agh.niebieskiekotki.entitites.Vote;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionnaireResults{
+public class QuestionnaireResults {
 
     List<String> headers;
     List<QuestionnaireResultsRow> rows;
     List<Term> questionnaireAvailableTerms;
 
-    public QuestionnaireResults(List<Vote> votes, Questionnaire questionnaire){
+    public QuestionnaireResults(List<Vote> votes, Questionnaire questionnaire) {
 
-         questionnaireAvailableTerms = new ArrayList<>();
-         rows = new ArrayList<>();
+        questionnaireAvailableTerms = new ArrayList<>();
+        rows = new ArrayList<>();
 
         List<QuestionnaireTerm> questionnaireTerms = questionnaire.questionnaireTerms;
 
-        for(QuestionnaireTerm term : questionnaireTerms)
-                questionnaireAvailableTerms.add(term.getTerm());
+        for (QuestionnaireTerm term : questionnaireTerms)
+            questionnaireAvailableTerms.add(term.getTerm());
 
         headers = new ArrayList<>();
-        for(Term term : questionnaireAvailableTerms){
+        for (Term term : questionnaireAvailableTerms) {
             headers.add(term.toString());
         }
 
 
-        for(Vote vote : votes){
-            QuestionnaireResultsRow  questionnaireResultsRow = null;
+        for (Vote vote : votes) {
+            QuestionnaireResultsRow questionnaireResultsRow = null;
 
-            for(QuestionnaireResultsRow row : rows)
-                if(row.student == vote.getStudent().getIndexNumber())
+            for (QuestionnaireResultsRow row : rows)
+                if (row.student == vote.getStudent().getIndexNumber())
                     questionnaireResultsRow = row;
 
-        if(questionnaireResultsRow == null) {
-            questionnaireResultsRow = new QuestionnaireResultsRow(vote.getStudent().getIndexNumber());
-            rows.add(questionnaireResultsRow);
-        }
-        questionnaireResultsRow.setTerm(vote.getTerm());
+            if (questionnaireResultsRow == null) {
+                questionnaireResultsRow = new QuestionnaireResultsRow(vote.getStudent().getIndexNumber());
+                rows.add(questionnaireResultsRow);
+            }
+            questionnaireResultsRow.setTerm(vote.getTerm());
 
         }
     }
@@ -65,7 +62,7 @@ public class QuestionnaireResults{
         this.rows = rows;
     }
 
-    class QuestionnaireResultsRow{
+    class QuestionnaireResultsRow {
         int student;
         int[] studentChoose;
 
@@ -74,12 +71,12 @@ public class QuestionnaireResults{
             studentChoose = new int[questionnaireAvailableTerms.size()];
         }
 
-        void setTerm(Term term){
+        void setTerm(Term term) {
             System.out.println(questionnaireAvailableTerms);
             System.out.println(term);
             Integer index = questionnaireAvailableTerms.indexOf(term);
             System.out.println(index);
-            if(index == -1) return;
+            if (index == -1) return;
             studentChoose[index] = 1;
         }
 

@@ -13,7 +13,7 @@ public class QuestionnaireTerm {
     @JoinColumn(name = "term_id")
     private Term term;
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     public QuestionnaireTerm(Questionnaire questionnaire, Term term) {
@@ -40,11 +40,11 @@ public class QuestionnaireTerm {
         this.term = term;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

@@ -17,8 +17,13 @@ public class AddQuestionnaireView {
     public void setTeacherId(Long teacherId) {
         this.teacherId = teacherId;
     }
+
     public LocalDateTime getExpirationDate() {
         return expirationDate;
+    }
+
+    public void setExpirationDate(LocalDateTime expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
     @Override
@@ -28,10 +33,6 @@ public class AddQuestionnaireView {
                 ", label='" + label + '\'' +
                 ", availableTerms=" + availableTerms +
                 '}';
-    }
-
-    public void setExpirationDate(LocalDateTime expirationDate) {
-        this.expirationDate = expirationDate;
     }
 
     public String getLabel() {

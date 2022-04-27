@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 public class QuestionnaireAccess {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne

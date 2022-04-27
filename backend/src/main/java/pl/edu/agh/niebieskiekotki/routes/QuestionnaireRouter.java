@@ -1,6 +1,5 @@
 package pl.edu.agh.niebieskiekotki.routes;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.niebieskiekotki.HibernateAdapter;
 import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
@@ -10,9 +9,6 @@ import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.NotFoundException;
 import pl.edu.agh.niebieskiekotki.views.AddQuestionnaireView;
 import pl.edu.agh.niebieskiekotki.views.QuestionnaireDetail;
 
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,14 +16,12 @@ import java.util.List;
 @RestController
 public class QuestionnaireRouter {
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Autowired
-    private HibernateAdapter hibernateAdapter;
-
+    private final HibernateAdapter hibernateAdapter;
     List<Questionnaire> questionnaires = new ArrayList<>();
 
+    public QuestionnaireRouter(HibernateAdapter hibernateAdapter) {
+        this.hibernateAdapter = hibernateAdapter;
+    }
 
     @GetMapping(value = "/questionnaires")
     public List<Questionnaire> GetAll() {
@@ -40,9 +34,7 @@ public class QuestionnaireRouter {
         Questionnaire toReturn = hibernateAdapter.getById(Questionnaire.class, id);
 
         if (toReturn == null)
-            throw new NotFoundException("Not found questionnare with id:" + id);
-
-        List<QuestionnaireTerm> questionnaireTerms = hibernateAdapter.getAll(QuestionnaireTerm.class);
+            throw new NotFoundException("Not found questionnaire with id:" + id);
 
         return new QuestionnaireDetail(toReturn);
     }
@@ -53,7 +45,7 @@ public class QuestionnaireRouter {
 
         Questionnaire newQuestionnaire = new Questionnaire();
 
-        if (addQuestionnaireView.getTeacherId() == null) addQuestionnaireView.setTeacherId(1l);
+        if (addQuestionnaireView.getTeacherId() == null) addQuestionnaireView.setTeacherId(1L);
 
         newQuestionnaire.setExpirationDate(addQuestionnaireView.getExpirationDate());
         newQuestionnaire.setLabel(addQuestionnaireView.getLabel());
@@ -87,7 +79,7 @@ public class QuestionnaireRouter {
         System.out.println(toReturn);
 
         if (toReturn == null)
-            throw new NotFoundException("Not found questionnare with id:" + id);
+            throw new NotFoundException("Not found questionnaire with id:" + id);
 
         toReturn.setLabel(questionnaire.getLabel());
 
