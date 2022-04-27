@@ -24,30 +24,13 @@ public class Questionnaire {
 
     public static Long lastId = 1l;
 
-    public Questionnaire(  LocalDateTime expirationDate, String label) {
-        this.id = Questionnaire.lastId;
-        Questionnaire.lastId++;
-        this.expirationDate = expirationDate;
-        this.label = label;
-    }
-
-    @Override
-    public String toString() {
-        return "Questionnaire{" +
-                "id=" + id +
-                ", teacher=" + teacher +
-                ", questionnaireAccesses=" + questionnaireAccesses +
-                ", expirationDate=" + expirationDate +
-                ", label='" + label + '\'' +
-                '}';
-    }
-
-    public Questionnaire() {
-    }
-
     @OneToMany(mappedBy = "questionnaire")
     @JsonIgnore
     public List<QuestionnaireAccess> questionnaireAccesses;
+
+    @OneToMany(mappedBy = "questionnaire")
+    @JsonIgnore
+    public List<QuestionnaireTerm> questionnaireTerms;
 
     @OneToMany(mappedBy = "questionnaire")
     @JsonIgnore

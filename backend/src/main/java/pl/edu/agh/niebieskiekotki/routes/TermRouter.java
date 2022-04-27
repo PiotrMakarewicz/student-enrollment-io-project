@@ -2,6 +2,7 @@ package pl.edu.agh.niebieskiekotki.routes;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,8 +24,11 @@ import java.util.List;
 public class TermRouter {
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Autowired
+    private HibernateAdapter hibernateAdapter;
     @GetMapping(value="/terms")
     public CalendarView getTerms(){
-        return  new CalendarView(HibernateAdapter.getAll(Term.class));
+        return  new CalendarView(hibernateAdapter.getAll(Term.class));
     }
 }

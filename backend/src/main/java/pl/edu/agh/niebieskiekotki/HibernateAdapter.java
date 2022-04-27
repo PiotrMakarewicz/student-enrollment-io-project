@@ -3,6 +3,7 @@ package pl.edu.agh.niebieskiekotki;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Component;
 import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
 
 import javax.persistence.Entity;
@@ -15,13 +16,13 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
+@Component
 public class HibernateAdapter {
     @PersistenceContext
-    public static EntityManager entityManager;
+    public EntityManager entityManager;
 
 
-    static public <T> List<T> getAll(Class<T> c){
-        System.out.println(entityManager);
+     public <T> List<T> getAll(Class<T> c){
         Session session = entityManager.unwrap(Session.class);
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(c);
@@ -34,15 +35,15 @@ public class HibernateAdapter {
         return  results;
     }
 
-    static public <T> T getById(Class<T> c, Long id){
+     public <T> T getById(Class<T> c, Long id){
 
-        List<T> results = HibernateAdapter.getWhereEq(c, "id", id);
+        List<T> results = getWhereEq(c, "id", id);
 
         if(results == null || results.size() == 0 ) return null;
         return results.get(0);
     }
 
-    static public <T, V> List<T> getWhereEq(Class<T> c, String fieldName , V value ){
+     public <T, V> List<T> getWhereEq(Class<T> c, String fieldName , V value ){
 
         Session session = entityManager.unwrap(Session.class);
         CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -62,7 +63,7 @@ public class HibernateAdapter {
         return  result;
     }
 
-    static public <T> T save(T itemToSave){
+     public <T> T save(T itemToSave){
 
         Session session =  entityManager.unwrap(Session.class).getSession();
         session.getTransaction().begin();

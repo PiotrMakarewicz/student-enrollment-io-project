@@ -1,5 +1,6 @@
 package pl.edu.agh.niebieskiekotki.routes;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.niebieskiekotki.DataBaseMock;
 import pl.edu.agh.niebieskiekotki.HibernateAdapter;
@@ -18,24 +19,28 @@ import java.util.List;
 @CrossOrigin
 @RestController
 public class VoteRouter {
+
+    @Autowired
+    private HibernateAdapter hibernateAdapter;
+
     @PostMapping(value="/vote")
     public void AddVote(@RequestBody VoteView vote) throws NotFoundException {
 
         Student student = new Student(vote.getFirstName(), vote.getLastName(), vote.getEmailAddress(), vote.getIndexNumber());
-        HibernateAdapter.save(student);
+        hibernateAdapter.save(student);
 
 
-        Questionnaire questionnaire = HibernateAdapter.getById(Questionnaire.class, vote.getQuestionnaire_id());
+        Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, vote.getQuestionnaire_id());
         if(questionnaire == null)
             throw new NotFoundException("Not found questionnaire with id " + vote.getQuestionnaire_id());
 
         System.out.println("questionnaire:" + questionnaire);
 
-       List<Term> terms = HibernateAdapter.getAll(Term.class);
+       List<Term> terms = hibernateAdapter.getAll(Term.class);
 
         for( Term term : terms ){
             if(vote.getSelected_terms().contains(term.getId())){
-                HibernateAdapter.save(new Vote(questionnaire, student,  1 ,term,""));
+                hibernateAdapter.save(new Vote(questionnaire, student,  1 ,term,""));
             }
         }
 
@@ -46,7 +51,7 @@ public class VoteRouter {
     @GetMapping(value="/vote/{id}")
     public QuestionnaireResults getVotes(@PathVariable Long id) throws NotFoundException {
 
-        Questionnaire questionnaire = HibernateAdapter.getById(Questionnaire.class, id);
+        Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, id);
         if(questionnaire == null)
             throw new NotFoundException("Not found questionnaire with id " + id);
 

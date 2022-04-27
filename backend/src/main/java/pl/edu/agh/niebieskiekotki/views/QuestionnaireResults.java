@@ -21,8 +21,8 @@ public class QuestionnaireResults{
 
          questionnaireAvailableTerms = new ArrayList<>();
          rows = new ArrayList<>();
-        List<QuestionnaireTerm> questionnaireTerms = HibernateAdapter
-                .getWhereEq(QuestionnaireTerm.class,"questionnaire", questionnaire);
+
+        List<QuestionnaireTerm> questionnaireTerms = questionnaire.questionnaireTerms;
 
         for(QuestionnaireTerm term : questionnaireTerms)
                 questionnaireAvailableTerms.add(term.getTerm());

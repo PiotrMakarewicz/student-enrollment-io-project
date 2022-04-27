@@ -27,16 +27,6 @@ public class Student {
     @OneToMany(mappedBy = "student")
     private List<QuestionnaireAccess> questionnaireAccesses;
 
-    public Student(String firstName, String lastName, String emailAddress, int indexNumber) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.emailAddress = emailAddress;
-        this.indexNumber = indexNumber;
-    }
-
-    public Student() {
-    }
-
 
     public void setId(Long id) {
         this.id = id;

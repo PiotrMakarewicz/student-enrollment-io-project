@@ -33,7 +33,7 @@ public class QuestionnaireDetail {
     public QuestionnaireDetail(Questionnaire questionnaire ){
         this.detail = questionnaire;
         this.terms = new ArrayList<>();
-        List<QuestionnaireTerm> questionnaireTerms = HibernateAdapter.getAll(QuestionnaireTerm.class);
+        List<QuestionnaireTerm> questionnaireTerms = questionnaire.questionnaireTerms;
 
         for (QuestionnaireTerm term : questionnaireTerms) {
             if(term.getQuestionnaire().getId().equals(questionnaire.getId()))

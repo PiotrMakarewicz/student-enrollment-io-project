@@ -5,19 +5,18 @@ import java.util.List;
 
 public class AddQuestionnaireView {
     private LocalDateTime expirationDate;
-    private Long teacher_id;
-
-    public Long getTeacher_id() {
-        return teacher_id;
-    }
-
-    public void setTeacher_id(Long teacher_id) {
-        this.teacher_id = teacher_id;
-    }
+    private Long teacherId;
 
     private String label;
     private List<Long> availableTerms;
 
+    public Long getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(Long teacherId) {
+        this.teacherId = teacherId;
+    }
     public LocalDateTime getExpirationDate() {
         return expirationDate;
     }
