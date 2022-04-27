@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./App.css";
 import { ChooseForm, ClientViewForm, QuestionnaireResults, LecturerForm } from "./components/views";
-import ExampleForm from "./components/form/ExampleForm"
 function App() {
     return (
         <>
@@ -39,7 +38,7 @@ function App() {
 
                             <Route
                                 path="*"
-                                element={<ExampleForm/>}
+                                element={<h2>Page not found</h2>}
                             />
                         </Routes>
                     </div>

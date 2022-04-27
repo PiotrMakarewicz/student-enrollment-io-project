@@ -2,15 +2,14 @@ import React, { useState } from "react";
 import DatePicker from "react-widgets/DatePicker";
 import TimeInput from "react-widgets/TimeInput";
 import "react-widgets/styles.css";
-
 import { Input } from "../form/basic";
 import Submit from "../form/basic/Submit";
 import FormWrapper from "../FormWrapper";
 import { Calendar } from "../form/calendar";
 import http from "../../services/http";
-import DropZone from "../form/services/DropZone"
+import DropZone from "../form/services/DropZone";
 import readXlsxFile from "read-excel-file";
-import {parseXlsxFile} from "../form/services/Parser"
+import { parseXlsxFile } from "../form/services/Parser";
 // import FileLoader from "../form/services/FileLoader"
 
 /**
@@ -53,13 +52,12 @@ function LecturerForm() {
             });
         }
     };
-    function fileHandler(files){
+    function fileHandler(files) {
         readXlsxFile(files[0]).then((rows) => {
-            let result =parseXlsxFile(rows);
-            console.log(result)
-            return result
-        
-        })
+            let result = parseXlsxFile(rows);
+            console.log(result);
+            return result;
+        });
     }
 
     const toggleTerm = (id) => {
@@ -103,7 +101,6 @@ function LecturerForm() {
                             value={state.date_input}
                             id="date_picker"
                             onChange={(v) => setState({ ...state, date_input: v })}
-                            
                         />
                     </div>
                     <div className="col-xs-12 col-sm-6">
@@ -123,7 +120,7 @@ function LecturerForm() {
                         />
                     </div>
                 </div>
-                <DropZone fileHandler={fileHandler}/>
+                <DropZone fileHandler={fileHandler} />
                 <Calendar
                     selectedTerms={state.selected_terms}
                     toggleTerm={toggleTerm}

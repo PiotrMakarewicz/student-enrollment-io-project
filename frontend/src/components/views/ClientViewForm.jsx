@@ -6,8 +6,7 @@ import { Calendar } from "../form/calendar";
 import SimpleWrapper from "../SimpleWrapper";
 import http from "../../services/http";
 import { useEffect } from "react";
-//import { Spinner } from "react-bootstrap";
-import Confetti from 'react-confetti'
+import Confetti from "react-confetti";
 
 /**
  * View form for client
@@ -26,9 +25,9 @@ function ClientViewForm() {
         emailAdress: "",
         availableTermsSet: new Set(),
         selectedTerms: new Set(),
-        loading: true,
+        loading: true
     });
-    let {id} = useParams();
+    let { id } = useParams();
     var response;
     useEffect(() => {
         (async function () {
@@ -36,7 +35,7 @@ function ClientViewForm() {
             setState({
                 ...state,
                 availableTermsSet: new Set(response["data"]["terms"]),
-                loading: false,
+                loading: false
             });
         })();
     }, []);
@@ -47,13 +46,20 @@ function ClientViewForm() {
             indexNumber: "",
             emailAdress: "",
             s: state.selectedTerms,
-            loading : true
+            loading: true
         });
-        
-        const {firstName,lastName,indexNumber,emailAdress} = state
-        http.post("/vote",{firstName,lastName,indexNumber,emailAdress, selected_terms : Array.from(state.selectedTerms), questionnaire_id : id});
+
+        const { firstName, lastName, indexNumber, emailAdress } = state;
+        http.post("/vote", {
+            firstName,
+            lastName,
+            indexNumber,
+            emailAdress,
+            selected_terms: Array.from(state.selectedTerms),
+            questionnaire_id: id
+        });
     };
-  
+
     var toggleTerm = (id) => {
         const { selectedTerms } = state;
         if (selectedTerms.has(id)) {
@@ -68,8 +74,10 @@ function ClientViewForm() {
             {state.loading ? (
                 <>
                     <h1>Thanks!</h1>
-                    <Confetti width={1500} height={700}
-    />
+                    <Confetti
+                        width={1500}
+                        height={700}
+                    />
                 </>
             ) : (
                 <>
@@ -104,7 +112,10 @@ function ClientViewForm() {
                                 toggleTerm={toggleTerm}
                                 availableTermsSet={state.availableTermsSet}
                             />
-                            <Submit value={"Send form"} onSubmit={onSubmit} />
+                            <Submit
+                                value={"Send form"}
+                                onSubmit={onSubmit}
+                            />
                         </form>
                     </SimpleWrapper>
                 </>
@@ -112,6 +123,5 @@ function ClientViewForm() {
         </>
     );
 }
-  
+
 export default ClientViewForm;
-  
