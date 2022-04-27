@@ -5,6 +5,7 @@ import CheckBox from "./basic/CheckBox";
 import TextArea from "./basic/TextArea";
 import Submit from "./basic/Submit";
 import FileLoader from "./services/FileLoader";
+
 /**
  * Example form
  *
@@ -63,7 +64,9 @@ function ExampleForm() {
                 onChange={(v) => setState({ ...state, textArea: v })}
                 id='example from textarea'
             />
+
             <FileLoader/>
+
             <Submit value={"Send form"} onSubmit={onSubmit} />
         </form>
     );

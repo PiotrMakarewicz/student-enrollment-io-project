@@ -2,6 +2,7 @@ package pl.edu.agh.niebieskiekotki.views;
 
 import pl.edu.agh.niebieskiekotki.DataBaseMock;
 import pl.edu.agh.niebieskiekotki.entitites.*;
+import pl.edu.agh.niebieskiekotki.HibernateAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +18,9 @@ public class QuestionnaireResults {
          questionnaireAvailableTerms = new ArrayList<>();
          rows = new ArrayList<>();
 
-        for(QuestionnaireTerm term : DataBaseMock.questionnaireTerms)
-            if(term.getQuestionnaire().getId().equals(questionnaire.getId()))
+        List<QuestionnaireTerm> questionnaireTerms = questionnaire.questionnaireTerms;
+
+        for(QuestionnaireTerm term : questionnaireTerms)
                 questionnaireAvailableTerms.add(term.getTerm());
 
         questionnaireAvailableTerms.sort(Term::compareTo);
@@ -29,10 +31,8 @@ public class QuestionnaireResults {
         }
 
 
-        for(Vote vote : DataBaseMock.votes){
+        for(Vote vote : votes){
             QuestionnaireResultsRow  questionnaireResultsRow = null;
-
-            if(! vote.getQuestionnaire().getId().equals(questionnaire.getId())) continue;
 
             for(QuestionnaireResultsRow row : rows)
                 if(row.student == vote.getStudent())

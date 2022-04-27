@@ -1,15 +1,12 @@
 package pl.edu.agh.niebieskiekotki.entitites;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class Student {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String firstName;
@@ -29,6 +26,7 @@ public class Student {
 
     @OneToMany(mappedBy = "student")
     private List<QuestionnaireAccess> questionnaireAccesses;
+
 
     public void setId(Long id) {
         this.id = id;

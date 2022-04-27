@@ -26,7 +26,7 @@ function Row({ records, lambda }) {
                 return (
                     <tr key={key}>
                         <Cell
-                            cell={record.student}
+                            cell={record.student.indexNumber}
                             key={key}
                             lambda={lambda}
                         />

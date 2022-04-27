@@ -1,7 +1,8 @@
 package pl.edu.agh.niebieskiekotki.routes;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.agh.niebieskiekotki.DataBaseMock;
+import pl.edu.agh.niebieskiekotki.HibernateAdapter;
 import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
 import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireTerm;
 import pl.edu.agh.niebieskiekotki.entitites.Term;
@@ -10,79 +11,103 @@ import pl.edu.agh.niebieskiekotki.views.AddQuestionnaireView;
 import pl.edu.agh.niebieskiekotki.views.QuestionnaireDetail;
 
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
 @RestController
 public class QuestionnaireRouter {
 
-    @GetMapping(value="/questionnaires")
-    public List<Questionnaire> GetAll(){
-        return  DataBaseMock.questionnaires;
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Autowired
+    private HibernateAdapter hibernateAdapter;
+
+    List<Questionnaire> questionnaires = new ArrayList<>();
+
+
+    @GetMapping(value = "/questionnaires")
+    public List<Questionnaire> GetAll() {
+        return hibernateAdapter.getAll(Questionnaire.class);
     }
 
-    @GetMapping(value="/questionnaires/{id}")
+    @GetMapping(value = "/questionnaires/{id}")
     public QuestionnaireDetail GetOne(@PathVariable Long id) throws NotFoundException {
-        Questionnaire toReturn =  DataBaseMock.questionnaires
-                .stream()
-                .filter( q -> q.getId() != null && q.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-        System.out.println(id);
-        System.out.println(toReturn);
-        if(toReturn == null)
-            throw new NotFoundException("Not found questionnare with id:" + id );
+
+        Questionnaire toReturn = hibernateAdapter.getById(Questionnaire.class, id);
+
+        if (toReturn == null)
+            throw new NotFoundException("Not found questionnare with id:" + id);
+
+        List<QuestionnaireTerm> questionnaireTerms = hibernateAdapter.getAll(QuestionnaireTerm.class);
 
         return new QuestionnaireDetail(toReturn);
     }
 
-    @PostMapping(value="/questionnaires")
-    public List<Questionnaire> Post(@RequestBody AddQuestionnaireView addQuestionnaireView){
-        System.out.println(addQuestionnaireView);
-        Questionnaire questionnaire = new Questionnaire(addQuestionnaireView.getExpirationDate(),addQuestionnaireView.getLabel());
 
-        if(addQuestionnaireView.getAvailableTerms() != null)
-        for( Term term : DataBaseMock.terms )
-            if(addQuestionnaireView.getAvailableTerms().contains(term.getId())){
-                DataBaseMock.questionnaireTerms.add(new QuestionnaireTerm(questionnaire,term));
+    @PostMapping(value = "/questionnaires")
+    public QuestionnaireDetail Post(@RequestBody AddQuestionnaireView addQuestionnaireView) {
+
+        Questionnaire newQuestionnaire = new Questionnaire();
+
+        if (addQuestionnaireView.getTeacherId() == null) addQuestionnaireView.setTeacherId(1l);
+
+        newQuestionnaire.setExpirationDate(addQuestionnaireView.getExpirationDate());
+        newQuestionnaire.setLabel(addQuestionnaireView.getLabel());
+        newQuestionnaire.getTeacher().setId(addQuestionnaireView.getTeacherId());
+
+
+        hibernateAdapter.save(newQuestionnaire);
+
+        List<Term> allTerms = hibernateAdapter.getAll(Term.class);
+
+        for (Term term : allTerms) {
+            if (addQuestionnaireView.getAvailableTerms().contains(term.getId())) {
+                QuestionnaireTerm qt = new QuestionnaireTerm(newQuestionnaire, term);
+                hibernateAdapter.save(qt);
             }
+        }
 
-        DataBaseMock.questionnaires.add(questionnaire);
-        return  DataBaseMock.questionnaires;
+        return new QuestionnaireDetail(newQuestionnaire);
     }
 
-    @PutMapping(value="/questionnaires/{id}")
-    public Questionnaire Put(@PathVariable Long id,@RequestBody Questionnaire questionnaire) throws Exception{
+    @PutMapping(value = "/questionnaires/{id}")
+    public Questionnaire Put(@PathVariable Long id, @RequestBody Questionnaire questionnaire) throws Exception {
 
-        Questionnaire toReturn =  DataBaseMock.questionnaires
+        System.out.println("Enter put");
+
+        Questionnaire toReturn = questionnaires
                 .stream()
-                .filter( q -> q.getId() != null && q.getId().equals(id))
+                .filter(q -> q.getId() != null && q.getId().equals(id))
                 .findFirst()
                 .orElse(null);
         System.out.println(toReturn);
 
-        if(toReturn == null)
-            throw new NotFoundException("Not found questionnare with id:" + id );
+        if (toReturn == null)
+            throw new NotFoundException("Not found questionnare with id:" + id);
 
-        toReturn.setLabel( questionnaire.getLabel());
+        toReturn.setLabel(questionnaire.getLabel());
 
         return toReturn;
     }
 
-    @DeleteMapping(value="/questionnaires/{id}")
-    public Questionnaire Delete(@PathVariable Long id) throws Exception{
+    @DeleteMapping(value = "/questionnaires/{id}")
+    public Questionnaire Delete(@PathVariable Long id) throws Exception {
 
-        Questionnaire toReturn =  DataBaseMock.questionnaires
+        Questionnaire toReturn = questionnaires
                 .stream()
-                .filter( q -> q.getId() != null && q.getId().equals( id))
+                .filter(q -> q.getId() != null && q.getId().equals(id))
                 .findFirst()
                 .orElse(null);
 
-        if(toReturn == null)
+        if (toReturn == null)
             throw new NotFoundException("questionnaire with id=" + id);
 
-        DataBaseMock.questionnaires.remove(toReturn);
+        questionnaires.remove(toReturn);
         return toReturn;
     }
-    
+
 }

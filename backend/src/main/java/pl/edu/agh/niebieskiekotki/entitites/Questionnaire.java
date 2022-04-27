@@ -1,13 +1,21 @@
 package pl.edu.agh.niebieskiekotki.entitites;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 public class Questionnaire {
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
@@ -16,9 +24,23 @@ public class Questionnaire {
 
     public static Long lastId = 1l;
 
+    @OneToMany(mappedBy = "questionnaire")
+    @JsonIgnore
+    public List<QuestionnaireAccess> questionnaireAccesses;
+
+    @OneToMany(mappedBy = "questionnaire")
+    @JsonIgnore
+    public List<QuestionnaireTerm> questionnaireTerms;
+
+    @OneToMany(mappedBy = "questionnaire")
+    @JsonIgnore
+    public List<Vote> votes;
+
+    private LocalDateTime expirationDate;
+
+    private String label;
+
     public Questionnaire(  LocalDateTime expirationDate, String label) {
-        this.id = Questionnaire.lastId;
-        Questionnaire.lastId++;
         this.expirationDate = expirationDate;
         this.label = label;
     }
@@ -35,14 +57,8 @@ public class Questionnaire {
     }
 
     public Questionnaire() {
+        teacher = new Teacher();
     }
-
-    @OneToMany(mappedBy = "questionnaire")
-    private List<QuestionnaireAccess> questionnaireAccesses;
-
-    private LocalDateTime expirationDate;
-
-    private String label;
 
     public void setId(Long id) {
         this.id = id;
@@ -75,4 +91,5 @@ public class Questionnaire {
     public void setLabel(String label) {
         this.label = label;
     }
+
 }

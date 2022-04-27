@@ -91,7 +91,6 @@ function LecturerForm() {
                             value={state.date_input}
                             id="date_picker"
                             onChange={(v) => setState({ ...state, date_input: v })}
-                            
                         />
                     </div>
                     <div className="col-xs-12 col-sm-6">

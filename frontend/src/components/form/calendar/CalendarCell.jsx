@@ -28,6 +28,7 @@ function CalendarCell({ id, label, onClick, isAvailable, isChosen, isLabel }) {
             {label}
         </td>
     );
+
 }
 
 export default CalendarCell;

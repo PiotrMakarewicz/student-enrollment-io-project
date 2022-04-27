@@ -23,6 +23,7 @@ function CalendarRow({
       onClick={toggleTerm}
       isAvailable={availableTermsSet== "All" || availableTermsSet.has(c)}
       isChosen={selectedTerms.has(c)}
+
     />
   ));
   return (

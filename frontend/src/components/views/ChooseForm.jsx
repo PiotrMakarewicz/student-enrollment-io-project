@@ -21,6 +21,7 @@ function createListElement(id, name, date) {
     var badgeValue = "";
     var state = 0;
     state = getStateFromDate(date);
+
     if (state === 0) {
         badgeType = "badge bg-warning rounded-pill";
         badgeValue = "otwarta";
@@ -40,8 +41,8 @@ function createListElement(id, name, date) {
             className="list-group-item d-flex list-group-item-action justify-content-between"
             key={id}
         >
-                {name}
-                <span className={badgeType}>{badgeValue}</span>
+            {name}
+            <span className={badgeType}>{badgeValue}</span>
         </Link>
     );
 }
