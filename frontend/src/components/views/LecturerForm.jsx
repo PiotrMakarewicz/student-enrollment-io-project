@@ -8,6 +8,10 @@ import Submit from "../form/basic/Submit";
 import FormWrapper from "../FormWrapper";
 import { Calendar } from "../form/calendar";
 import http from "../../services/http";
+import DropZone from "../form/services/DropZone"
+import readXlsxFile from "read-excel-file";
+import {parseXlsxFile} from "../form/services/Parser"
+// import FileLoader from "../form/services/FileLoader"
 
 /**
  *
@@ -49,6 +53,14 @@ function LecturerForm() {
             });
         }
     };
+    function fileHandler(files){
+        readXlsxFile(files[0]).then((rows) => {
+            let result =parseXlsxFile(rows);
+            console.log(result)
+            return result
+        
+        })
+    }
 
     const toggleTerm = (id) => {
         const { selected_terms } = state;
@@ -111,7 +123,7 @@ function LecturerForm() {
                         />
                     </div>
                 </div>
-
+                <DropZone fileHandler={fileHandler}/>
                 <Calendar
                     selectedTerms={state.selected_terms}
                     toggleTerm={toggleTerm}
