@@ -1,10 +1,10 @@
 class Student {
-    constructor(firsName, lastName, phoneNumber, FieldOfStudy, Faculty, indexNumber, emailAdress) {
-        this.firstName = firsName;
+    constructor(firstName, lastName, phoneNumber, fieldOfStudy, faculty, indexNumber, emailAdress) {
+        this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
-        this.FieldOfStudy = FieldOfStudy;
-        this.Faculty = Faculty;
+        this.FieldOfStudy = fieldOfStudy;
+        this.Faculty = faculty;
         this.indexNumber = indexNumber;
         this.emailAdress = emailAdress;
     }
