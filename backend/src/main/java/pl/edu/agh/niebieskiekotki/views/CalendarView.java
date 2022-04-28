@@ -1,35 +1,52 @@
 package pl.edu.agh.niebieskiekotki.views;
 
-import pl.edu.agh.niebieskiekotki.DataBaseMock;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import pl.edu.agh.niebieskiekotki.entitites.Term;
 import pl.edu.agh.niebieskiekotki.entitites.Timeslot;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class CalendarView {
 
 
-    List<String> headers = Arrays.asList("Monday","Tuesday", "Wednesday", "Thursday", "Friday");
+    List<String> headers = Arrays.asList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday");
+    @JsonIgnore
+    SortedMap<Integer, CalendarViewRow> privateRows;
     List<CalendarViewRow> rows;
 
 
-    public CalendarView(List<Term> terms) {
-        this.rows = new ArrayList<>();
-
-        for (Timeslot timeslot: DataBaseMock.timeslots) {
-            this.rows.add(Math.toIntExact(timeslot.getId()), new CalendarViewRow(timeslot.toString()));
-        }
-
-        for(Term term: terms) {
-            rows.get(Math.toIntExact(term.getTimeslot().getId() - 1))
-                    .add(Math.toIntExact(term.getDay()),term.getId());
-        }
+    public void setRows(List<CalendarViewRow> rows) {
+        this.rows = rows;
     }
 
-    class CalendarViewRow{
+    public CalendarView(List<Term> terms, List<Timeslot> timeslots) {
+        this.privateRows = new TreeMap<>();
+
+        for (Timeslot timeslot : timeslots) {
+            this.privateRows.put(Math.toIntExact(timeslot.getId()), new CalendarViewRow(timeslot.toString()));
+        }
+
+        for (Term term : terms) {
+            privateRows.get(Math.toIntExact(term.getTimeslot().getId()))
+                    .add(Math.toIntExact(term.getDay()), term.getId());
+        }
+
+        rows = new ArrayList<>(privateRows.values());
+    }
+
+    public List<String> getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(List<String> headers) {
+        this.headers = headers;
+    }
+
+    public List<CalendarViewRow> getRows() {
+        return rows;
+    }
+
+    class CalendarViewRow {
         String label;
         List<Long> cells;
 
@@ -38,8 +55,8 @@ public class CalendarView {
             this.cells = new ArrayList<>();
         }
 
-        public void add(Integer index, Long value){
-            this.cells.add(index,value);
+        public void add(Integer index, Long value) {
+            this.cells.add(index, value);
         }
 
         public String getLabel() {
@@ -57,22 +74,5 @@ public class CalendarView {
         public void setCells(List<Long> cells) {
             this.cells = cells;
         }
-    }
-
-
-    public List<String> getHeaders() {
-        return headers;
-    }
-
-    public void setHeaders(List<String> headers) {
-        this.headers = headers;
-    }
-
-    public List<CalendarViewRow> getRows() {
-        return rows;
-    }
-
-    public void setRows(List<CalendarViewRow> rows) {
-        this.rows = rows;
     }
 }

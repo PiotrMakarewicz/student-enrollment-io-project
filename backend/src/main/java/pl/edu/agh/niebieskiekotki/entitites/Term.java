@@ -12,6 +12,9 @@ public class Term implements Comparable<Term>{
 
     private int day;
     private int week;
+    @ManyToOne
+    @JoinColumn(name = "timeslot_id")
+    private Timeslot timeslot;
 
     public Term(Long id, int day, int week, Timeslot timeslot) {
         this.id = id;
@@ -19,10 +22,6 @@ public class Term implements Comparable<Term>{
         this.week = week;
         this.timeslot = timeslot;
     }
-
-    @ManyToOne
-    @JoinColumn(name = "timeslot_id")
-    private Timeslot timeslot;
 
     public Term() {
 
@@ -63,7 +62,6 @@ public class Term implements Comparable<Term>{
 
     @Override
     public String toString() {
-
         return switch (day) {
             case 0 -> "Monday " + timeslot;
             case 1 -> "Tuesday " + timeslot;

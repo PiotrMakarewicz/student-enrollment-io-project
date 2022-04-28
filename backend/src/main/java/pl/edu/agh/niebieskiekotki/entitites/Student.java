@@ -13,6 +13,8 @@ public class Student {
     private String lastName;
     private String emailAddress;
     private int indexNumber;
+    @OneToMany(mappedBy = "student")
+    private List<QuestionnaireAccess> questionnaireAccesses;
 
     public Student(String firstName, String lastName, String emailAddress, int indexNumber) {
         this.firstName = firstName;
@@ -24,16 +26,12 @@ public class Student {
     public Student() {
     }
 
-    @OneToMany(mappedBy = "student")
-    private List<QuestionnaireAccess> questionnaireAccesses;
-
+    public Long getId() {
+        return id;
+    }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getFirstName() {

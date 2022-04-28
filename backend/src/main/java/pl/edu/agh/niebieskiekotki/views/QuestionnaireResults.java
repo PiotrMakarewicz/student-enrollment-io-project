@@ -13,32 +13,32 @@ public class QuestionnaireResults {
     List<QuestionnaireResultsRow> rows;
     List<Term> questionnaireAvailableTerms;
 
-    public QuestionnaireResults(List<Vote> votes, Questionnaire questionnaire){
+    public QuestionnaireResults(List<Vote> votes, Questionnaire questionnaire) {
 
-         questionnaireAvailableTerms = new ArrayList<>();
-         rows = new ArrayList<>();
+        questionnaireAvailableTerms = new ArrayList<>();
+        rows = new ArrayList<>();
 
         List<QuestionnaireTerm> questionnaireTerms = questionnaire.questionnaireTerms;
 
-        for(QuestionnaireTerm term : questionnaireTerms)
-                questionnaireAvailableTerms.add(term.getTerm());
+        for (QuestionnaireTerm term : questionnaireTerms)
+            questionnaireAvailableTerms.add(term.getTerm());
 
         questionnaireAvailableTerms.sort(Term::compareTo);
 
         headers = new ArrayList<>();
-        for(Term term : questionnaireAvailableTerms){
+        for (Term term : questionnaireAvailableTerms) {
             headers.add(term.toString());
         }
 
 
-        for(Vote vote : votes){
-            QuestionnaireResultsRow  questionnaireResultsRow = null;
+        for (Vote vote : votes) {
+            QuestionnaireResultsRow questionnaireResultsRow = null;
 
-            for(QuestionnaireResultsRow row : rows)
-                if(row.student == vote.getStudent())
+            for (QuestionnaireResultsRow row : rows)
+                if (row.student == vote.getStudent())
                     questionnaireResultsRow = row;
 
-            if(questionnaireResultsRow == null) {
+            if (questionnaireResultsRow == null) {
                 questionnaireResultsRow = new QuestionnaireResultsRow(vote.getStudent());
                 rows.add(questionnaireResultsRow);
             }
@@ -76,12 +76,12 @@ public class QuestionnaireResults {
             studentChoose = new int[questionnaireAvailableTerms.size()];
         }
 
-        void setTerm(Term term){
+        void setTerm(Term term) {
             System.out.println(questionnaireAvailableTerms);
             System.out.println(term);
             Integer index = questionnaireAvailableTerms.indexOf(term);
             System.out.println(index);
-            if(index == -1) return;
+            if (index == -1) return;
             studentChoose[index] = 1;
         }
 
