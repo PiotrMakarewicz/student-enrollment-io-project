@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SimpleWrapper from "../../SimpleWrapper";
 import GroupView from "../GroupView";
 import QuestionnaireResults from "../QuestionnaireResults";
+import http from "../../../services/http";
 import "./styles.css";
 
 function ViewSwitch() {
@@ -11,6 +12,7 @@ function ViewSwitch() {
 
     const toggleHidden = () => {
         setState({ ...state, isChecked: !state.isChecked });
+        http.downloadXlsx("58");
     };
 
     return (

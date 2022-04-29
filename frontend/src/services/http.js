@@ -1,5 +1,7 @@
 import { toast } from "react-toastify";
 
+import {download} from "./downloader";
+
 const serverUrl = "http://localhost:8080";
 
 function optionsObjectToString(options) {
@@ -33,6 +35,19 @@ async function proccesResponse(response, toastComunicat) {
     }
 }
 
+const downloadXlsx = async (id) => {
+    const response = await fetch(serverUrl + "/files/preferences/" + id, {
+        method: "GET"
+    });
+    console.log(response);
+    console.log(response.body);
+    const reader = response.body.getReader();
+    var bytes = (await reader.read()).value;
+    console.log(bytes);
+    download(bytes, 'preferencje', "xlsx");
+};
+
+
 const get = async (path, options) => {
     const response = await fetch(serverUrl + path + optionsObjectToString(options), {
         method: "GET",
@@ -57,7 +72,8 @@ const post = async (path, body) => {
 
 const http = {
     get,
-    post
+    post,
+    downloadXlsx
 };
 
 export default http;
