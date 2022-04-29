@@ -6,6 +6,8 @@ import "react-widgets/styles.css";
 import { Input } from "../form/basic";
 import Submit from "../form/basic/Submit";
 import FormWrapper from "../FormWrapper";
+import { Calendar } from "../form/calendar";
+import http from "../../services/http";
 
 /**
  *
@@ -20,16 +22,43 @@ function LecturerForm() {
         name_input: "",
         fullname_input: "",
         date_input: new Date(),
-        time_input: new Date(new Date().setHours(0, 0, 0, 0))
+        time_input: new Date(new Date().setHours(0, 0, 0, 0)),
+        selected_terms: new Set()
     });
-
-    const onSubmit = () => {
-        setState({
-            name_input: "",
-            fullname_input: "",
-            date_input: new Date(),
-            time_input: new Date(new Date().setHours(0, 0, 0, 0))
+    const onSubmit = async () => {
+        const { date_input, time_input, name_input, selected_terms } = state;
+        const response = await http.post("/questionnaires", {
+            expirationDate: new Date(
+                date_input.getFullYear(),
+                date_input.getMonth(),
+                date_input.getDate(),
+                time_input.getHours(),
+                time_input.getMinutes()
+            ),
+            label: name_input,
+            availableTerms: Array.from(selected_terms)
         });
+
+        if (response.ok) {
+            setState({
+                name_input: "",
+                fullname_input: "",
+                date_input: new Date(),
+                time_input: new Date(new Date().setHours(0, 0, 0, 0)),
+                selected_terms: new Set()
+            });
+        }
+    };
+
+    const toggleTerm = (id) => {
+        const { selected_terms } = state;
+
+        if (selected_terms.has(id)) {
+            selected_terms.delete(id);
+        } else {
+            selected_terms.add(id);
+        }
+        setState({ ...state });
     };
 
     return (
@@ -81,6 +110,12 @@ function LecturerForm() {
                         />
                     </div>
                 </div>
+
+                <Calendar
+                    selectedTerms={state.selected_terms}
+                    toggleTerm={toggleTerm}
+                    availableTermsSet="All"
+                />
 
                 <Submit
                     value={"Continue"}

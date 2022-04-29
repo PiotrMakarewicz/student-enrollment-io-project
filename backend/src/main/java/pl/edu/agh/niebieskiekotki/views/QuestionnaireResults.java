@@ -1,9 +1,8 @@
 package pl.edu.agh.niebieskiekotki.views;
 
-import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
-import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireTerm;
-import pl.edu.agh.niebieskiekotki.entitites.Term;
-import pl.edu.agh.niebieskiekotki.entitites.Vote;
+import pl.edu.agh.niebieskiekotki.DataBaseMock;
+import pl.edu.agh.niebieskiekotki.entitites.*;
+import pl.edu.agh.niebieskiekotki.HibernateAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +23,8 @@ public class QuestionnaireResults {
         for (QuestionnaireTerm term : questionnaireTerms)
             questionnaireAvailableTerms.add(term.getTerm());
 
+        questionnaireAvailableTerms.sort(Term::compareTo);
+
         headers = new ArrayList<>();
         for (Term term : questionnaireAvailableTerms) {
             headers.add(term.toString());
@@ -34,11 +35,11 @@ public class QuestionnaireResults {
             QuestionnaireResultsRow questionnaireResultsRow = null;
 
             for (QuestionnaireResultsRow row : rows)
-                if (row.student == vote.getStudent().getIndexNumber())
+                if (row.student == vote.getStudent())
                     questionnaireResultsRow = row;
 
             if (questionnaireResultsRow == null) {
-                questionnaireResultsRow = new QuestionnaireResultsRow(vote.getStudent().getIndexNumber());
+                questionnaireResultsRow = new QuestionnaireResultsRow(vote.getStudent());
                 rows.add(questionnaireResultsRow);
             }
             questionnaireResultsRow.setTerm(vote.getTerm());
@@ -62,11 +63,15 @@ public class QuestionnaireResults {
         this.rows = rows;
     }
 
-    class QuestionnaireResultsRow {
-        int student;
-        int[] studentChoose;
+    public List<Term> getQuestionnaireAvailableTerms() {
+        return questionnaireAvailableTerms;
+    }
 
-        public QuestionnaireResultsRow(int student) {
+    public class QuestionnaireResultsRow{
+        private Student student;
+        private int[] studentChoose;
+
+        public QuestionnaireResultsRow(Student student) {
             this.student = student;
             studentChoose = new int[questionnaireAvailableTerms.size()];
         }
@@ -80,11 +85,15 @@ public class QuestionnaireResults {
             studentChoose[index] = 1;
         }
 
-        public int getStudent() {
+        public int getStudentIndex() {
+            return student.getIndexNumber();
+        }
+
+        public Student getStudent() {
             return student;
         }
 
-        public void setStudent(int student) {
+        public void setStudent(Student student) {
             this.student = student;
         }
 
@@ -94,6 +103,16 @@ public class QuestionnaireResults {
 
         public void setStudentChoose(int[] studentChoose) {
             this.studentChoose = studentChoose;
+        }
+
+        public List<Term> getTermList(){
+            ArrayList<Term> result = new ArrayList<>();
+            for (int i = 0; i < studentChoose.length; i++) {
+                if (studentChoose[i] == 1){
+                    result.add(questionnaireAvailableTerms.get(i));
+                }
+            }
+            return result;
         }
     }
 }

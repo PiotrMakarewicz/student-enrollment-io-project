@@ -13,19 +13,22 @@
  */
 
 function CalendarCell({ id, label, onClick, isAvailable, isChosen, isLabel }) {
-  let classes = "calendar-cell-not-available";
-  if (isAvailable) classes = "calendar-cell-available";
-  if (isChosen) classes = "calendar-cell-chosen";
-  if (isLabel) classes = "calendar-cell-label";
+    let classes = "calendar-cell-not-available";
+    if (isAvailable) classes = "calendar-cell-available";
+    if (isChosen) classes = "calendar-cell-chosen";
+    if (isLabel) classes = "calendar-cell-label";
 
-  return (
-    <td
-      className={"calendar-cell " + classes}
-      onClick={isAvailable ? () => onClick(id) : undefined}
-    >
-      {label}
-    </td>
-  );
+    return (
+        <td
+            className={"calendar-cell " + classes}
+            onClick={isAvailable ? () => onClick(id) : undefined}
+            onKeyDown={undefined}
+            role="presentation"
+        >
+            {label}
+        </td>
+    );
+
 }
 
 export default CalendarCell;

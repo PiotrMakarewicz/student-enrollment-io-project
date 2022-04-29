@@ -54,4 +54,8 @@ public class Timeslot {
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
+
+    public int compareTo(Timeslot other){
+        return startTime.compareTo(other.startTime);
+    }
 }

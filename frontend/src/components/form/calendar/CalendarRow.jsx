@@ -9,19 +9,21 @@ import CalendarCell from "./CalendarCell";
  * @param availableTermsSet set contains available terms
  */
 function CalendarRow({
-  label,
-  cells,
-  selectedTerms,
-  toggleTerm,
-  availableTermsSet,
+    label,
+    cells,
+    selectedTerms,
+    toggleTerm,
+    availableTermsSet,
 }) {
+
   var fields = cells.map((c, key) => (
     <CalendarCell
       key={key}
-      id={c.id}
+      id={c}
       onClick={toggleTerm}
-      isAvailable={availableTermsSet.has(c.id)}
-      isChosen={selectedTerms.has(c.id)}
+      isAvailable={availableTermsSet== "All" || availableTermsSet.has(c)}
+      isChosen={selectedTerms.has(c)}
+
     />
   ));
   return (

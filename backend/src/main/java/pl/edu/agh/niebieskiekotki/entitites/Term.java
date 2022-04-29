@@ -1,9 +1,11 @@
 package pl.edu.agh.niebieskiekotki.entitites;
 
+import pl.edu.agh.niebieskiekotki.utility.Language;
+
 import javax.persistence.*;
 
 @Entity
-public class Term {
+public class Term implements Comparable<Term>{
     @Id
     @GeneratedValue
     private Long id;
@@ -60,20 +62,43 @@ public class Term {
 
     @Override
     public String toString() {
+        return switch (day) {
+            case 0 -> "Monday " + timeslot;
+            case 1 -> "Tuesday " + timeslot;
+            case 2 -> "Wednesday " + timeslot;
+            case 3 -> "Thursday " + timeslot;
+            case 4 -> "Friday " + timeslot;
+            default -> "";
+        };
 
-        switch (day) {
-            case 0:
-                return "Monday " + timeslot;
-            case 1:
-                return "Tuesday " + timeslot;
-            case 2:
-                return "Wednesday " + timeslot;
-            case 3:
-                return "Thursday " + timeslot;
-            case 4:
-                return "Friday " + timeslot;
+    }
+
+    public String getShortLabel(Language language){
+        if (language == Language.POLISH) {
+            return switch (day) {
+                case 0 -> "Pon " + timeslot;
+                case 1 -> "Wt " + timeslot;
+                case 2 -> "Śr " + timeslot;
+                case 3 -> "Czw " + timeslot;
+                case 4 -> "Pt " + timeslot;
+                default -> "";
+            };
+        } else {
+            return switch (day) {
+                case 0 -> "Mon " + timeslot;
+                case 1 -> "Tue " + timeslot;
+                case 2 -> "Wed " + timeslot;
+                case 3 -> "Thu " + timeslot;
+                case 4 -> "Fri " + timeslot;
+                default -> "";
+            };
         }
+    }
 
-        return "";
+    public int compareTo(Term other){
+        if (other.day == day){
+            return timeslot.compareTo(other.timeslot);
+        }
+        return day - other.day;
     }
 }

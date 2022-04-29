@@ -12,15 +12,15 @@ import CalendarLabel from "./CalendarLabel";
  *
  */
 function CalendarHeader({ labels }) {
-  const headers = ["", ...labels].map((r, key) => (
-    <CalendarLabel key={key} label={r} />
-  ));
+    const headers = ["", ...labels].map((r, key) => (
+        <CalendarLabel key={key} label={r} />
+    ));
 
-  return (
-    <thead>
-      <tr>{headers}</tr>
-    </thead>
-  );
+    return (
+        <thead>
+            <tr>{headers}</tr>
+        </thead>
+    );
 }
 
 export default CalendarHeader;

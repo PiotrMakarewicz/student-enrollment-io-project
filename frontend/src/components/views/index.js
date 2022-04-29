@@ -6,11 +6,11 @@
 import ChooseForm from './ChooseForm';
 import ClientViewForm from './ClientViewForm';
 import LecturerForm from "./LecturerForm";
-import ExampleTable from './ExampleTable';
+import QuestionnaireResults from './QuestionnaireResults';
 
 export {
     ChooseForm,
     ClientViewForm,
     LecturerForm,
-    ExampleTable
+    QuestionnaireResults
 };
