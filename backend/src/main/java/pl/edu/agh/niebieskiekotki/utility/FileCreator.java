@@ -46,16 +46,13 @@ public class FileCreator {
             rowhead.createCell(2).setCellValue("Surname");
             rowhead.createCell(3).setCellValue("e-mail");
         }
-        System.out.println("uh");
         List<Term> terms = results.getQuestionnaireAvailableTerms();
-        System.out.println(terms.size());
         for (int i = 0; i < terms.size(); i++) {
-            System.out.println("cesc");
             rowhead.createCell(4 + i).setCellValue(terms.get(i).getShortLabel(language));
         }
     }
 
-    public static HSSFWorkbook createFileWithPreferences(Questionnaire questionnaire, Language language) throws FileCreationFailedException {
+    public static HSSFWorkbook createFileWithPreferences(Questionnaire questionnaire, Language language) {
 
         QuestionnaireResults results = new QuestionnaireResults(questionnaire.votes, questionnaire);
 
@@ -74,7 +71,6 @@ public class FileCreator {
         for (int j = 0; j < results.getHeaders().size() + 4; j++) {
             sheet.autoSizeColumn(j);
         }
-        System.out.println("Excel file has been generated successfully.");
         return workbook;
     }
 
