@@ -12,7 +12,7 @@ function ViewSwitch() {
 
     const toggleHidden = () => {
         setState({ ...state, isChecked: !state.isChecked });
-        http.downloadXlsx("58");
+        http.download("/files/preferences/english/32", "preferences", "xlsx");
     };
 
     return (

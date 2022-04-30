@@ -1,4 +1,4 @@
-export function download(body, filename, extension = 'xlsx') {
+export function _download(body, filename, extension) {
     const blob = new Blob([body]);
     const fileName = `${filename}.${extension}`;
     if (navigator.msSaveBlob) {
