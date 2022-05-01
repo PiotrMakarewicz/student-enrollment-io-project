@@ -26,10 +26,11 @@ function LecturerForm() {
         fullname_input: "",
         date_input: new Date(),
         time_input: new Date(new Date().setHours(0, 0, 0, 0)),
-        selected_terms: new Set()
+        selected_terms: new Set(),
+        students_info: new Array()
     });
     const onSubmit = async () => {
-        const { date_input, time_input, name_input, selected_terms } = state;
+        const { date_input, time_input, name_input, selected_terms,students_info } = state;
         const response = await http.post("/questionnaires", {
             expirationDate: new Date(
                 date_input.getFullYear(),
@@ -39,7 +40,8 @@ function LecturerForm() {
                 time_input.getMinutes()
             ),
             label: name_input,
-            availableTerms: Array.from(selected_terms)
+            availableTerms: Array.from(selected_terms),
+            studentsInfo: students_info
         });
 
         if (response.ok) {
@@ -55,8 +57,9 @@ function LecturerForm() {
     function fileHandler(files) {
         readXlsxFile(files[0]).then((rows) => {
             let result = parseXlsxFile(rows);
-            console.log(result);
-            return result;
+            //console.log(result);
+            //return result;
+            setState({...state,students_info:result})
         });
     }
 
