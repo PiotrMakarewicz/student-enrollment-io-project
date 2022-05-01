@@ -40,8 +40,8 @@ function createListElement(id, name, date) {
             className="list-group-item d-flex list-group-item-action justify-content-between"
             key={id}
         >
-                {name}
-                <span className={badgeType}>{badgeValue}</span>
+            {name}
+            <span className={badgeType}>{badgeValue}</span>
         </Link>
     );
 }
@@ -68,35 +68,35 @@ function ChooseForm() {
     const [state, setState] = useState({
         forms: [],
         loading: true
-      });
+    });
     
-      var response;
-      useEffect(() => {
+    var response;
+    useEffect(() => {
         (async function () {
-          response = await http.get("/questionnaires");
-          console.log(response.data);
-          setState({
-            ...state,
-            forms: response.data,
-            loading: false,
-          });
+            response = await http.get("/questionnaires");
+            console.log(response.data);
+            setState({
+                ...state,
+                forms: response.data,
+                loading: false,
+            });
         })();
-      }, []);
+    }, []);
 
     var rows = [];
     state.forms.forEach((element) => rows.push(createListElement(element.id, element.label, element.expirationDate)));
 
     return (
-    <>
-      {state.loading ? (
         <>
-          <Spinner animation="border" />
+            {state.loading ? (
+                <>
+                    <Spinner animation="border" />
+                </>
+            ) : (
+                <><SimpleWrapper><ul className="list-group main-list">{rows}</ul></SimpleWrapper></>
+            )
+            }
         </>
-      ) : (
-        <><SimpleWrapper><ul className="list-group main-list">{rows}</ul></SimpleWrapper></>
-      )
-}
-      </>
     );
 }
 

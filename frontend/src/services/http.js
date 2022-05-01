@@ -7,10 +7,10 @@ function optionsObjectToString(options) {
 
     let optionsSting;
 
-  Object.entries(options).forEach((value) => {
-    if (!optionsSting) optionsSting = `?${value[0]}=${value[1]}`;
-    else optionsSting += `&${value[0]}=${value[1]}`;
-  });
+    Object.entries(options).forEach((value) => {
+        if (!optionsSting) optionsSting = `?${value[0]}=${value[1]}`;
+        else optionsSting += `&${value[0]}=${value[1]}`;
+    });
 
     return optionsSting;
 }

@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./App.css";
 import { ChooseForm, ClientViewForm, QuestionnaireResults, LecturerForm } from "./components/views";
-
 function App() {
     return (
         <>
