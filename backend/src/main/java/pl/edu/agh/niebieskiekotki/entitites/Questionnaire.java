@@ -1,32 +1,59 @@
 package pl.edu.agh.niebieskiekotki.entitites;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 public class Questionnaire {
-    @Id
-    @GeneratedValue
-    private Long id;
 
+    @OneToMany(mappedBy = "questionnaire")
+    @JsonIgnore
+    public List<QuestionnaireAccess> questionnaireAccesses;
+    @OneToMany(mappedBy = "questionnaire")
+    @JsonIgnore
+    public List<QuestionnaireTerm> questionnaireTerms;
+    @OneToMany(mappedBy = "questionnaire")
+    @JsonIgnore
+    public List<Vote> votes;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
-
-    @OneToMany(mappedBy = "questionnaire")
-    private List<QuestionnaireAccess> questionnaireAccesses;
-
     private LocalDateTime expirationDate;
 
     private String label;
 
-    public void setId(Long id) {
-        this.id = id;
+    public Questionnaire(LocalDateTime expirationDate, String label) {
+        this.expirationDate = expirationDate;
+        this.label = label;
+    }
+
+    public Questionnaire() {
+        teacher = new Teacher();
+    }
+
+    @Override
+    public String toString() {
+        return "Questionnaire{" +
+                "id=" + id +
+                ", teacher=" + teacher +
+                ", questionnaireAccesses=" + questionnaireAccesses +
+                ", expirationDate=" + expirationDate +
+                ", label='" + label + '\'' +
+                '}';
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public LocalDateTime getExpirationDate() {

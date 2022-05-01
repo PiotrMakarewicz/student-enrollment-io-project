@@ -1,5 +1,7 @@
 import { toast } from "react-toastify";
 
+import {_download} from "./downloader";
+
 const serverUrl = "http://localhost:8080";
 
 function optionsObjectToString(options) {
@@ -21,28 +23,35 @@ async function proccesResponse(response, toastComunicat) {
 
         return {
             ok: true,
-            data,
+            data
         };
     } else {
         const text = await response.text();
         toast.error(`${toastComunicat} \n ${text}`);
         return {
             ok: false,
-            data: text,
+            data: text
         };
     }
 }
 
+const download = async (path, filename, extension) => {
+    const response = await fetch(serverUrl + path, {
+        method: "GET"
+    });
+    const reader = response.body.getReader();
+    var bytes = (await reader.read()).value;
+    _download(bytes, filename, extension);
+};
+
+
 const get = async (path, options) => {
-    const response = await fetch(
-        serverUrl + path + optionsObjectToString(options),
-        {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
+    const response = await fetch(serverUrl + path + optionsObjectToString(options), {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
         }
-    );
+    });
 
     return await proccesResponse(response, "GET " + path);
 };
@@ -52,8 +61,8 @@ const post = async (path, body) => {
         method: "POST",
         body: JSON.stringify(body),
         headers: {
-            "Content-Type": "application/json",
-        },
+            "Content-Type": "application/json"
+        }
     });
     return await proccesResponse(response, "GET " + path);
 };
@@ -61,6 +70,7 @@ const post = async (path, body) => {
 const http = {
     get,
     post,
+    download
 };
 
 export default http;

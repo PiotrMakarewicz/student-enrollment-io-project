@@ -1,37 +1,23 @@
-package pl.edu.agh.niebieskiekotki.entitites;
+package pl.edu.agh.niebieskiekotki.views;
 
-import javax.persistence.*;
 import java.util.List;
 
-@Entity
-public class Student {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class VoteView {
 
+    private Long questionnaire_id;
     private String firstName;
     private String lastName;
     private String emailAddress;
     private int indexNumber;
-    @OneToMany(mappedBy = "student")
-    private List<QuestionnaireAccess> questionnaireAccesses;
+    private List<Long> selected_terms;
 
-    public Student(String firstName, String lastName, String emailAddress, int indexNumber) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.emailAddress = emailAddress;
-        this.indexNumber = indexNumber;
+
+    public Long getQuestionnaire_id() {
+        return questionnaire_id;
     }
 
-    public Student() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setQuestionnaire_id(Long questionnaire_id) {
+        this.questionnaire_id = questionnaire_id;
     }
 
     public String getFirstName() {
@@ -64,5 +50,13 @@ public class Student {
 
     public void setIndexNumber(int indexNumber) {
         this.indexNumber = indexNumber;
+    }
+
+    public List<Long> getSelected_terms() {
+        return selected_terms;
+    }
+
+    public void setSelected_terms(List<Long> selected_terms) {
+        this.selected_terms = selected_terms;
     }
 }

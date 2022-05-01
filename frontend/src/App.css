@@ -64,13 +64,13 @@ title {
 }
 
 .App-header a {
-  color: white;
-  text-decoration: none;
+    color: white;
+    text-decoration: none;
 }
 
 .App-header a:hover {
-  opacity: 75%;
-  /* text-decoration: underline; */
+    opacity: 75%;
+    /* text-decoration: underline; */
 }
 
 .App-link {

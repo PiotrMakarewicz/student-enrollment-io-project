@@ -5,25 +5,34 @@ import javax.persistence.*;
 @Entity
 public class Vote {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="questionnaire_id")
+    @JoinColumn(name = "questionnaire_id")
     private Questionnaire questionnaire;
 
     @ManyToOne
-    @JoinColumn(name="student_id")
+    @JoinColumn(name = "student_id")
     private Student student;
 
     private int type;
 
     @ManyToOne
-    @JoinColumn(name="term_id")
+    @JoinColumn(name = "term_id")
     private Term term;
-
-
     private String note;
+
+    public Vote(Questionnaire questionnaire, Student student, int type, Term term, String note) {
+        this.questionnaire = questionnaire;
+        this.student = student;
+        this.type = type;
+        this.term = term;
+        this.note = note;
+    }
+
+    public Vote() {
+    }
 
     public Long getId() {
         return id;

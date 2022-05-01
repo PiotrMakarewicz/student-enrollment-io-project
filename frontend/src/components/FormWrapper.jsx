@@ -10,7 +10,7 @@ import React from "react";
 
 const styles = {
     formStyle: {
-        padding: "1.25em 1em",
+        padding: "1.25em 2.5em",
         margin: ".75em .25em",
         height: "fit-content",
         backgroundColor: "var(--bs-gray-200)",
@@ -18,7 +18,8 @@ const styles = {
         borderRadius: ".25em",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center"
+        alignItems: "center",
+        width: "70vw"
     }
 };
 
@@ -32,7 +33,7 @@ function FormWrapper(props) {
             return child;
         }
         return React.cloneElement(wrap(child), {
-            className: "d-flex row mb-3 w-75"
+            className: "d-flex row mb-3 w-100"
         });
     });
 

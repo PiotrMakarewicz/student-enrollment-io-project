@@ -20,13 +20,10 @@ function Navbar() {
             <Link to="/">Home</Link>
             <ul>
                 <li data-active="false">
-                    <Link to="/new-form">New poll</Link>
+                    <Link to="/addQuestionnaire">New poll</Link>
                 </li>
                 <li data-active="false">
-                    <Link to="/my-forms">Your polls</Link>
-                </li>
-                <li data-active="false">
-                    <Link to="/settings">Settings</Link>
+                    <Link to="/questionnaires">Your polls</Link>
                 </li>
             </ul>
         </header>
