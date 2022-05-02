@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import pl.edu.agh.niebieskiekotki.DataBaseMock;
 import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
 import pl.edu.agh.niebieskiekotki.entitites.Student;
 import pl.edu.agh.niebieskiekotki.entitites.Term;
@@ -50,7 +49,7 @@ public class FileCreator {
     public static void createFileWithPreferences(Questionnaire questionnaire, Language language)
             throws ParserConfigurationException, TransformerException {
 
-        QuestionnaireResults results = new QuestionnaireResults(DataBaseMock.votes, questionnaire);
+        QuestionnaireResults results = new QuestionnaireResults(questionnaire.votes, questionnaire);
         Random random = new Random();
         int randomNumber = random.nextInt(9000000) + 1000000;
         String filename = "src/main/resources/questionnaire-results/questionnaire"

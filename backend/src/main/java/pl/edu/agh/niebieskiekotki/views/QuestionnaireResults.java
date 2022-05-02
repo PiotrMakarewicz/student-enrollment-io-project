@@ -1,6 +1,5 @@
 package pl.edu.agh.niebieskiekotki.views;
 
-import pl.edu.agh.niebieskiekotki.DataBaseMock;
 import pl.edu.agh.niebieskiekotki.entitites.*;
 import pl.edu.agh.niebieskiekotki.HibernateAdapter;
 
