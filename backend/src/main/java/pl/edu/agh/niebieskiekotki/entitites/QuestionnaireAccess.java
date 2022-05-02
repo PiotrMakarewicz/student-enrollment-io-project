@@ -20,4 +20,12 @@ public class QuestionnaireAccess {
 
     private String password;
 
+    public QuestionnaireAccess(Student student, Questionnaire questionnaire) {
+        this.student = student;
+        this.questionnaire = questionnaire;
+        linkPath= "" + questionnaire.getId();
+    }
+
+    public QuestionnaireAccess() {
+    }
 }

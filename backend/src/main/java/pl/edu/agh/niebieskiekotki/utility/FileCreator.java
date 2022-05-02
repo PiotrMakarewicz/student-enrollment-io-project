@@ -22,7 +22,7 @@ public class FileCreator {
         row.createCell(0).setCellValue(student.getIndexNumber());
         row.createCell(1).setCellValue(student.getFirstName());
         row.createCell(2).setCellValue(student.getLastName());
-        row.createCell(3).setCellValue(student.getEmailAddress());
+        row.createCell(3).setCellValue(student.getEmailAdress());
         for (int i = 0; i < choices.length; i++) {
             row.createCell(4 + i).setCellValue(choices[i]);
         }

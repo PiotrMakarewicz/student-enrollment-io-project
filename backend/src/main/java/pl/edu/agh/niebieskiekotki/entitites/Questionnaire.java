@@ -80,4 +80,7 @@ public class Questionnaire {
         this.label = label;
     }
 
+    public void setQuestionnaireTerms(List<QuestionnaireTerm> questionnaireTerms) {
+        this.questionnaireTerms = questionnaireTerms;
+    }
 }
