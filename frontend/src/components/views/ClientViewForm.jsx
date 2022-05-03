@@ -28,13 +28,11 @@ function ClientViewForm() {
         loading: true
     });
     let { id } = useParams();
-    var response;
     useEffect(() => {
         (async function () {
-            response = await http.get("/questionnaires/" + id);
             setState({
                 ...state,
-                availableTermsSet: new Set(response["data"]["terms"]),
+                availableTermsSet: new Set(await http.get("/questionnaires/" + id)["data"]["terms"]),
                 loading: false
             });
         })();
