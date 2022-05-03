@@ -7,9 +7,9 @@
 
 name: Java CI with Gradle
 
-on:
-  pull_request:
-    branches: [ main, develop ]
+on: [push]
+  # pull_request:
+  #   branches: [ main, develop ]
 
 # permissions:
 #   contents: read
@@ -42,6 +42,12 @@ jobs:
         run: |
           cd backend
           ./gradlew build
+
+      - name: jacoco-badge-generator
+        uses: cicirello/jacoco-badge-generator@v2.6.1
+        with:
+          generate-branches-badge: true
+          jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
   
       - name: Kill VPN connection
         if: always()
