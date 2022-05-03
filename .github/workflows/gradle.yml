@@ -43,24 +43,11 @@ jobs:
           cd backend
           ./gradlew build
 
-      - name: Find jacoco
-        run: |
-          cd backend
-          ls
-          cd build
-          ls
-          cd reports
-          ls
-          cd jacoco
-          ls
-          cd test
-          ls
-
       - name: jacoco-badge-generator
         uses: cicirello/jacoco-badge-generator@v2.6.1
         with:
           generate-branches-badge: true
-          jacoco-csv-file: backend/build/reports/jacoco/test/jacocoTestReport.csv
+          jacoco-csv-file: backend/build/jacoco/test/jacocoTestReport.csv
   
       - name: Kill VPN connection
         if: always()
