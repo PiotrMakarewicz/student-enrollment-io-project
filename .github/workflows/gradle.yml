@@ -54,9 +54,4 @@ jobs:
           name: VPN logs
           path: vpn.log
 
-jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
     
