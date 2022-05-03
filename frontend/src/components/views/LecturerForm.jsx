@@ -27,7 +27,7 @@ function LecturerForm() {
         date_input: new Date(),
         time_input: new Date(new Date().setHours(0, 0, 0, 0)),
         selected_terms: new Set(),
-        students_info: new Array()
+        students_info: []
     });
     const onSubmit = async () => {
         const { date_input, time_input, name_input, selected_terms, students_info } = state;
