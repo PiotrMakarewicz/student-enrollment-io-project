@@ -46,9 +46,13 @@ jobs:
       - name: Find jacoco
         run: |
           cd backend
+          ls
           cd build
+          ls
           cd reports
+          ls
           cd jacoco
+          ls
           cd test
           ls
 
