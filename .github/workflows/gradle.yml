@@ -47,7 +47,7 @@ jobs:
         uses: cicirello/jacoco-badge-generator@v2.6.1
         with:
           generate-branches-badge: true
-          jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
+          jacoco-csv-file: backend/build/reports/jacoco/test/jacocoTestReport.csv
   
       - name: Kill VPN connection
         if: always()
