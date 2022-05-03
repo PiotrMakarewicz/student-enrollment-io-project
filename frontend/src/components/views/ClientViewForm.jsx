@@ -36,7 +36,7 @@ function ClientViewForm() {
                 loading: false
             });
         })();
-    }, []);
+    }, [id, state]);
     const onSubmit = () => {
         setState({
             firstName: "",
