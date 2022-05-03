@@ -38,10 +38,10 @@ jobs:
         with:
           java-version: '17'
           distribution: 'adopt'
-      - name: Build with Gradle
+      - name: Run Test
         run: |
           cd backend
-          ./gradlew build
+          ./gradlew test
 
       - name: jacoco-badge-generator
         uses: cicirello/jacoco-badge-generator@v2.6.1
