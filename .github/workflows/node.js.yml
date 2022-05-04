@@ -3,9 +3,7 @@
 
 name: Node.js CI
 
-on:
-  push:
-    branches: [ main, develop ]
+on: #[push]
   pull_request:
     branches: [ main, develop ]
 
@@ -14,19 +12,27 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    defaults:
+      run:
+        working-directory: ./frontend
 
     steps:
     - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+    #- name: Use Node.js 14
+    - uses: actions/setup-node@v3
       with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: cd frontend
+        node-version: 14
+        #cache: 'npm'
     - run: npm ci
-    - run: npm run build --if-present
+    - run: npm build
+    - run: npm run lint:fix
+    - run: npm run format
     - run: npm test
+    - run: npm run test:badges
+
+    - name: Commit and push the badge (if it changed)
+      uses: EndBug/add-and-commit@v7
+      with:
+        default_author: github_actions
+        message: 'commit badge'
+        add: '*.svg'

@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 
-import {_download} from "./downloader";
+import { _download } from "./downloader";
 
 const serverUrl = "http://localhost:8080";
 
@@ -43,7 +43,6 @@ const download = async (path, filename, extension) => {
     var bytes = (await reader.read()).value;
     _download(bytes, filename, extension);
 };
-
 
 const get = async (path, options) => {
     const response = await fetch(serverUrl + path + optionsObjectToString(options), {

@@ -74,12 +74,12 @@ title {
 }
 
 .App-link {
-  color: #61dafb;
+    color: #61dafb;
 }
 
-.dragDropField{
+.dragDropField {
     width: 100%;
     height: 80%;
     background-color: white;
     /* border: 5px solid blue; */
-  }
+}
