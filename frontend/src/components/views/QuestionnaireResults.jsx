@@ -1,5 +1,4 @@
 import React from "react";
-import SimpleWrapper from "../SimpleWrapper";
 import { Table } from "../table";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
@@ -19,7 +18,7 @@ function QuestionnaireResults() {
             console.log(reqResult);
             setState({ loading: false, tableInfo: reqResult["data"] });
         })();
-    }, []);
+    }, [id]);
     return (
         <>
             {state.loading ? (

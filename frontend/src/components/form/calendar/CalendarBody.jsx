@@ -11,12 +11,7 @@ import CalendarRow from "./CalendarRow";
  * @example  <CalendarBody termRows={availableTerms.rows} selectedTerms={selectedTerms} toggleTerm={toggleTerm}/>
  *
  */
-function CalendarBody({
-    termRows,
-    selectedTerms,
-    toggleTerm,
-    availableTermsSet,
-}) {
+function CalendarBody({ termRows, selectedTerms, toggleTerm, availableTermsSet }) {
     var calendarRows = termRows.map((r, key) => (
         <CalendarRow
             key={key}

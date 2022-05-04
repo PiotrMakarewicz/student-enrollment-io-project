@@ -67,17 +67,15 @@ function ChooseForm() {
         forms: [],
         loading: true
     });
-    var response;
     useEffect(() => {
         (async function () {
-            response = await http.get("/questionnaires");
             setState({
                 ...state,
-                forms: response.data,
+                forms: await http.get("/questionnaires").data,
                 loading: false
             });
         })();
-    }, []);
+    }, [state]);
 
     var rows = [];
     state.forms.forEach((element) =>
