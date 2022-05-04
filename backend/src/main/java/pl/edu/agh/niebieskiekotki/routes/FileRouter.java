@@ -11,9 +11,9 @@ import pl.edu.agh.niebieskiekotki.HibernateAdapter;
 import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
 import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.NotFoundException;
 import pl.edu.agh.niebieskiekotki.utility.FileCreator;
+import pl.edu.agh.niebieskiekotki.utility.FileWithLinksCreator;
 import pl.edu.agh.niebieskiekotki.utility.Language;
 import java.io.*;
-import java.util.Objects;
 
 @CrossOrigin
 @RestController
@@ -25,17 +25,12 @@ public class FileRouter {
         this.hibernateAdapter = hibernateAdapter;
     }
 
-    @GetMapping(value="/files/preferences/{language}/{id}")
-    public ResponseEntity<ByteArrayResource> downloadPreferences(@PathVariable String language, @PathVariable long id) throws Exception {
-        Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, id);
-        if (questionnaire == null)
-            throw new NotFoundException("Not found questionnaire with id " + id);
-        HSSFWorkbook workbook = FileCreator.createFileWithPreferences(questionnaire, Language.fromString(language));
+    private ResponseEntity<ByteArrayResource> createResponse(HSSFWorkbook workbook,String filename){
         try {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             HttpHeaders header = new HttpHeaders();
             header.setContentType(new MediaType("application", "force-download"));
-            header.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=ProductTemplate.xlsx");
+            header.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+filename);
             workbook.write(stream);
             workbook.close();
             return new ResponseEntity<>(new ByteArrayResource(stream.toByteArray()),
@@ -43,5 +38,23 @@ public class FileRouter {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping(value="/files/preferences/{language}/{id}")
+    public ResponseEntity<ByteArrayResource> downloadPreferences(@PathVariable String language, @PathVariable long id) throws Exception {
+        Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, id);
+        if (questionnaire == null)
+            throw new NotFoundException("Not found questionnaire with id " + id);
+        HSSFWorkbook workbook = FileCreator.createFileWithPreferences(questionnaire, Language.fromString(language));
+        return createResponse(workbook,"ProductTemplate.xlsx");
+    }
+
+    @GetMapping(value="/files/links/{id}")
+    public ResponseEntity<ByteArrayResource> downloadPreferences( @PathVariable long id) throws Exception {
+        Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, id);
+        if (questionnaire == null)
+            throw new NotFoundException("Not found questionnaire with id " + id);
+        HSSFWorkbook workbook = FileWithLinksCreator.createFileWithLinks(questionnaire, Language.ENGLISH);
+        return createResponse(workbook,questionnaire.getLabel()+"Links.xlsx");
     }
 }
