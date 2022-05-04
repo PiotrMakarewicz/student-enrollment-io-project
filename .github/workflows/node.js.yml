@@ -22,25 +22,27 @@ jobs:
         working-directory: ./frontend
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        #cache: 'npm'
-    - name: Build
-      - run: npm ci
-      - run: npm run build --if-present
-      
-    - name: Test
-      - run: npm test
-
-    - name: Run test and create coverage
-      - run: npm run test:badges
-
-    - name: Commit and push the badge (if it changed)
-        uses: EndBug/add-and-commit@v7
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
         with:
-          default_author: github_actions
-          message: 'commit badge'
-          add: '*.svg'
+          node-version: ${{ matrix.node-version }}
+          #cache: 'npm'
+
+      - name: Build
+        - run: |
+          npm ci
+          npm run build --if-present
+
+      - name: Test
+        - run: npm test
+
+      - name: Run test and create coverage
+        - run: npm run test:badges
+
+      - name: Commit and push the badge (if it changed)
+          uses: EndBug/add-and-commit@v7
+          with:
+            default_author: github_actions
+            message: 'commit badge'
+            add: '*.svg'
