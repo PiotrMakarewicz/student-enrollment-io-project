@@ -5,7 +5,6 @@ import http from "../../../services/http";
 import { Spinner } from "react-bootstrap";
 import { useEffect } from "react";
 
-
 /**
  * Creates calendar as a table
  * 

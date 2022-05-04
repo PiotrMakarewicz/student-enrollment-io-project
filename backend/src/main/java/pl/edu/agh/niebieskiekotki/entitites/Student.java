@@ -19,7 +19,7 @@ public class Student {
     public Student(String firstName, String lastName, String emailAddress, int indexNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.emailAdress = emailAddress;
+        this.emailAddress = emailAddress;
         this.indexNumber = indexNumber;
     }
 

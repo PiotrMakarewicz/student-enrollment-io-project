@@ -1,0 +1,8 @@
+.main-list {
+    width: 100%;
+    font-size: calc(10px + 1vmin);
+}
+
+.container-lg {
+    width: 70%;
+}

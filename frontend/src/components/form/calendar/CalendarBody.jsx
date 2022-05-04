@@ -29,7 +29,6 @@ function CalendarBody({
     ));
 
     return <tbody>{calendarRows}</tbody>;
-
 }
 
 export default CalendarBody;

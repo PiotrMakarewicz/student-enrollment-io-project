@@ -1,7 +1,6 @@
 package pl.edu.agh.niebieskiekotki.views;
 
 import pl.edu.agh.niebieskiekotki.entitites.*;
-import pl.edu.agh.niebieskiekotki.HibernateAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,10 +75,7 @@ public class QuestionnaireResults {
         }
 
         void setTerm(Term term) {
-            System.out.println(questionnaireAvailableTerms);
-            System.out.println(term);
-            Integer index = questionnaireAvailableTerms.indexOf(term);
-            System.out.println(index);
+            int index = questionnaireAvailableTerms.indexOf(term);
             if (index == -1) return;
             studentChoose[index] = 1;
         }

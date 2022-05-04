@@ -16,22 +16,21 @@ function CalendarRow({
     availableTermsSet,
 }) {
 
-  var fields = cells.map((c, key) => (
-    <CalendarCell
-      key={key}
-      id={c}
-      onClick={toggleTerm}
-      isAvailable={availableTermsSet== "All" || availableTermsSet.has(c)}
-      isChosen={selectedTerms.has(c)}
-
-    />
-  ));
-  return (
-    <tr>
-      <CalendarLabel label={label} />
-      {fields}
-    </tr>
-  );
+    var fields = cells.map((c, key) => (
+        <CalendarCell
+            key={key}
+            id={c}
+            onClick={toggleTerm}
+            isAvailable={availableTermsSet== "All" || availableTermsSet.has(c)}
+            isChosen={selectedTerms.has(c)}
+        />
+    ));
+    return (
+        <tr>
+            <CalendarLabel label={label} />
+            {fields}
+        </tr>
+    );
 }
 
 export default CalendarRow;

@@ -2,15 +2,13 @@ package pl.edu.agh.niebieskiekotki.routes;
 
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.niebieskiekotki.HibernateAdapter;
-import pl.edu.agh.niebieskiekotki.entitites.*;
+import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
+import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireTerm;
+import pl.edu.agh.niebieskiekotki.entitites.Term;
 import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.NotFoundException;
-import pl.edu.agh.niebieskiekotki.utility.FileWithLinksCreator;
-import pl.edu.agh.niebieskiekotki.utility.Language;
 import pl.edu.agh.niebieskiekotki.views.AddQuestionnaireView;
 import pl.edu.agh.niebieskiekotki.views.QuestionnaireDetail;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,27 +61,19 @@ public class QuestionnaireRouter {
         newQuestionnaire.setExpirationDate(addQuestionnaireView.getExpirationDate());
         newQuestionnaire.setLabel(addQuestionnaireView.getLabel());
         newQuestionnaire.getTeacher().setId(addQuestionnaireView.getTeacherId());
-        newQuestionnaire.setQuestionnaireTerms(new ArrayList<>());
+
 
         hibernateAdapter.save(newQuestionnaire);
+
         List<Term> allTerms = hibernateAdapter.getAll(Term.class);
 
         for (Term term : allTerms) {
             if (addQuestionnaireView.getAvailableTerms().contains(term.getId())) {
                 QuestionnaireTerm qt = new QuestionnaireTerm(newQuestionnaire, term);
                 hibernateAdapter.save(qt);
-                newQuestionnaire.questionnaireTerms.add(qt);
             }
         }
-        for (Student studentInfo : addQuestionnaireView.getStudentsInfo()) {
-            Student student = hibernateAdapter.getOneWhereEq(Student.class, "indexNumber", studentInfo.getIndexNumber());
-            if (student == null) {
-                hibernateAdapter.save(studentInfo);
-                student = studentInfo;
-            }
-            QuestionnaireAccess questionnaireAccess = new QuestionnaireAccess(student, newQuestionnaire);
-            hibernateAdapter.save(questionnaireAccess);
-        }
+
         return new QuestionnaireDetail(newQuestionnaire);
     }
 
@@ -122,5 +112,4 @@ public class QuestionnaireRouter {
         questionnaires.remove(toReturn);
         return toReturn;
     }
-
 }

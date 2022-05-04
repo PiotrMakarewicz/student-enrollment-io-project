@@ -25,6 +25,7 @@ function Row({ records, lambda }) {
             {records.map((record, key) => {
                 return (
                     <tr key={key}>
+<<<<<<< HEAD
                         <Cell
                             cell={record.student.indexNumber}
                             key={key}
@@ -35,13 +36,26 @@ function Row({ records, lambda }) {
                                 cell,
                                 key //
                             ) => (
+=======
+                        <>
+                            <Cell
+                                cell={record.student.indexNumber}
+                                key={key}
+                            />
+                            {record.studentChoose.map((cell, key) => (
+>>>>>>> develop
                                 <Cell
                                     cell={cell}
                                     key={key}
                                     lambda={lambda}
                                 />
+<<<<<<< HEAD
                             )
                         )}
+=======
+                            ))}
+                        </>
+>>>>>>> develop
                     </tr>
                 );
             })}
