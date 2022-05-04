@@ -55,6 +55,6 @@ public class FileRouter {
         if (questionnaire == null)
             throw new NotFoundException("Not found questionnaire with id " + id);
         HSSFWorkbook workbook = FileWithLinksCreator.createFileWithLinks(questionnaire, Language.ENGLISH);
-        return createResponse(workbook,"links"+id+".xlsx");
+        return createResponse(workbook,questionnaire.getLabel()+"Links.xlsx");
     }
 }

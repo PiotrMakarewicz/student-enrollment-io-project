@@ -11,6 +11,7 @@ import java.util.List;
 
 public class FileWithLinksCreator {
     private static void addRow(Student student, String link, HSSFSheet sheet, int rowNumber) {
+
         HSSFRow row = sheet.createRow((short) rowNumber);
 
         row.createCell(0).setCellValue(student.getIndexNumber());
@@ -18,10 +19,10 @@ public class FileWithLinksCreator {
         row.createCell(2).setCellValue(student.getLastName());
         row.createCell(3).setCellValue(student.getEmailAdress());
         row.createCell(4).setCellValue(link);
-
     }
 
     private static void createHeaders(Language language, HSSFRow rowhead) {
+
         if (language == Language.POLISH) {
             rowhead.createCell(0).setCellValue("Indeks");
             rowhead.createCell(1).setCellValue("Imie");
@@ -57,5 +58,4 @@ public class FileWithLinksCreator {
 
         return workbook;
     }
-
 }

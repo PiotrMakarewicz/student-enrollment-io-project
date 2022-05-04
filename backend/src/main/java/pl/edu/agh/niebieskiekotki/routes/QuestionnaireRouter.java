@@ -41,18 +41,6 @@ public class QuestionnaireRouter {
         return new QuestionnaireDetail(toReturn);
     }
 
-    @GetMapping(value = "/fileWithLinks/{id}")
-    public Questionnaire GetFile(@PathVariable Long id) throws NotFoundException{
-
-        Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, id);
-
-        if (questionnaire == null)
-            throw new NotFoundException("Not found questionnaire with id:" + id);
-        //questionnaire.questionnaireAccesses.forEach(System.out::println);
-        FileWithLinksCreator.createFileWithLinks(questionnaire, Language.ENGLISH);
-        return questionnaire;
-    }
-
     @PostMapping(value = "/questionnaires")
     public QuestionnaireDetail Post(@RequestBody AddQuestionnaireView addQuestionnaireView) {
 
