@@ -3,9 +3,9 @@
 
 name: Node.js CI
 
-on: #[push]
-  pull_request:
-    branches: [ main, develop ]
+on: [push]
+  # pull_request:
+  #   branches: [ main, develop ]
 
 jobs:
   build:
@@ -31,3 +31,12 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+    - name: Run test and create coverage
+      - run: npm run test:badges
+
+    - name: Commit and push the badge (if it changed)
+        uses: EndBug/add-and-commit@v7
+        with:
+          default_author: github_actions
+          message: 'commit badge'
+          add: '*.svg'
