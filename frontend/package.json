@@ -40,7 +40,7 @@
         "docs": "jsdoc -c jsdoc.conf.json",
         "lint": "eslint src/**/*.js src/**/*.jsx",
         "lint:fix": "eslint src/**/*.js src/**/*.jsx --fix",
-        "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
+        "format": "prettier --write src/**/*.{js,jsx,ts,tsx,css,md,json} --config ./.prettierrc"
     },
     "eslintConfig": {
         "extends": [

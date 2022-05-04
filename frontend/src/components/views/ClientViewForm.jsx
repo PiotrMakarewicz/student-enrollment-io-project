@@ -32,7 +32,9 @@ function ClientViewForm() {
         (async function () {
             setState({
                 ...state,
-                availableTermsSet: new Set(await http.get("/questionnaires/" + id)["data"]["terms"]),
+                availableTermsSet: new Set(
+                    await http.get("/questionnaires/" + id)["data"]["terms"]
+                ),
                 loading: false
             });
         })();
