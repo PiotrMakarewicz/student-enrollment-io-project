@@ -34,7 +34,7 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
-        "test:coverage": "npm test -- --coverage --watchAll",
+        "test:coverage": "npm test -- --coverage --watchAll=false",
         "test:badges": "npm run test:coverage  && jest-coverage-badges output ../.github/badges",
         "eject": "react-scripts eject",
         "docs": "jsdoc -c jsdoc.conf.json",
