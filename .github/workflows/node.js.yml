@@ -28,14 +28,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         #cache: 'npm'
-        - run: npm ci
-        - run: npm run build --if-present
-        - run: npm test
-      - run: npm run test:badges
-
-    - name: Commit and push the badge (if it changed)
-        uses: EndBug/add-and-commit@v7
-        with:
-          default_author: github_actions
-          message: 'commit badge'
-          add: '*.svg'
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
