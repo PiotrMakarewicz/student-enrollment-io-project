@@ -6,6 +6,8 @@ import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
 import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireTerm;
 import pl.edu.agh.niebieskiekotki.entitites.Term;
 import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.NotFoundException;
+import pl.edu.agh.niebieskiekotki.utility.FileWithLinksCreator;
+import pl.edu.agh.niebieskiekotki.utility.Language;
 import pl.edu.agh.niebieskiekotki.views.AddQuestionnaireView;
 import pl.edu.agh.niebieskiekotki.views.QuestionnaireDetail;
 
@@ -40,7 +42,7 @@ public class QuestionnaireRouter {
     }
 
     @GetMapping(value = "/fileWithLinks/{id}")
-    public Questionnaire GetFile(@PathVariable Long id) throws NotFoundException, ParserConfigurationException, TransformerException {
+    public Questionnaire GetFile(@PathVariable Long id) throws NotFoundException{
 
         Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, id);
 
