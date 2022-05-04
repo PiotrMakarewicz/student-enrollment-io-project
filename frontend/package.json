@@ -77,10 +77,9 @@
             "\\.(css|less)$": "<rootDir>/src/__mocks__/styleMock.js"
         },
         "coverageReporters": [
-            "json-summary", 
+            "json-summary",
             "text",
             "lcov"
-          ]
-          
+        ]
     }
 }
