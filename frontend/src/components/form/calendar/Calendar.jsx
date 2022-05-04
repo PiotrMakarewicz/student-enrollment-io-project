@@ -37,6 +37,7 @@ function Calendar({ selectedTerms, toggleTerm, availableTermsSet }) {
         (async function () {
             response = await http.get("/terms");
             response = response["data"];
+            console.log(response);
             setState({ termsInfo: response, loading: false });
         })();
     }, []);

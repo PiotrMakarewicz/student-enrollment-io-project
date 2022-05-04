@@ -7,34 +7,39 @@ import { useParams } from "react-router-dom";
 function GroupView() {
     const { id } = useParams();
     const [state, setState] = useState({
-        resTable: [],
+        availableTermsSet: new Set(),
+        selectedTerms: new Set(),
         loading: true
     });
 
     useEffect(() => {
         (async function () {
-            const response = await http.get(`/results:${id}`);
+            const response = await http.get(`/questionnaires/${id}`);
             console.log(response.data);
             setState({
                 ...state,
-                resTable: response.data,
+                availableTermsSet: new Set(response["data"]["terms"]),
                 loading: false
             });
         })();
     }, [id]);
 
-    // return <div>GroupView</div>;
     return (
         <>
             {state.loading ? (
                 <>
-                    <p>Data yet not calculated</p>
+                    <Spinner animation="border" />
                 </>
             ) : (
-                <Calendar
-                    selectedTerms={state.resTable.selectedTerms}
-                    availableTermsSet={state.resTable.availableTermsSet}
-                />
+                <div className="groupView">
+                    <Calendar
+                        selectedTerms={state.selectedTerms}
+                        toggleTerm={() => {
+                            console.log("hej");
+                        }}
+                        availableTermsSet={state.availableTermsSet}
+                    />
+                </div>
             )}
         </>
     );

@@ -29,6 +29,7 @@ function Row({ records, lambda }) {
                             <Cell
                                 cell={record.student.indexNumber}
                                 key={key}
+                                lambda={lambda}
                             />
                             {record.studentChoose.map((cell, key) => (
                                 <Cell

@@ -11,7 +11,7 @@ import CalendarLabel from "./CalendarLabel";
  *
  */
 function CalendarHeader({ labels }) {
-    const headers = ["", ...labels].map((r, key) => (
+    const headers = [[""], ...labels].map((r, key) => (
         <CalendarLabel
             key={key}
             label={r}

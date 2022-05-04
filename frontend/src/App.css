@@ -76,3 +76,24 @@ title {
 .App-link {
     color: #61dafb;
 }
+
+.list-group-item span {
+    vertical-align: middle;
+}
+
+.app .groupView .calendar-cell {
+    cursor: default;
+    opacity: 1;
+}
+
+.app .table-results {
+    border-collapse: separate;
+    border-spacing: 0.2em;
+}
+
+.app .table-results th,
+.app .table-results td {
+    border: none;
+    border-radius: 0.25em;
+    vertical-align: middle;
+}

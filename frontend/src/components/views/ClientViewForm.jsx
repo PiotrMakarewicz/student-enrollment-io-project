@@ -7,6 +7,7 @@ import SimpleWrapper from "../SimpleWrapper";
 import http from "../../services/http";
 import { useEffect } from "react";
 import { Spinner } from "react-bootstrap";
+import FormWrapper from "../FormWrapper";
 
 /**
  * View form for client
@@ -32,6 +33,7 @@ function ClientViewForm() {
     useEffect(() => {
         (async function () {
             response = await http.get("/questionnaires/" + id);
+            console.log(response);
             setState({
                 ...state,
                 availableTermsSet: new Set(response["data"]["terms"]),
@@ -77,7 +79,7 @@ function ClientViewForm() {
                 </>
             ) : (
                 <>
-                    <SimpleWrapper>
+                    <FormWrapper>
                         <form>
                             <Input
                                 label="Enter your name"
@@ -103,17 +105,17 @@ function ClientViewForm() {
                                 onChange={(v) => setState({ ...state, emailAdress: v })}
                                 id="emailAdress"
                             />
-                            <Calendar
-                                selectedTerms={state.selectedTerms}
-                                toggleTerm={toggleTerm}
-                                availableTermsSet={state.availableTermsSet}
-                            />
-                            <Submit
-                                value={"Send form"}
-                                onSubmit={onSubmit}
-                            />
                         </form>
-                    </SimpleWrapper>
+                        <Calendar
+                            selectedTerms={state.selectedTerms}
+                            toggleTerm={toggleTerm}
+                            availableTermsSet={state.availableTermsSet}
+                        />
+                        <Submit
+                            value={"Send form"}
+                            onSubmit={onSubmit}
+                        />
+                    </FormWrapper>
                 </>
             )}
         </>
