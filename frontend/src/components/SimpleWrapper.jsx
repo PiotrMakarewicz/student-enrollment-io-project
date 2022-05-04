@@ -22,13 +22,15 @@ const styles = {
     }
 };
 
-
-
 function SimpleWrapper(props) {
-
-    return (<div style={styles.formStyle} className="container-lg">
-        {props.children}
-    </div>);
+    return (
+        <div
+            style={styles.formStyle}
+            className="container-lg"
+        >
+            {props.children}
+        </div>
+    );
 }
 
 export default SimpleWrapper;

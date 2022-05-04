@@ -72,7 +72,6 @@ function ChooseForm() {
     useEffect(() => {
         (async function () {
             response = await http.get("/questionnaires");
-            console.log(response.data);
             setState({
                 ...state,
                 forms: response.data,

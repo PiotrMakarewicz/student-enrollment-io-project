@@ -27,8 +27,8 @@ function ViewSwitch() {
                 >
                     <div className="toggle"></div>
                     <div className="names">
-                        <p className="results">Results</p>
                         <p className="groups">Groups</p>
+                        <p className="results">Results</p>
                     </div>
                 </label>
                 <div className="app">

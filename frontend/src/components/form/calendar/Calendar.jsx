@@ -29,7 +29,7 @@ function Calendar({ selectedTerms, toggleTerm, availableTermsSet }) {
     const [state, setState] = useState({
         val: 1,
         termsInfo: null,
-        loading: true,
+        loading: true
     });
 
     var response;
@@ -61,7 +61,6 @@ function Calendar({ selectedTerms, toggleTerm, availableTermsSet }) {
             )}
         </>
     );
-
 }
 
 export default Calendar;

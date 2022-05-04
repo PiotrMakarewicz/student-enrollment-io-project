@@ -39,7 +39,7 @@
     user-select: none;
 }
 
-.groups {
+.results {
     opacity: 0.5;
 }
 
@@ -52,14 +52,14 @@
     /* background-color: #34323d; */
 }
 
-[type="checkbox"]:checked + .switchLabel .groups {
+[type="checkbox"]:checked + .switchLabel .results {
     opacity: 1;
     /* color: white; */
 }
-[type="checkbox"]:checked + .switchLabel .results {
+[type="checkbox"]:checked + .switchLabel .groups {
     opacity: 0.5;
 }
 
-.disactive {
+.inactive {
     display: none;
 }
