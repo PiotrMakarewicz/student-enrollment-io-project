@@ -36,6 +36,13 @@ public class HibernateAdapter {
         return results.get(0);
     }
 
+    public <T, V> T getOneWhereEq(Class<T> c, String fieldName, V value) {
+
+        List<T> results = getWhereEq(c, fieldName, value);
+        if (results == null || results.size() == 0) return null;
+        return results.get(0);
+    }
+
     public <T, V> List<T> getWhereEq(Class<T> c, String fieldName, V value) {
 
         Session session = entityManager.unwrap(Session.class);
