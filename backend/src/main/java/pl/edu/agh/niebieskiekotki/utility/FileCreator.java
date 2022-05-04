@@ -13,6 +13,7 @@ import pl.edu.agh.niebieskiekotki.views.QuestionnaireResults;
 import  org.apache.poi.hssf.usermodel.HSSFSheet;
 import  org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import  org.apache.poi.hssf.usermodel.HSSFRow;
+import pl.edu.agh.niebieskiekotki.views.QuestionnaireResultsRow;
 
 public class FileCreator {
 
@@ -40,7 +41,7 @@ public class FileCreator {
             rowhead.createCell(2).setCellValue("Surname");
             rowhead.createCell(3).setCellValue("e-mail");
         }
-        List<Term> terms = results.getQuestionnaireAvailableTerms();
+        List<Term> terms = results.getAvailableTerms();
         for (int i = 0; i < terms.size(); i++) {
             rowhead.createCell(4 + i).setCellValue(terms.get(i).getShortLabel(language));
         }
@@ -64,7 +65,7 @@ public class FileCreator {
             createHeaders(language, rowhead, results);
 
             int i = 1;
-            for (QuestionnaireResults.QuestionnaireResultsRow row : results.getRows()) {
+            for (QuestionnaireResultsRow row : results.getRows()) {
                 addRow(row.getStudent(), row.getStudentChoose(), sheet, i);
                 i++;
             }

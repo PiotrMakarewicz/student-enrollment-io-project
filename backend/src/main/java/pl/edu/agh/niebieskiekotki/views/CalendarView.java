@@ -3,6 +3,7 @@ package pl.edu.agh.niebieskiekotki.views;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import pl.edu.agh.niebieskiekotki.entitites.Term;
 import pl.edu.agh.niebieskiekotki.entitites.Timeslot;
+import pl.edu.agh.niebieskiekotki.utility.Days;
 
 import java.util.*;
 
@@ -28,7 +29,7 @@ public class CalendarView {
 
         for (Term term : terms) {
             privateRows.get(Math.toIntExact(term.getTimeslot().getId()))
-                    .add(Math.toIntExact(term.getDay()), term.getId());
+                    .add(term.getDay(), term.getId());
         }
 
         rows = new ArrayList<>(privateRows.values());
@@ -55,8 +56,8 @@ public class CalendarView {
             this.cells = new ArrayList<>();
         }
 
-        public void add(Integer index, Long value) {
-            this.cells.add(index, value);
+        public void add(Days day, Long value) {
+            this.cells.add(day.ordinal(), value);
         }
 
         public String getLabel() {

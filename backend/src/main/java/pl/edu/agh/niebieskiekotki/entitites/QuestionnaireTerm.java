@@ -12,6 +12,7 @@ public class QuestionnaireTerm {
     @ManyToOne
     @JoinColumn(name = "term_id")
     private Term term;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
