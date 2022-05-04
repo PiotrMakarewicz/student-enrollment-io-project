@@ -28,4 +28,20 @@ public class QuestionnaireAccess {
 
     public QuestionnaireAccess() {
     }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public String getLinkPath() {
+        return linkPath;
+    }
+
+    @Override
+    public String toString() {
+        return "QuestionnaireAccess{" +
+                "id=" + id +
+                ", linkPath='" + linkPath + '\'' +
+                '}';
+    }
 }

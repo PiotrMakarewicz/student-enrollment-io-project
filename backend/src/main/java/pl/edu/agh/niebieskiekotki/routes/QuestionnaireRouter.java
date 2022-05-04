@@ -4,9 +4,13 @@ import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.niebieskiekotki.HibernateAdapter;
 import pl.edu.agh.niebieskiekotki.entitites.*;
 import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.NotFoundException;
+import pl.edu.agh.niebieskiekotki.utility.FileWithLinksCreator;
+import pl.edu.agh.niebieskiekotki.utility.Language;
 import pl.edu.agh.niebieskiekotki.views.AddQuestionnaireView;
 import pl.edu.agh.niebieskiekotki.views.QuestionnaireDetail;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +41,17 @@ public class QuestionnaireRouter {
         return new QuestionnaireDetail(toReturn);
     }
 
+    @GetMapping(value = "/fileWithLinks/{id}")
+    public Questionnaire GetFile(@PathVariable Long id) throws NotFoundException, ParserConfigurationException, TransformerException {
+
+        Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, id);
+
+        if (questionnaire == null)
+            throw new NotFoundException("Not found questionnaire with id:" + id);
+        //questionnaire.questionnaireAccesses.forEach(System.out::println);
+        FileWithLinksCreator.createFileWithLinks(questionnaire, Language.ENGLISH);
+        return questionnaire;
+    }
 
     @PostMapping(value = "/questionnaires")
     public QuestionnaireDetail Post(@RequestBody AddQuestionnaireView addQuestionnaireView) {
