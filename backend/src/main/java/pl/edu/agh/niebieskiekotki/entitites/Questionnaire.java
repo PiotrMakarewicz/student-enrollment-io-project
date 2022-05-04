@@ -89,7 +89,7 @@ public class Questionnaire {
     public Map<Student,String> getLinks(){
         Map<Student,String> links=new HashMap<>();
         for (QuestionnaireAccess questionnaireAccess : questionnaireAccesses){
-            links.put(questionnaireAccess.getStudent(),"localhost:3000/vote/"+id);
+            links.put(questionnaireAccess.getStudent(),"localhost:3000/vote/"+questionnaireAccess.getLinkPath());
         }
         return links;
     }
