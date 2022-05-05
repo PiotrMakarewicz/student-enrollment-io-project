@@ -1,5 +1,7 @@
 package pl.edu.agh.niebieskiekotki.views;
 
+import pl.edu.agh.niebieskiekotki.entitites.Student;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -9,6 +11,15 @@ public class AddQuestionnaireView {
 
     private String label;
     private List<Long> availableTerms;
+    private List<Student> studentsInfo;
+
+    public List<Student> getStudentsInfo() {
+        return studentsInfo;
+    }
+
+    public void setStudentsInfo(List<Student> studentsInfo) {
+        this.studentsInfo = studentsInfo;
+    }
 
     public Long getTeacherId() {
         return teacherId;
