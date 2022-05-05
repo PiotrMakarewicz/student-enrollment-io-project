@@ -25,23 +25,19 @@ function Row({ records, lambda }) {
             {records.map((record, key) => {
                 return (
                     <tr key={key}>
-                        <Cell
-                            cell={record.student.indexNumber}
-                            key={key}
-                            lambda={lambda}
-                        />
-                        {record.studentChoose.map(
-                            (
-                                cell,
-                                key //
-                            ) => (
+                        <>
+                            <Cell
+                                cell={record.student.indexNumber}
+                                key={key}
+                            />
+                            {record.studentChoose.map((cell, key) => (
                                 <Cell
                                     cell={cell}
                                     key={key}
                                     lambda={lambda}
                                 />
-                            )
-                        )}
+                            ))}
+                        </>
                     </tr>
                 );
             })}

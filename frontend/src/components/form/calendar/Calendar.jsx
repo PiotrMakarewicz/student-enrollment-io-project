@@ -5,7 +5,6 @@ import http from "../../../services/http";
 import { Spinner } from "react-bootstrap";
 import { useEffect } from "react";
 
-
 /**
  * Creates calendar as a table
  * 
@@ -30,15 +29,12 @@ function Calendar({ selectedTerms, toggleTerm, availableTermsSet }) {
     const [state, setState] = useState({
         val: 1,
         termsInfo: null,
-        loading: true,
+        loading: true
     });
 
-    var response;
     useEffect(() => {
         (async function () {
-            response = await http.get("/terms");
-            response = response["data"];
-            setState({ termsInfo: response, loading: false });
+            setState({ termsInfo: await http.get("/terms")["data"], loading: false });
         })();
     }, []);
     return (
@@ -62,7 +58,6 @@ function Calendar({ selectedTerms, toggleTerm, availableTermsSet }) {
             )}
         </>
     );
-
 }
 
 export default Calendar;

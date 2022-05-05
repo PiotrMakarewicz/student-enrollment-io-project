@@ -1,23 +1,15 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import { ChooseForm, ClientViewForm, QuestionnaireResults, LecturerForm } from "./components/views";
+import Navbar from "./components/Navbar";
+import { ChooseForm, ClientViewForm, LecturerForm , LecturerQuestionaire} from "./components/views";
 
 function App() {
     return (
         <>
             <Router>
                 <div className="App">
-                    <header className="App-header py-2 px-3">
-                        <Link to="/">Strona główna</Link>
-                        <ul>
-                            <li>
-                                <Link to="/addQuestionnaire">Nowa ankieta</Link>
-                            </li>
-                            <li>
-                                <Link to="/questionnaires">Twoje ankiety</Link>
-                            </li>
-                        </ul>
-                    </header>
+                    <Navbar />
+
                     <div className="App-body">
                         <Routes>
                             <Route
@@ -34,7 +26,7 @@ function App() {
                             />
                             <Route
                                 path="/questionnaire/:id"
-                                element={<QuestionnaireResults />}
+                                element={<LecturerQuestionaire />}
                             />
 
                             <Route

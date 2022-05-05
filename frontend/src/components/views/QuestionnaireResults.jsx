@@ -1,5 +1,4 @@
 import React from "react";
-import SimpleWrapper from "../SimpleWrapper";
 import { Table } from "../table";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
@@ -16,9 +15,10 @@ function QuestionnaireResults() {
     useEffect(() => {
         (async function () {
             const reqResult = await http.get(`/vote/${id}`);
+            console.log(reqResult);
             setState({ loading: false, tableInfo: reqResult["data"] });
         })();
-    }, []);
+    }, [id]);
     return (
         <>
             {state.loading ? (
@@ -27,13 +27,11 @@ function QuestionnaireResults() {
                 </>
             ) : (
                 <>
-                    <SimpleWrapper>
-                        <Table
-                            headers={state.tableInfo.headers}
-                            records={state.tableInfo.rows}
-                            lambda={(cell) => (cell === 1 ? "bg-success" : "")}
-                        />
-                    </SimpleWrapper>
+                    <Table
+                        headers={state.tableInfo.headers}
+                        records={state.tableInfo.rows}
+                        lambda={(cell) => (cell === 1 ? "bg-success" : "bg-warning")}
+                    />
                 </>
             )}
         </>
