@@ -29,16 +29,16 @@ public class VoteRouter {
         hibernateAdapter.save(student);
 
 
-        Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, vote.getQuestionnaire_id());
+        Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, vote.getQuestionnaireId());
         if (questionnaire == null)
-            throw new NotFoundException("Not found questionnaire with id " + vote.getQuestionnaire_id());
+            throw new NotFoundException("Not found questionnaire with id " + vote.getQuestionnaireId());
 
         System.out.println("questionnaire:" + questionnaire);
 
         List<Term> terms = hibernateAdapter.getAll(Term.class);
 
         for (Term term : terms) {
-            if (vote.getSelected_terms().contains(term.getId())) {
+            if (vote.getSelectedTerms().contains(term.getId())) {
                 hibernateAdapter.save(new Vote(questionnaire, student, 1, term, ""));
             }
         }

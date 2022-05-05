@@ -80,11 +80,4 @@ public class Questionnaire {
         this.label = label;
     }
 
-    public List<QuestionnaireTerm> getQuestionnaireTerms() {
-        return questionnaireTerms;
-    }
-
-    public void setQuestionnaireTerms(List<QuestionnaireTerm> questionnaireTerms) {
-        this.questionnaireTerms = questionnaireTerms;
-    }
 }
