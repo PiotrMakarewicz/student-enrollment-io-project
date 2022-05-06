@@ -70,8 +70,7 @@ const post = async (path, body) => {
 const http = {
     get,
     post,
-    download,
-    getData
+    download
 };
 
 export default http;

@@ -15,7 +15,6 @@ function QuestionnaireResults() {
     useEffect(() => {
         (async function () {
             const reqResult = await http.get(`/vote/${id}`);
-            console.log(reqResult);
             setState({ loading: false, tableInfo: reqResult["data"] });
         })();
     }, [id]);
@@ -30,7 +29,7 @@ function QuestionnaireResults() {
                     <Table
                         headers={state.tableInfo.headers}
                         records={state.tableInfo.rows}
-                        lambda={(cell) => (cell === 1 ? "bg-success" : "bg-warning")}
+                        lambda={(cell) => (cell === 1 ? "bg-success" : "")}
                     />
                 </>
             )}
