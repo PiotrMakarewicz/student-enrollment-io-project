@@ -51,6 +51,7 @@ public class QuestionnaireRouter {
         newQuestionnaire.setLabel(addQuestionnaireView.getLabel());
         newQuestionnaire.getTeacher().setId(addQuestionnaireView.getTeacherId());
 
+        newQuestionnaire.questionnaireTerms = new ArrayList<>();
 
         hibernateAdapter.save(newQuestionnaire);
 

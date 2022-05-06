@@ -70,12 +70,11 @@ function ChooseForm() {
     useEffect(() => {
         (async function () {
             setState({
-                ...state,
-                forms: await http.get("/questionnaires").data,
+                forms: (await http.get("/questionnaires")).data,
                 loading: false
             });
         })();
-    }, [state]);
+    }, []);
 
     var rows = [];
     state.forms.forEach((element) =>

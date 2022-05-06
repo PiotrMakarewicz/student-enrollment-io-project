@@ -31,8 +31,8 @@ function ViewSwitch() {
                     </div>
                 </label>
                 <div className="app">
-                    {!state.isChecked && <GroupView />}
-                    {state.isChecked && <QuestionnaireResults />}
+                    {state.isChecked && <GroupView />}
+                    {!state.isChecked && <QuestionnaireResults />}
                 </div>
         </>
     );

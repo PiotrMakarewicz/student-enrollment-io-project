@@ -47,42 +47,26 @@ public class FileCreator {
         }
     }
 
-    public static void createFileWithPreferences(Questionnaire questionnaire, Language language)
-            throws ParserConfigurationException, TransformerException {
+    public static HSSFWorkbook createFileWithPreferences(Questionnaire questionnaire, Language language) {
 
         QuestionnaireResults results = new QuestionnaireResults(questionnaire.votes, questionnaire);
-        Random random = new Random();
-        int randomNumber = random.nextInt(9000000) + 1000000;
-        String filename = "src/main/resources/questionnaire-results/questionnaire"
-                + questionnaire.getId() + "-" + randomNumber + ".xlsx";
 
-        try
-        {
-            HSSFWorkbook workbook = new HSSFWorkbook();
-            HSSFSheet sheet = workbook.createSheet(questionnaire.getLabel());
-            HSSFRow rowhead = sheet.createRow((short)0);
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = workbook.createSheet(questionnaire.getLabel());
+        HSSFRow rowhead = sheet.createRow((short)0);
 
-            createHeaders(language, rowhead, results);
+        createHeaders(language, rowhead, results);
 
-            int i = 1;
-            for (QuestionnaireResultsRow row : results.getRows()) {
-                addRow(row.getStudent(), row.getStudentChoose(), sheet, i);
-                i++;
-            }
-
-            for (int j = 0; j < results.getHeaders().size() + 4; j++) {
-                sheet.autoSizeColumn(j);
-            }
-
-            FileOutputStream fileOut = new FileOutputStream(filename);
-            workbook.write(fileOut);
-            fileOut.close();
-            System.out.println("Excel file has been generated successfully.");
+        int i = 1;
+        for (QuestionnaireResults.QuestionnaireResultsRow row : results.getRows()) {
+            addRow(row.getStudent(), row.getStudentChoose(), sheet, i);
+            i++;
         }
-        catch (Exception e)
-        {
-            e.printStackTrace();
+
+        for (int j = 0; j < results.getHeaders().size() + 4; j++) {
+            sheet.autoSizeColumn(j);
         }
+        return workbook;
     }
 
 }

@@ -9,22 +9,22 @@ public class QuestionnaireResults {
 
     List<String> headers;
     List<QuestionnaireResultsRow> rows;
-    List<Term> availableTerms;
+    List<Term> questionnaireAvailableTerms;
 
     public QuestionnaireResults(List<Vote> votes, Questionnaire questionnaire) {
 
-        availableTerms = new ArrayList<>();
+        questionnaireAvailableTerms = new ArrayList<>();
         rows = new ArrayList<>();
 
         List<QuestionnaireTerm> questionnaireTerms = questionnaire.questionnaireTerms;
 
         for (QuestionnaireTerm term : questionnaireTerms)
-            availableTerms.add(term.getTerm());
+            questionnaireAvailableTerms.add(term.getTerm());
 
-        availableTerms.sort(Term::compareTo);
+        questionnaireAvailableTerms.sort(Term::compareTo);
 
         headers = new ArrayList<>();
-        for (Term term : availableTerms) {
+        for (Term term : questionnaireAvailableTerms) {
             headers.add(term.toString());
         }
 
@@ -33,11 +33,11 @@ public class QuestionnaireResults {
             QuestionnaireResultsRow questionnaireResultsRow = null;
 
             for (QuestionnaireResultsRow row : rows)
-                if (row.getStudent() == vote.getStudent())
+                if (row.student == vote.getStudent())
                     questionnaireResultsRow = row;
 
             if (questionnaireResultsRow == null) {
-                questionnaireResultsRow = new QuestionnaireResultsRow(vote.getStudent(), availableTerms);
+                questionnaireResultsRow = new QuestionnaireResultsRow(vote.getStudent());
                 rows.add(questionnaireResultsRow);
             }
             questionnaireResultsRow.setTerm(vote.getTerm());
@@ -62,8 +62,52 @@ public class QuestionnaireResults {
     }
 
     public List<Term> getAvailableTerms() {
-        return availableTerms;
+        return questionnaireAvailableTerms;
     }
 
+    public class QuestionnaireResultsRow{
+        private Student student;
+        private int[] studentChoose;
 
+        public QuestionnaireResultsRow(Student student) {
+            this.student = student;
+            studentChoose = new int[questionnaireAvailableTerms.size()];
+        }
+
+        void setTerm(Term term) {
+            int index = questionnaireAvailableTerms.indexOf(term);
+            if (index == -1) return;
+            studentChoose[index] = 1;
+        }
+
+        public int getStudentIndex() {
+            return student.getIndexNumber();
+        }
+
+        public Student getStudent() {
+            return student;
+        }
+
+        public void setStudent(Student student) {
+            this.student = student;
+        }
+
+        public int[] getStudentChoose() {
+            return studentChoose;
+        }
+
+        public void setStudentChoose(int[] studentChoose) {
+            this.studentChoose = studentChoose;
+        }
+
+        public List<Term> getTermList(){
+            ArrayList<Term> result = new ArrayList<>();
+            for (int i = 0; i < studentChoose.length; i++) {
+                if (studentChoose[i] == 1){
+                    result.add(questionnaireAvailableTerms.get(i));
+                }
+            }
+            return result;
+        }
+    }
 }

@@ -34,7 +34,7 @@ function Calendar({ selectedTerms, toggleTerm, availableTermsSet }) {
 
     useEffect(() => {
         (async function () {
-            setState({ termsInfo: await http.get("/terms")["data"], loading: false });
+            setState({ termsInfo: (await http.get("/terms"))["data"], loading: false });
         })();
     }, []);
     return (
