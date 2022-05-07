@@ -4,21 +4,25 @@ import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.niebieskiekotki.HibernateAdapter;
 import pl.edu.agh.niebieskiekotki.entitites.*;
 import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.NotFoundException;
+import pl.edu.agh.niebieskiekotki.utility.EmailService;
 import pl.edu.agh.niebieskiekotki.views.AddQuestionnaireView;
 import pl.edu.agh.niebieskiekotki.views.QuestionnaireDetail;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
 public class QuestionnaireRouter {
 
     private final HibernateAdapter hibernateAdapter;
+    private final EmailService emailService;
     List<Questionnaire> questionnaires = new ArrayList<>();
 
-    public QuestionnaireRouter(HibernateAdapter hibernateAdapter) {
+    public QuestionnaireRouter(HibernateAdapter hibernateAdapter, EmailService emailService) {
         this.hibernateAdapter = hibernateAdapter;
+        this.emailService = emailService;
     }
 
     @GetMapping(value = "/questionnaires")
@@ -49,6 +53,7 @@ public class QuestionnaireRouter {
         newQuestionnaire.setLabel(addQuestionnaireView.getLabel());
         newQuestionnaire.getTeacher().setId(addQuestionnaireView.getTeacherId());
         newQuestionnaire.setQuestionnaireTerms(new ArrayList<>());
+        newQuestionnaire.setQuestionnaireAccesses(new ArrayList<>());
 
         hibernateAdapter.save(newQuestionnaire);
 
@@ -69,7 +74,10 @@ public class QuestionnaireRouter {
             }
             QuestionnaireAccess questionnaireAccess = new QuestionnaireAccess(student, newQuestionnaire);
             hibernateAdapter.save(questionnaireAccess);
+            newQuestionnaire.questionnaireAccesses.add(questionnaireAccess);
         }
+        Map<Student, String> studentsWithLinks = newQuestionnaire.studentsWithLinks();
+        emailService.sendToAll(studentsWithLinks);
 
         return new QuestionnaireDetail(newQuestionnaire);
     }
