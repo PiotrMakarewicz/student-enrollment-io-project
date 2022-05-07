@@ -37,6 +37,14 @@ public class QuestionnaireAccess {
         return linkPath;
     }
 
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public void setLinkPath(String linkPath) {
+        this.linkPath = linkPath;
+    }
+
     @Override
     public String toString() {
         return "QuestionnaireAccess{" +

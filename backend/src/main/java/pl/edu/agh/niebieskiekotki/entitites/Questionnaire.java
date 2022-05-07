@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Entity
 public class Questionnaire {
@@ -86,5 +89,12 @@ public class Questionnaire {
 
     public void setQuestionnaireTerms(List<QuestionnaireTerm> questionnaireTerms) {
         this.questionnaireTerms = questionnaireTerms;
+    }
+
+    public void setQuestionnaireAccesses(List<QuestionnaireAccess> questionnaireAccesses) {
+        this.questionnaireAccesses = questionnaireAccesses;
+    }
+    public Map<Student,String> studentsWithLinks(){
+        return questionnaireAccesses.stream().collect(Collectors.toMap(QuestionnaireAccess::getStudent,QuestionnaireAccess::getLinkPath));
     }
 }
