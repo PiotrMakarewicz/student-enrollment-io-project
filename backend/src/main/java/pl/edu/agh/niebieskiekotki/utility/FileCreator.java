@@ -1,10 +1,7 @@
 package pl.edu.agh.niebieskiekotki.utility;
 
-import java.io.FileOutputStream;
 import java.util.List;
-import java.util.Random;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
+
 import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
 import pl.edu.agh.niebieskiekotki.entitites.Student;
 import pl.edu.agh.niebieskiekotki.entitites.Term;
@@ -13,7 +10,6 @@ import pl.edu.agh.niebieskiekotki.views.QuestionnaireResults;
 import  org.apache.poi.hssf.usermodel.HSSFSheet;
 import  org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import  org.apache.poi.hssf.usermodel.HSSFRow;
-import pl.edu.agh.niebieskiekotki.views.QuestionnaireResultsRow;
 
 public class FileCreator {
 
@@ -23,7 +19,7 @@ public class FileCreator {
         row.createCell(0).setCellValue(student.getIndexNumber());
         row.createCell(1).setCellValue(student.getFirstName());
         row.createCell(2).setCellValue(student.getLastName());
-        row.createCell(3).setCellValue(student.getEmailAddress());
+        row.createCell(3).setCellValue(student.getEmailAdress());
         for (int i = 0; i < choices.length; i++) {
             row.createCell(4 + i).setCellValue(choices[i]);
         }
