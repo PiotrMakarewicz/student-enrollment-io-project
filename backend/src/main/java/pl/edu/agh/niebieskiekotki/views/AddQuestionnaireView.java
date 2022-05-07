@@ -17,8 +17,8 @@ public class AddQuestionnaireView {
         return studentsInfo;
     }
 
-    public void setStudentsInfo(List<Student> studentsInfo) {
-        this.studentsInfo = studentsInfo;
+    public void setStudentsInfo(List<Student> studetsInfo) {
+        this.studentsInfo = studetsInfo;
     }
 
     public Long getTeacherId() {

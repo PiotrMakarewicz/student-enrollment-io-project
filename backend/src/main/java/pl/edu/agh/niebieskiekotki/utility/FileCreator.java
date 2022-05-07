@@ -1,19 +1,10 @@
 package pl.edu.agh.niebieskiekotki.utility;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
-import java.util.Random;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
+
 import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
 import pl.edu.agh.niebieskiekotki.entitites.Student;
 import pl.edu.agh.niebieskiekotki.entitites.Term;
-import pl.edu.agh.niebieskiekotki.entitites.Vote;
-import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.FileCreationFailedException;
-import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.NotFoundException;
-import pl.edu.agh.niebieskiekotki.routes.VoteRouter;
 import pl.edu.agh.niebieskiekotki.views.QuestionnaireResults;
 
 import  org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -46,7 +37,7 @@ public class FileCreator {
             rowhead.createCell(2).setCellValue("Surname");
             rowhead.createCell(3).setCellValue("e-mail");
         }
-        List<Term> terms = results.getQuestionnaireAvailableTerms();
+        List<Term> terms = results.getAvailableTerms();
         for (int i = 0; i < terms.size(); i++) {
             rowhead.createCell(4 + i).setCellValue(terms.get(i).getShortLabel(language));
         }

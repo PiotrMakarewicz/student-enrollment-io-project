@@ -64,7 +64,6 @@ public class QuestionnaireRouter {
             if (addQuestionnaireView.getAvailableTerms().contains(term.getId())) {
                 QuestionnaireTerm qt = new QuestionnaireTerm(newQuestionnaire, term);
                 hibernateAdapter.save(qt);
-                newQuestionnaire.questionnaireTerms.add(qt);
             }
         }
         for (Student studentInfo : addQuestionnaireView.getStudentsInfo()) {
@@ -118,4 +117,5 @@ public class QuestionnaireRouter {
         questionnaires.remove(toReturn);
         return toReturn;
     }
+
 }
