@@ -2,9 +2,7 @@ package pl.edu.agh.niebieskiekotki.routes;
 
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.niebieskiekotki.HibernateAdapter;
-import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
-import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireTerm;
-import pl.edu.agh.niebieskiekotki.entitites.Term;
+import pl.edu.agh.niebieskiekotki.entitites.*;
 import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.NotFoundException;
 import pl.edu.agh.niebieskiekotki.views.AddQuestionnaireView;
 import pl.edu.agh.niebieskiekotki.views.QuestionnaireDetail;
@@ -50,8 +48,7 @@ public class QuestionnaireRouter {
         newQuestionnaire.setExpirationDate(addQuestionnaireView.getExpirationDate());
         newQuestionnaire.setLabel(addQuestionnaireView.getLabel());
         newQuestionnaire.getTeacher().setId(addQuestionnaireView.getTeacherId());
-
-        newQuestionnaire.questionnaireTerms = new ArrayList<>();
+        newQuestionnaire.setQuestionnaireTerms(new ArrayList<>());
 
         hibernateAdapter.save(newQuestionnaire);
 
@@ -61,7 +58,17 @@ public class QuestionnaireRouter {
             if (addQuestionnaireView.getAvailableTerms().contains(term.getId())) {
                 QuestionnaireTerm qt = new QuestionnaireTerm(newQuestionnaire, term);
                 hibernateAdapter.save(qt);
+                newQuestionnaire.questionnaireTerms.add(qt);
             }
+        }
+        for (Student studentInfo : addQuestionnaireView.getStudentsInfo()) {
+            Student student = hibernateAdapter.getOneWhereEq(Student.class, "indexNumber", studentInfo.getIndexNumber());
+            if (student == null) {
+                hibernateAdapter.save(studentInfo);
+                student = studentInfo;
+            }
+            QuestionnaireAccess questionnaireAccess = new QuestionnaireAccess(student, newQuestionnaire);
+            hibernateAdapter.save(questionnaireAccess);
         }
 
         return new QuestionnaireDetail(newQuestionnaire);
