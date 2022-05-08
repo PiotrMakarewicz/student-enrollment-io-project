@@ -18,6 +18,10 @@ public class Questionnaire {
     @OneToMany(mappedBy = "questionnaire")
     @JsonIgnore
     public List<Vote> votes;
+
+    @OneToMany(mappedBy = "questionnaire")
+    @JsonIgnore
+    public List<Results> results;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -78,5 +82,13 @@ public class Questionnaire {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public List<Results> getResults() {
+        return results;
+    }
+
+    public void setResults(List<Results> results) {
+        this.results = results;
     }
 }

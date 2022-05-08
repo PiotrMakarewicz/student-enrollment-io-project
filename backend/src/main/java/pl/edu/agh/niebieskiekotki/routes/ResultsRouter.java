@@ -3,12 +3,10 @@ package pl.edu.agh.niebieskiekotki.routes;
 
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.niebieskiekotki.HibernateAdapter;
-import pl.edu.agh.niebieskiekotki.entitites.*;
+import pl.edu.agh.niebieskiekotki.entitites.Results;
 import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.NotFoundException;
 import pl.edu.agh.niebieskiekotki.views.AddResultView;
-import pl.edu.agh.niebieskiekotki.views.QuestionnaireDetail;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -37,7 +35,6 @@ public class ResultsRouter {
     @PostMapping(value = "/results")
     public void Post(@RequestBody AddResultView addResultView) {
         Results newResult = new Results();
-
         newResult.getQuestionnaire().setId(addResultView.getQuestionnaireId());
         newResult.getTerm().setId(addResultView.getTermId());
         newResult.getStudent().setId(addResultView.getStudentId());

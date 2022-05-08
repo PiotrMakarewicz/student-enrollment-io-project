@@ -1,21 +1,19 @@
 package pl.edu.agh.niebieskiekotki.utility;
 
-import java.io.*;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-
-import pl.edu.agh.niebieskiekotki.entitites.*;
-import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.FileCreationFailedException;
-import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.NotFoundException;
-import pl.edu.agh.niebieskiekotki.routes.VoteRouter;
-import pl.edu.agh.niebieskiekotki.views.QuestionnaireResults;
-
+import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.usermodel.HSSFRow;
+import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
+import pl.edu.agh.niebieskiekotki.entitites.Results;
+import pl.edu.agh.niebieskiekotki.entitites.Student;
+import pl.edu.agh.niebieskiekotki.entitites.Term;
+import pl.edu.agh.niebieskiekotki.views.QuestionnaireResults;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Comparator;
+import java.util.List;
 
 public class FileCreator {
 
@@ -71,7 +69,7 @@ public class FileCreator {
         return workbook;
     }
 
-    public static File createFileGroups(List<Results> results, Language language) throws IOException {
+    public static File createFileGroups(List<Results> results, Language language, String fileName) throws IOException {
         StringBuilder builder = new StringBuilder();
         results.sort(Comparator.comparing(Results::getTerm));
         Term currentTerm = results.get(0).getTerm();
@@ -90,8 +88,8 @@ public class FileCreator {
                     .append(result.getStudent().getLastName())
                     .append("\n");
         }
-        File file = new File("groups.txt");
-        FileWriter writer = new FileWriter("groups.txt");
+        File file = new File(fileName);
+        FileWriter writer = new FileWriter(fileName);
         writer.write(builder.toString());
         writer.close();
         return file;

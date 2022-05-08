@@ -2,23 +2,23 @@ package pl.edu.agh.niebieskiekotki.routes;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.aspectj.util.FileUtil;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 import pl.edu.agh.niebieskiekotki.HibernateAdapter;
 import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
-import pl.edu.agh.niebieskiekotki.entitites.Results;
 import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.NotFoundException;
 import pl.edu.agh.niebieskiekotki.utility.FileCreator;
 import pl.edu.agh.niebieskiekotki.utility.Language;
 
-import java.io.*;
-import java.util.List;
-import java.util.Objects;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 
 @CrossOrigin
 @RestController
@@ -52,10 +52,16 @@ public class FileRouter {
 
     @GetMapping(value = "/files/results/{language}/{id}")
     public ResponseEntity<ByteArrayResource> downloadResults(@PathVariable String language, @PathVariable long id) throws Exception {
-        List<Results> results = hibernateAdapter.getWhereEq(Results.class, "questionnaire", id);
-        if (results == null)
+        Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, id);
+        if (questionnaire == null)
             throw new NotFoundException("Not found results for questionnaire with id " + id);
-        File file = FileCreator.createFileGroups(results, Language.fromString(language));
+        if (questionnaire.results.size() == 0)
+            throw new NotFoundException("No results for this questionnaire " + id);
+        File file = FileCreator.createFileGroups(questionnaire.results, Language.fromString(language),
+                "Groups"
+                        + questionnaire.getLabel().substring(0, 1).toUpperCase() + questionnaire.getLabel().substring(1)
+                        + language.substring(0, 1).toUpperCase() + language.substring(1)
+                        + ".txt");
         try {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             HttpHeaders header = new HttpHeaders();
