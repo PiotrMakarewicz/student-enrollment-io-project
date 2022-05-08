@@ -17,12 +17,15 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'mysql:mysql-connector-java'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'junit:junit:4.13.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.6.7.Final', ext: 'pom'
 	implementation group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.6.7.Final'
 	implementation group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api',version:  '1.0.2.Final'
 	implementation 'org.apache.poi:poi:5.2.2'
 	implementation 'org.apache.directory.studio:org.apache.commons.io:2.4'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 }
 
 tasks.named('test') {

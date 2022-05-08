@@ -12,6 +12,15 @@ public class Questionnaire {
     @OneToMany(mappedBy = "questionnaire")
     @JsonIgnore
     public List<QuestionnaireAccess> questionnaireAccesses;
+
+    public List<QuestionnaireTerm> getQuestionnaireTerms() {
+        return questionnaireTerms;
+    }
+
+    public void setQuestionnaireTerms(List<QuestionnaireTerm> questionnaireTerms) {
+        this.questionnaireTerms = questionnaireTerms;
+    }
+
     @OneToMany(mappedBy = "questionnaire")
     @JsonIgnore
     public List<QuestionnaireTerm> questionnaireTerms;

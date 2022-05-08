@@ -10,6 +10,7 @@ import pl.edu.agh.niebieskiekotki.views.AddQuestionnaireView;
 import pl.edu.agh.niebieskiekotki.views.QuestionnaireDetail;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @CrossOrigin
@@ -50,6 +51,7 @@ public class QuestionnaireRouter {
         newQuestionnaire.setExpirationDate(addQuestionnaireView.getExpirationDate());
         newQuestionnaire.setLabel(addQuestionnaireView.getLabel());
         newQuestionnaire.getTeacher().setId(addQuestionnaireView.getTeacherId());
+        newQuestionnaire.setQuestionnaireTerms(new LinkedList<>());
 
 
         hibernateAdapter.save(newQuestionnaire);
@@ -60,6 +62,7 @@ public class QuestionnaireRouter {
             if (addQuestionnaireView.getAvailableTerms().contains(term.getId())) {
                 QuestionnaireTerm qt = new QuestionnaireTerm(newQuestionnaire, term);
                 hibernateAdapter.save(qt);
+                newQuestionnaire.getQuestionnaireTerms().add(qt);
             }
         }
 
