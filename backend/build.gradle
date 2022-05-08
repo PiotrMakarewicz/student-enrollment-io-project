@@ -24,6 +24,7 @@ dependencies {
 	implementation group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api',version:  '1.0.2.Final'
 	implementation 'org.apache.poi:poi:5.2.2'
 	implementation 'org.apache.directory.studio:org.apache.commons.io:2.4'
+	implementation 'org.jgrapht:jgrapht-core:1.5.1'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.6.5'
 }
 
