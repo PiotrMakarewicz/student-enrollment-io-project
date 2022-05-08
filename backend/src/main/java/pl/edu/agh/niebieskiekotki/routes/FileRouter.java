@@ -21,8 +21,6 @@ import pl.edu.agh.niebieskiekotki.utility.Language;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 
-import java.io.*;
-
 @CrossOrigin
 @RestController
 public class FileRouter {
@@ -73,7 +71,7 @@ public class FileRouter {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-}
+
 
     @GetMapping(value="/files/preferences/{language}/{id}")
     public ResponseEntity<ByteArrayResource> downloadPreferences(@PathVariable String language, @PathVariable long id) throws Exception {
