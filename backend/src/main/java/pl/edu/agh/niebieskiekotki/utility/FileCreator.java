@@ -1,20 +1,27 @@
 package pl.edu.agh.niebieskiekotki.utility;
 
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
 import java.util.List;
 
 import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
+import pl.edu.agh.niebieskiekotki.entitites.Results;
 import pl.edu.agh.niebieskiekotki.entitites.Student;
 import pl.edu.agh.niebieskiekotki.entitites.Term;
 import pl.edu.agh.niebieskiekotki.views.QuestionnaireResults;
 
-import  org.apache.poi.hssf.usermodel.HSSFSheet;
-import  org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import  org.apache.poi.hssf.usermodel.HSSFRow;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Comparator;
+import java.util.List;
 
 public class FileCreator {
 
     private static void addRow(Student student, int[] choices, HSSFSheet sheet, int rowNumber) {
-        HSSFRow row = sheet.createRow((short)rowNumber);
+        HSSFRow row = sheet.createRow((short) rowNumber);
 
         row.createCell(0).setCellValue(student.getIndexNumber());
         row.createCell(1).setCellValue(student.getFirstName());
@@ -25,13 +32,13 @@ public class FileCreator {
         }
     }
 
-    private static void createHeaders(Language language, HSSFRow rowhead, QuestionnaireResults results){
+    private static void createHeaders(Language language, HSSFRow rowhead, QuestionnaireResults results) {
         if (language == Language.POLISH) {
             rowhead.createCell(0).setCellValue("Indeks");
             rowhead.createCell(1).setCellValue("Imie");
             rowhead.createCell(2).setCellValue("Nazwisko");
             rowhead.createCell(3).setCellValue("e-mail");
-        } else if (language == Language.ENGLISH){
+        } else if (language == Language.ENGLISH) {
             rowhead.createCell(0).setCellValue("Index");
             rowhead.createCell(1).setCellValue("Name");
             rowhead.createCell(2).setCellValue("Surname");
@@ -49,7 +56,7 @@ public class FileCreator {
 
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet(questionnaire.getLabel());
-        HSSFRow rowhead = sheet.createRow((short)0);
+        HSSFRow rowhead = sheet.createRow((short) 0);
 
         createHeaders(language, rowhead, results);
 
@@ -63,6 +70,32 @@ public class FileCreator {
             sheet.autoSizeColumn(j);
         }
         return workbook;
+    }
+
+    public static File createFileGroups(List<Results> results, Language language, String fileName) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        results.sort(Comparator.comparing(Results::getTerm));
+        Term currentTerm = results.get(0).getTerm();
+        builder.append(currentTerm.getShortLabel(language))
+                .append("\n");
+
+        for (Results result : results) {
+            if (!result.getTerm().toString().equals(currentTerm.toString())) {
+                currentTerm = result.getTerm();
+                builder.append("\n\n")
+                        .append(currentTerm.getShortLabel(language))
+                        .append("\n");
+            }
+            builder.append(result.getStudent().getFirstName())
+                    .append(" ")
+                    .append(result.getStudent().getLastName())
+                    .append("\n");
+        }
+        File file = new File(fileName);
+        FileWriter writer = new FileWriter(fileName);
+        writer.write(builder.toString());
+        writer.close();
+        return file;
     }
 
 }
