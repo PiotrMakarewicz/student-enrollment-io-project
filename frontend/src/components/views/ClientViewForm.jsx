@@ -28,18 +28,30 @@ function ClientViewForm() {
         loading: true
     });
     let { id } = useParams();
-    var response;
     useEffect(() => {
         (async function () {
-            response = await http.get("/questionnaires/" + id);
             setState({
                 ...state,
-                availableTermsSet: new Set(response["data"]["terms"]),
+                availableTermsSet: new Set(
+                    (await http.get("/questionnaires/" + id))["data"]["terms"]
+                ),
                 loading: false
             });
         })();
-    }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id]);
     const onSubmit = () => {
+
+        const { firstName, lastName, indexNumber, emailAdress, selectedTerms } = state;
+        http.post("/vote", {
+            firstName,
+            lastName,
+            indexNumber,
+            emailAdress,
+            selectedTerms: Array.from(selectedTerms),
+            questionnaireId: id
+        });
+
         setState({
             firstName: "",
             lastName: "",
@@ -47,16 +59,6 @@ function ClientViewForm() {
             emailAdress: "",
             s: state.selectedTerms,
             loading: true
-        });
-
-        const { firstName, lastName, indexNumber, emailAdress } = state;
-        http.post("/vote", {
-            firstName,
-            lastName,
-            indexNumber,
-            emailAdress,
-            selected_terms: Array.from(state.selectedTerms),
-            questionnaire_id: id
         });
     };
 

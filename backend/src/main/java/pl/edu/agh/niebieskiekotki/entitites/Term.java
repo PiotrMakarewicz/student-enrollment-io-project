@@ -1,5 +1,6 @@
 package pl.edu.agh.niebieskiekotki.entitites;
 
+import pl.edu.agh.niebieskiekotki.utility.Days;
 import pl.edu.agh.niebieskiekotki.utility.Language;
 
 import javax.persistence.*;
@@ -10,13 +11,13 @@ public class Term implements Comparable<Term>{
     @GeneratedValue
     private Long id;
 
-    private int day;
+    private Days day;
     private int week;
     @ManyToOne
     @JoinColumn(name = "timeslot_id")
     private Timeslot timeslot;
 
-    public Term(Long id, int day, int week, Timeslot timeslot) {
+    public Term(Long id, Days day, int week, Timeslot timeslot) {
         this.id = id;
         this.day = day;
         this.week = week;
@@ -36,11 +37,11 @@ public class Term implements Comparable<Term>{
         this.id = id;
     }
 
-    public int getDay() {
+    public Days getDay() {
         return day;
     }
 
-    public void setDay(int day) {
+    public void setDay(Days day) {
         this.day = day;
     }
 
@@ -63,11 +64,11 @@ public class Term implements Comparable<Term>{
     @Override
     public String toString() {
         return switch (day) {
-            case 0 -> "Monday " + timeslot;
-            case 1 -> "Tuesday " + timeslot;
-            case 2 -> "Wednesday " + timeslot;
-            case 3 -> "Thursday " + timeslot;
-            case 4 -> "Friday " + timeslot;
+            case Monday -> "Monday " + timeslot;
+            case Tuesday -> "Tuesday " + timeslot;
+            case Wednesday -> "Wednesday " + timeslot;
+            case Thursday -> "Thursday " + timeslot;
+            case Friday -> "Friday " + timeslot;
             default -> "";
         };
 
@@ -76,20 +77,20 @@ public class Term implements Comparable<Term>{
     public String getShortLabel(Language language){
         if (language == Language.POLISH) {
             return switch (day) {
-                case 0 -> "Pon " + timeslot;
-                case 1 -> "Wt " + timeslot;
-                case 2 -> "Śr " + timeslot;
-                case 3 -> "Czw " + timeslot;
-                case 4 -> "Pt " + timeslot;
+                case Monday -> "Pon " + timeslot;
+                case Tuesday -> "Wt " + timeslot;
+                case Wednesday -> "Śr " + timeslot;
+                case Thursday -> "Czw " + timeslot;
+                case  Friday -> "Pt " + timeslot;
                 default -> "";
             };
         } else {
             return switch (day) {
-                case 0 -> "Mon " + timeslot;
-                case 1 -> "Tue " + timeslot;
-                case 2 -> "Wed " + timeslot;
-                case 3 -> "Thu " + timeslot;
-                case 4 -> "Fri " + timeslot;
+                case Monday -> "Mon " + timeslot;
+                case Tuesday -> "Tue " + timeslot;
+                case Wednesday -> "Wed " + timeslot;
+                case Thursday -> "Thu " + timeslot;
+                case Friday -> "Fri " + timeslot;
                 default -> "";
             };
         }
@@ -99,6 +100,6 @@ public class Term implements Comparable<Term>{
         if (other.day == day){
             return timeslot.compareTo(other.timeslot);
         }
-        return day - other.day;
+        return day.ordinal() - other.day.ordinal();
     }
 }

@@ -3,11 +3,16 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@babel/preset-env": "7.17.10",
+        "@babel/preset-react": "7.16.7",
         "@testing-library/jest-dom": "^5.16.3",
         "@testing-library/react": "^12.1.4",
         "@testing-library/user-event": "^13.5.0",
+        "babel-jest": "28.0.3",
         "better-docs": "^2.7.2",
         "bootstrap": "^5.1.3",
+        "jest": "28.0.3",
+        "jest-coverage-badges": "^1.1.2",
         "jsdoc": "^3.6.10",
         "react": "^17.0.2",
         "react-bootstrap": "^2.2.3",
@@ -17,6 +22,7 @@
         "react-dropzone": "^12.0.5",
         "react-router-dom": "^6.3.0",
         "react-scripts": "5.0.0",
+        "react-test-renderer": "18.1.0",
         "react-time-input": "^1.0.1",
         "react-toastify": "^8.2.0",
         "react-widgets": "^5.8.4",
@@ -28,11 +34,13 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
+        "test:coverage": "npm test -- --coverage --watchAll=false",
+        "test:badges": "npm run test:coverage  && jest-coverage-badges output ../.github/badges",
         "eject": "react-scripts eject",
         "docs": "jsdoc -c jsdoc.conf.json",
-        "lint": "eslint ./**/*.js src/**/*.jsx",
-        "lint:fix": "eslint ./**/*.js src/**/*.jsx --fix",
-        "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
+        "lint": "eslint src/**/*.js src/**/*.jsx",
+        "lint:fix": "eslint src/**/*.js src/**/*.jsx --fix",
+        "format": "prettier --write src/**/*.{js,jsx,ts,tsx,css,md,json} --config ./.prettierrc"
     },
     "eslintConfig": {
         "extends": [
@@ -59,7 +67,18 @@
         "eslint-plugin-jsx-a11y": "^6.5.1",
         "eslint-plugin-prettier": "^4.0.0",
         "eslint-plugin-react": "^7.29.4",
+        "jest-watch-typeahead": "^0.6.5",
         "prettier": "^2.6.2",
         "remark-mdx": "^2.0.0-next.9"
+    },
+    "jest": {
+        "moduleNameMapper": {
+            "\\.(css|less)$": "<rootDir>/src/__mocks__/styleMock.js"
+        },
+        "coverageReporters": [
+            "json-summary",
+            "text",
+            "lcov"
+        ]
     }
 }

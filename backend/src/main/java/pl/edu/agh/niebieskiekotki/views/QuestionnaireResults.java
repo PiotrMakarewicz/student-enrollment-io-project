@@ -61,7 +61,7 @@ public class QuestionnaireResults {
         this.rows = rows;
     }
 
-    public List<Term> getQuestionnaireAvailableTerms() {
+    public List<Term> getAvailableTerms() {
         return questionnaireAvailableTerms;
     }
 

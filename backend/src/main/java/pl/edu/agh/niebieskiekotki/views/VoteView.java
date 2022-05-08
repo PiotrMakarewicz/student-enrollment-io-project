@@ -4,20 +4,20 @@ import java.util.List;
 
 public class VoteView {
 
-    private Long questionnaire_id;
+    private Long questionnaireId;
     private String firstName;
     private String lastName;
     private String emailAddress;
     private int indexNumber;
-    private List<Long> selected_terms;
+    private List<Long> selectedTerms;
 
 
-    public Long getQuestionnaire_id() {
-        return questionnaire_id;
+    public Long getQuestionnaireId() {
+        return questionnaireId;
     }
 
-    public void setQuestionnaire_id(Long questionnaire_id) {
-        this.questionnaire_id = questionnaire_id;
+    public void setQuestionnaireId(Long questionnaireId) {
+        this.questionnaireId = questionnaireId;
     }
 
     public String getFirstName() {
@@ -52,11 +52,11 @@ public class VoteView {
         this.indexNumber = indexNumber;
     }
 
-    public List<Long> getSelected_terms() {
-        return selected_terms;
+    public List<Long> getSelectedTerms() {
+        return selectedTerms;
     }
 
-    public void setSelected_terms(List<Long> selected_terms) {
-        this.selected_terms = selected_terms;
+    public void setSelectedTerms(List<Long> selectedTerms) {
+        this.selectedTerms = selectedTerms;
     }
 }

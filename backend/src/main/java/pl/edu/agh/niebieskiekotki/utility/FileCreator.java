@@ -3,6 +3,9 @@ package pl.edu.agh.niebieskiekotki.utility;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
+import java.util.List;
+
 import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
 import pl.edu.agh.niebieskiekotki.entitites.Results;
 import pl.edu.agh.niebieskiekotki.entitites.Student;
@@ -23,7 +26,7 @@ public class FileCreator {
         row.createCell(0).setCellValue(student.getIndexNumber());
         row.createCell(1).setCellValue(student.getFirstName());
         row.createCell(2).setCellValue(student.getLastName());
-        row.createCell(3).setCellValue(student.getEmailAddress());
+        row.createCell(3).setCellValue(student.getEmailAdress());
         for (int i = 0; i < choices.length; i++) {
             row.createCell(4 + i).setCellValue(choices[i]);
         }
@@ -41,7 +44,7 @@ public class FileCreator {
             rowhead.createCell(2).setCellValue("Surname");
             rowhead.createCell(3).setCellValue("e-mail");
         }
-        List<Term> terms = results.getQuestionnaireAvailableTerms();
+        List<Term> terms = results.getAvailableTerms();
         for (int i = 0; i < terms.size(); i++) {
             rowhead.createCell(4 + i).setCellValue(terms.get(i).getShortLabel(language));
         }
