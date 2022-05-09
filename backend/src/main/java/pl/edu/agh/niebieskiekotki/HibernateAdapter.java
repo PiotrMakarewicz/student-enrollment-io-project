@@ -3,9 +3,12 @@ package pl.edu.agh.niebieskiekotki;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
+import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireAccess;
+import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireTerm;
+import pl.edu.agh.niebieskiekotki.views.QuestionnaireResults;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -26,23 +29,32 @@ public class HibernateAdapter {
         criteriaQuery.select(root);
         Query<T> query = session.createQuery(criteriaQuery);
         List<T> results = query.getResultList();
+        session.disconnect();
+
         return results;
     }
 
-    public <T> List<T> deleteAll(Class<T> c) {
+    public void clearDatabase() {
+
         Session session = entityManager.unwrap(Session.class);
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<T> criteriaQuery = builder.createQuery(c);
+        session.getTransaction().begin();
 
-        Root<T> root = criteriaQuery.from(c);
-        criteriaQuery.select(root);
-        Query<T> query = session.createQuery(criteriaQuery);
-        List<T> results = query.getResultList();
-        session.delete(results.get(0));
-        return results;
+        for(QuestionnaireTerm qt : getAll(QuestionnaireTerm.class))
+            session.delete(qt);
+
+        for(QuestionnaireAccess qa : getAll(QuestionnaireAccess.class))
+            session.delete(qa);
+
+        for(QuestionnaireResults qr : getAll(QuestionnaireResults.class))
+            session.delete(qr);
+
+        for(Questionnaire q : getAll(Questionnaire.class))
+            session.delete(q);
+
+        session.getTransaction().commit();
+        session.disconnect();
+
     }
-
-
 
     public <T> T getById(Class<T> c, Long id) {
         List<T> results = getWhereEq(c, "id", id);
@@ -68,6 +80,7 @@ public class HibernateAdapter {
         criteriaQuery.select(root);
         Query<T> query = session.createQuery(criteriaQuery);
         List<T> result = query.getResultList();
+        session.disconnect();
 
         return result;
     }
@@ -77,6 +90,7 @@ public class HibernateAdapter {
         session.getTransaction().begin();
         session.save(itemToSave);
         session.getTransaction().commit();
+        session.disconnect();
     }
 
 }
