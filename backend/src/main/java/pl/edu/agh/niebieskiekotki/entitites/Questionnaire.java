@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Entity
 public class Questionnaire {
@@ -27,6 +29,10 @@ public class Questionnaire {
     @OneToMany(mappedBy = "questionnaire")
     @JsonIgnore
     public List<Vote> votes;
+
+    @OneToMany(mappedBy = "questionnaire")
+    @JsonIgnore
+    public List<Results> results;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -55,6 +61,22 @@ public class Questionnaire {
                 ", expirationDate=" + expirationDate +
                 ", label='" + label + '\'' +
                 '}';
+    }
+
+    public List<QuestionnaireAccess> getQuestionnaireAccesses() {
+        return questionnaireAccesses;
+    }
+
+    public void setQuestionnaireAccesses(List<QuestionnaireAccess> questionnaireAccesses) {
+        this.questionnaireAccesses = questionnaireAccesses;
+    }
+
+    public List<QuestionnaireTerm> getQuestionnaireTerms() {
+        return questionnaireTerms;
+    }
+
+    public void setQuestionnaireTerms(List<QuestionnaireTerm> questionnaireTerms) {
+        this.questionnaireTerms = questionnaireTerms;
     }
 
     public Long getId() {
@@ -88,4 +110,17 @@ public class Questionnaire {
     public void setLabel(String label) {
         this.label = label;
     }
+
+    public List<Results> getResults() {
+        return results;
+    }
+
+    public void setResults(List<Results> results) {
+        this.results = results;
+    }
+
+    public Map<Student,String> studentsWithLinks(){
+        return questionnaireAccesses.stream().collect(Collectors.toMap(QuestionnaireAccess::getStudent,QuestionnaireAccess::getLinkPath));
+    }
+
 }

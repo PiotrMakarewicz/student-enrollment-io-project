@@ -25,10 +25,17 @@ public class Timeslot {
 
     }
 
+    private String minuteFiller(int min) {
+        if (min < 10)
+            return "0" + min;
+        else
+            return "" + min;
+    }
+
     @Override
     public String toString() {
-        return this.startTime.getHour() + ":" + startTime.getMinute() +
-                " - " + this.endTime.getHour() + ":" + endTime.getMinute();
+        return this.startTime.getHour() + ":" + minuteFiller(startTime.getMinute()) +
+                " - " + this.endTime.getHour() + ":" + minuteFiller(endTime.getMinute());
     }
 
     public Long getId() {
@@ -55,7 +62,7 @@ public class Timeslot {
         this.endTime = endTime;
     }
 
-    public int compareTo(Timeslot other){
+    public int compareTo(Timeslot other) {
         return startTime.compareTo(other.startTime);
     }
 }

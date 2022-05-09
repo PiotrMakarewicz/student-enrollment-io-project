@@ -2,26 +2,28 @@ package pl.edu.agh.niebieskiekotki.routes;
 
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.niebieskiekotki.HibernateAdapter;
-import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
-import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireTerm;
-import pl.edu.agh.niebieskiekotki.entitites.Term;
+import pl.edu.agh.niebieskiekotki.entitites.*;
 import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.NotFoundException;
+import pl.edu.agh.niebieskiekotki.utility.EmailService;
 import pl.edu.agh.niebieskiekotki.views.AddQuestionnaireView;
 import pl.edu.agh.niebieskiekotki.views.QuestionnaireDetail;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
 public class QuestionnaireRouter {
 
     private final HibernateAdapter hibernateAdapter;
+    private final EmailService emailService;
     List<Questionnaire> questionnaires = new ArrayList<>();
 
-    public QuestionnaireRouter(HibernateAdapter hibernateAdapter) {
+    public QuestionnaireRouter(HibernateAdapter hibernateAdapter, EmailService emailService) {
         this.hibernateAdapter = hibernateAdapter;
+        this.emailService = emailService;
     }
 
     @GetMapping(value = "/questionnaires")
@@ -51,7 +53,8 @@ public class QuestionnaireRouter {
         newQuestionnaire.setExpirationDate(addQuestionnaireView.getExpirationDate());
         newQuestionnaire.setLabel(addQuestionnaireView.getLabel());
         newQuestionnaire.getTeacher().setId(addQuestionnaireView.getTeacherId());
-        newQuestionnaire.setQuestionnaireTerms(new LinkedList<>());
+        newQuestionnaire.setQuestionnaireTerms(new ArrayList<>());
+        newQuestionnaire.setQuestionnaireAccesses(new ArrayList<>());
 
 
         hibernateAdapter.save(newQuestionnaire);
@@ -63,7 +66,22 @@ public class QuestionnaireRouter {
                 QuestionnaireTerm qt = new QuestionnaireTerm(newQuestionnaire, term);
                 hibernateAdapter.save(qt);
                 newQuestionnaire.getQuestionnaireTerms().add(qt);
+              newQuestionnaire.questionnaireTerms.add(qt);
             }
+        }
+        for (Student studentInfo : addQuestionnaireView.getStudentsInfo()) {
+            Student student = hibernateAdapter.getOneWhereEq(Student.class, "indexNumber", studentInfo.getIndexNumber());
+            if (student == null) {
+                hibernateAdapter.save(studentInfo);
+                student = studentInfo;
+            }
+            QuestionnaireAccess questionnaireAccess = new QuestionnaireAccess(student, newQuestionnaire);
+            hibernateAdapter.save(questionnaireAccess);
+            newQuestionnaire.questionnaireAccesses.add(questionnaireAccess);
+        }
+        if(addQuestionnaireView.isAutoSendingLinks()) {
+            Map<Student, String> studentsWithLinks = newQuestionnaire.studentsWithLinks();
+            emailService.sendToAll(studentsWithLinks);
         }
 
         return new QuestionnaireDetail(newQuestionnaire);
@@ -104,4 +122,5 @@ public class QuestionnaireRouter {
         questionnaires.remove(toReturn);
         return toReturn;
     }
+
 }

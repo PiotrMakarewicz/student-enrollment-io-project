@@ -1,7 +1,8 @@
-plugins {
+   plugins {
 	id 'org.springframework.boot' version '2.6.5'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'jacoco'
 }
 
 group = 'pl.edu.agh'
@@ -24,8 +25,23 @@ dependencies {
 	implementation group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api',version:  '1.0.2.Final'
 	implementation 'org.apache.poi:poi:5.2.2'
 	implementation 'org.apache.directory.studio:org.apache.commons.io:2.4'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.jgrapht:jgrapht-core:1.5.1'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.6.5'
+}
 
+jacoco {
+	toolVersion = "0.8.8"
+	reportsDir = file("$buildDir/jacoco")
+}
+
+test {
+	finalizedBy jacocoTestReport
+}
+jacocoTestReport {
+	dependsOn test
+	reports {
+		csv.enabled true
+	}
 }
 
 tasks.named('test') {

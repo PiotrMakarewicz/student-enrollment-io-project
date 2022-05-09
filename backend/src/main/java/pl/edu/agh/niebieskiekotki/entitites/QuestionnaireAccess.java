@@ -20,4 +20,36 @@ public class QuestionnaireAccess {
 
     private String password;
 
+    public QuestionnaireAccess(Student student, Questionnaire questionnaire) {
+        this.student = student;
+        this.questionnaire = questionnaire;
+        linkPath= "" + questionnaire.getId();
+    }
+
+    public QuestionnaireAccess() {
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public String getLinkPath() {
+        return linkPath;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public void setLinkPath(String linkPath) {
+        this.linkPath = linkPath;
+    }
+
+    @Override
+    public String toString() {
+        return "QuestionnaireAccess{" +
+                "id=" + id +
+                ", linkPath='" + linkPath + '\'' +
+                '}';
+    }
 }

@@ -25,20 +25,26 @@ public class VoteRouter {
     @PostMapping(value = "/vote")
     public void AddVote(@RequestBody VoteView vote) throws NotFoundException {
 
+        System.out.println("got a post request on /vote");
+
         Student student = new Student(vote.getFirstName(), vote.getLastName(), vote.getEmailAddress(), vote.getIndexNumber());
         hibernateAdapter.save(student);
 
 
-        Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, vote.getQuestionnaire_id());
-        if (questionnaire == null)
-            throw new NotFoundException("Not found questionnaire with id " + vote.getQuestionnaire_id());
+        Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, vote.getQuestionnaireId());
+        if (questionnaire == null) {
+            System.out.println("soemthign wetn very wrong");
+            throw new NotFoundException("Not found questionnaire with id " + vote.getQuestionnaireId());
+        }
 
         System.out.println("questionnaire:" + questionnaire);
 
         List<Term> terms = hibernateAdapter.getAll(Term.class);
 
+        System.out.println(terms);
+
         for (Term term : terms) {
-            if (vote.getSelected_terms().contains(term.getId())) {
+            if (vote.getSelectedTerms().contains(term.getId())) {
                 hibernateAdapter.save(new Vote(questionnaire, student, 1, term, ""));
             }
         }

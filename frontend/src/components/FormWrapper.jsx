@@ -29,7 +29,7 @@ const wrap = (element) => {
 
 function FormWrapper(props) {
     const clones = React.Children.map(props.children, (child) => {
-        if (child.type == "title") {
+        if (child.type === "title") {
             return child;
         }
         return React.cloneElement(wrap(child), {

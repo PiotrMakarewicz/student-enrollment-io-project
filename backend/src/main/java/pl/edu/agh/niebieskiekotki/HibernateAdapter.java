@@ -45,8 +45,14 @@ public class HibernateAdapter {
 
 
     public <T> T getById(Class<T> c, Long id) {
-
         List<T> results = getWhereEq(c, "id", id);
+        if (results == null || results.size() == 0) return null;
+        return results.get(0);
+    }
+
+    public <T, V> T getOneWhereEq(Class<T> c, String fieldName, V value) {
+
+        List<T> results = getWhereEq(c, fieldName, value);
         if (results == null || results.size() == 0) return null;
         return results.get(0);
     }
@@ -61,13 +67,7 @@ public class HibernateAdapter {
         criteriaQuery.where(builder.equal(root.get(fieldName), value));
         criteriaQuery.select(root);
         Query<T> query = session.createQuery(criteriaQuery);
-        List<T> result = null;
-
-        try {
-            result = query.getResultList();
-        } catch (NoResultException e) {
-            e.printStackTrace();
-        }
+        List<T> result = query.getResultList();
 
         return result;
     }

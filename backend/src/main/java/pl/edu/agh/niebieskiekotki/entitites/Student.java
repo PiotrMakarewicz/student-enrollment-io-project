@@ -11,15 +11,15 @@ public class Student {
 
     private String firstName;
     private String lastName;
-    private String emailAddress;
+    private String emailAdress;
     private int indexNumber;
     @OneToMany(mappedBy = "student")
     private List<QuestionnaireAccess> questionnaireAccesses;
 
-    public Student(String firstName, String lastName, String emailAddress, int indexNumber) {
+    public Student(String firstName, String lastName, String emailAdress, int indexNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.emailAddress = emailAddress;
+        this.emailAdress = emailAdress;
         this.indexNumber = indexNumber;
     }
 
@@ -50,12 +50,12 @@ public class Student {
         this.lastName = lastName;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getEmailAdress() {
+        return emailAdress;
     }
 
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public void setEmailAdress(String emailAddress) {
+        this.emailAdress = emailAddress;
     }
 
     public int getIndexNumber() {
