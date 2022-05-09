@@ -70,9 +70,9 @@ public class QuestionnaireRouter {
                 QuestionnaireTerm qt = new QuestionnaireTerm(newQuestionnaire, term);
                 hibernateAdapter.save(qt);
                 newQuestionnaire.getQuestionnaireTerms().add(qt);
+              newQuestionnaire.questionnaireTerms.add(qt);
             }
         }
-
         for (Student studentInfo : addQuestionnaireView.getStudentsInfo()) {
             Student student = hibernateAdapter.getOneWhereEq(Student.class, "indexNumber", studentInfo.getIndexNumber());
             if (student == null) {
@@ -83,7 +83,6 @@ public class QuestionnaireRouter {
             hibernateAdapter.save(questionnaireAccess);
             newQuestionnaire.questionnaireAccesses.add(questionnaireAccess);
         }
-
         if(addQuestionnaireView.isAutoSendingLinks()) {
             Map<Student, String> studentsWithLinks = newQuestionnaire.studentsWithLinks();
             emailService.sendToAll(studentsWithLinks);
