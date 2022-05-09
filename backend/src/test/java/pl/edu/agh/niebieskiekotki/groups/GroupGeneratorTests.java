@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GroupGeneratorTests {
 
-    GroupGenerator generator = new GroupGenerator();
+    GenerationAlgorithm generator = new GenerationAlgorithm();
 
     @Test
     public void test(){

@@ -16,7 +16,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Comparator;
-import java.util.List;
 
 public class FileCreator {
 
@@ -52,7 +51,7 @@ public class FileCreator {
 
     public static HSSFWorkbook createFileWithPreferences(Questionnaire questionnaire, Language language) {
 
-        QuestionnaireResults results = new QuestionnaireResults(questionnaire.votes, questionnaire);
+        QuestionnaireResults results = new QuestionnaireResults(questionnaire.getVotes(), questionnaire);
 
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet(questionnaire.getLabel());
