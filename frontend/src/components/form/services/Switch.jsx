@@ -1,18 +1,24 @@
-function Switch({handleSwitchChange, checked, label_}) {
-    return (  
-    <div className='custom-control custom-switch'>
-    <input
-        type='checkbox'
-        className='custom-control-input'
-        id='customSwitches'
-        checked={checked}
-        onChange={handleSwitchChange}
-        readOnly
-    />
-    <label className='custom-control-label' htmlFor='customSwitches'>
-    {label_}
-    </label>
-</div> );
+function Switch({ handleSwitchChange, checked, label_ }) {
+    return (
+        <div className="form-wrapper">
+            <div className="form-check form-switch">
+                <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id="customSwitches"
+                    checked={checked}
+                    onChange={handleSwitchChange}
+                    readOnly
+                />
+                <label
+                    className="form-check-label"
+                    htmlFor="customSwitches"
+                >
+                    {label_}
+                </label>
+            </div>
+        </div>
+    );
 }
 
 export default Switch;
