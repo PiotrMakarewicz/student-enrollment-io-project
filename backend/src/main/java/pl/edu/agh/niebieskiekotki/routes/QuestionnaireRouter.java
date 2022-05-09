@@ -70,7 +70,6 @@ public class QuestionnaireRouter {
                 QuestionnaireTerm qt = new QuestionnaireTerm(newQuestionnaire, term);
                 hibernateAdapter.save(qt);
                 newQuestionnaire.getQuestionnaireTerms().add(qt);
-              newQuestionnaire.questionnaireTerms.add(qt);
             }
         }
         for (Student studentInfo : addQuestionnaireView.getStudentsInfo()) {
