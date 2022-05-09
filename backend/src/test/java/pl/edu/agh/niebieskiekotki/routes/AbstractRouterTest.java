@@ -1,4 +1,4 @@
-package pl.edu.agh.niebieskiekotki;
+package pl.edu.agh.niebieskiekotki.routes;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,6 +13,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import pl.edu.agh.niebieskiekotki.HibernateAdapter;
+import pl.edu.agh.niebieskiekotki.StudentEnrollmentApplication;
 
 import java.io.IOException;
 
@@ -20,10 +22,13 @@ import java.io.IOException;
 @AutoConfigureMockMvc
 @SpringBootTest(classes = StudentEnrollmentApplication.class)
 @WebAppConfiguration
-public abstract class AbstractTest {
+public abstract class AbstractRouterTest {
     protected MockMvc mvc;
     @Autowired
     WebApplicationContext webApplicationContext;
+
+    @Autowired
+    HibernateAdapter hibernateAdapter;
 
     protected void setUp() {
         mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();

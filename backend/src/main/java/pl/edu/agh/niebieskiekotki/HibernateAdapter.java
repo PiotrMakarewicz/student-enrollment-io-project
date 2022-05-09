@@ -29,6 +29,21 @@ public class HibernateAdapter {
         return results;
     }
 
+    public <T> List<T> deleteAll(Class<T> c) {
+        Session session = entityManager.unwrap(Session.class);
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<T> criteriaQuery = builder.createQuery(c);
+
+        Root<T> root = criteriaQuery.from(c);
+        criteriaQuery.select(root);
+        Query<T> query = session.createQuery(criteriaQuery);
+        List<T> results = query.getResultList();
+        session.delete(results.get(0));
+        return results;
+    }
+
+
+
     public <T> T getById(Class<T> c, Long id) {
 
         List<T> results = getWhereEq(c, "id", id);
