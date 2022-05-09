@@ -8,6 +8,7 @@ import FormWrapper from "../FormWrapper";
 import { Calendar } from "../form/calendar";
 import http from "../../services/http";
 import DropZone from "../form/services/DropZone";
+import Switch from "../form/services/Switch";
 import readXlsxFile from "read-excel-file";
 import { parseXlsxFile } from "../form/services/Parser";
 // import FileLoader from "../form/services/FileLoader"
@@ -27,10 +28,18 @@ function LecturerForm() {
         date_input: new Date(),
         time_input: new Date(new Date().setHours(0, 0, 0, 0)),
         selected_terms: new Set(),
-        students_info: []
+        students_info: [],
+        auto_sending_links: true
     });
     const onSubmit = async () => {
-        const { date_input, time_input, name_input, selected_terms, students_info } = state;
+        const {
+            date_input,
+            time_input,
+            name_input,
+            selected_terms,
+            students_info,
+            auto_sending_links
+        } = state;
         const response = await http.post("/questionnaires", {
             expirationDate: new Date(
                 date_input.getFullYear(),
@@ -41,7 +50,8 @@ function LecturerForm() {
             ),
             label: name_input,
             availableTerms: Array.from(selected_terms),
-            studentsInfo: students_info
+            studentsInfo: students_info,
+            autoSendingLinks: auto_sending_links
         });
 
         if (response.ok) {
@@ -50,7 +60,8 @@ function LecturerForm() {
                 fullname_input: "",
                 date_input: new Date(),
                 time_input: new Date(new Date().setHours(0, 0, 0, 0)),
-                selected_terms: new Set()
+                selected_terms: new Set(),
+                auto_sending_links: true
             });
         }
     };
@@ -59,6 +70,11 @@ function LecturerForm() {
             let result = parseXlsxFile(rows);
             setState({ ...state, students_info: result });
         });
+    }
+
+    function handleSwitchChange() {
+        const { auto_sending_links } = state;
+        setState({ ...state, auto_sending_links: !auto_sending_links });
     }
 
     const toggleTerm = (id) => {
@@ -122,6 +138,11 @@ function LecturerForm() {
                     </div>
                 </div>
                 <DropZone fileHandler={fileHandler} />
+                <Switch
+                    handleSwitchChange={handleSwitchChange}
+                    checked={state.auto_sending_links}
+                    label_="Auto sending links"
+                />
                 <Calendar
                     selectedTerms={state.selected_terms}
                     toggleTerm={toggleTerm}

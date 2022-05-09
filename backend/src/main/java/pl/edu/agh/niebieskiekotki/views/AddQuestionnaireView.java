@@ -12,6 +12,15 @@ public class AddQuestionnaireView {
     private String label;
     private List<Long> availableTerms;
     private List<Student> studentsInfo;
+    private boolean autoSendingLinks;
+
+    public boolean isAutoSendingLinks() {
+        return autoSendingLinks;
+    }
+
+    public void setAutoSendingLinks(boolean autoSendingLinks) {
+        this.autoSendingLinks = autoSendingLinks;
+    }
 
     public List<Student> getStudentsInfo() {
         return studentsInfo;

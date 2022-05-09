@@ -43,9 +43,9 @@
     opacity: 0.5;
 }
 
-[type="checkbox"] {
+/*[type="checkbox"] {
     display: none;
-}
+}*/
 
 [type="checkbox"]:checked + .switchLabel .toggle {
     transform: translateX(100%);
