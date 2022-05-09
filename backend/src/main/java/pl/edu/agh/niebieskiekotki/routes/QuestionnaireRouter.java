@@ -41,6 +41,11 @@ public class QuestionnaireRouter {
         return new QuestionnaireDetail(toReturn);
     }
 
+    @DeleteMapping (value = "/questionnaires")
+    public void GetOne() throws NotFoundException {
+        hibernateAdapter.clearDatabase();
+    }
+
 
     @PostMapping(value = "/questionnaires")
     public QuestionnaireDetail Post(@RequestBody AddQuestionnaireView addQuestionnaireView) {
@@ -55,6 +60,7 @@ public class QuestionnaireRouter {
         newQuestionnaire.setQuestionnaireTerms(new ArrayList<>());
         newQuestionnaire.setQuestionnaireAccesses(new ArrayList<>());
 
+
         hibernateAdapter.save(newQuestionnaire);
 
         List<Term> allTerms = hibernateAdapter.getAll(Term.class);
@@ -63,7 +69,7 @@ public class QuestionnaireRouter {
             if (addQuestionnaireView.getAvailableTerms().contains(term.getId())) {
                 QuestionnaireTerm qt = new QuestionnaireTerm(newQuestionnaire, term);
                 hibernateAdapter.save(qt);
-                newQuestionnaire.questionnaireTerms.add(qt);
+                newQuestionnaire.getQuestionnaireTerms().add(qt);
             }
         }
         for (Student studentInfo : addQuestionnaireView.getStudentsInfo()) {
