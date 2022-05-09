@@ -76,8 +76,10 @@ public class QuestionnaireRouter {
             hibernateAdapter.save(questionnaireAccess);
             newQuestionnaire.questionnaireAccesses.add(questionnaireAccess);
         }
-        Map<Student, String> studentsWithLinks = newQuestionnaire.studentsWithLinks();
-        emailService.sendToAll(studentsWithLinks);
+        if(addQuestionnaireView.isAutoSendingLinks()) {
+            Map<Student, String> studentsWithLinks = newQuestionnaire.studentsWithLinks();
+            emailService.sendToAll(studentsWithLinks);
+        }
 
         return new QuestionnaireDetail(newQuestionnaire);
     }
