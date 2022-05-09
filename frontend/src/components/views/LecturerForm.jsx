@@ -8,6 +8,7 @@ import FormWrapper from "../FormWrapper";
 import { Calendar } from "../form/calendar";
 import http from "../../services/http";
 import DropZone from "../form/services/DropZone";
+import Switch from "../form/services/Switch";
 import readXlsxFile from "read-excel-file";
 import { parseXlsxFile } from "../form/services/Parser";
 // import FileLoader from "../form/services/FileLoader"
@@ -122,6 +123,7 @@ function LecturerForm() {
                     </div>
                 </div>
                 <DropZone fileHandler={fileHandler} />
+                <Switch handleSwitchChange={handleSwitchChange} checked={state.auto_sending_links} label_="Auto sending links"/>
                 <Calendar
                     selectedTerms={state.selected_terms}
                     toggleTerm={toggleTerm}
