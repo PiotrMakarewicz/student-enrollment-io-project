@@ -16,7 +16,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Comparator;
-import java.util.List;
 
 public class FileCreator {
 
@@ -73,6 +72,10 @@ public class FileCreator {
     }
 
     public static File createFileGroups(List<Results> results, Language language, String fileName) throws IOException {
+        if (results == null || results.size() == 0)
+            throw new IllegalArgumentException("Provided no results");
+        if (fileName == null || fileName.equals(""))
+            fileName = "groups.txt";
         StringBuilder builder = new StringBuilder();
         results.sort(Comparator.comparing(Results::getTerm));
         Term currentTerm = results.get(0).getTerm();
