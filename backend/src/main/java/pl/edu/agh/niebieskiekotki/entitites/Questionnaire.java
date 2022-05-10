@@ -28,7 +28,7 @@ public class Questionnaire {
     public List<QuestionnaireTerm> questionnaireTerms;
     @OneToMany(mappedBy = "questionnaire")
     @JsonIgnore
-    public List<Vote> votes;
+    private List<Vote> votes;
 
     @OneToMany(mappedBy = "questionnaire")
     @JsonIgnore
@@ -115,4 +115,7 @@ public class Questionnaire {
         return questionnaireAccesses.stream().collect(Collectors.toMap(QuestionnaireAccess::getStudent,QuestionnaireAccess::getLinkPath));
     }
 
+    public List<Vote> getVotes() {
+        return votes;
+    }
 }
