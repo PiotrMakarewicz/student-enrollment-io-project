@@ -79,11 +79,11 @@ public class FileRouter {
         if (questionnaire == null)
             throw new NotFoundException("Not found questionnaire with id " + id);
         HSSFWorkbook workbook = FileCreator.createFileWithPreferences(questionnaire, Language.fromString(language));
-        return createResponse(workbook,"ProductTemplate.xlsx");
+        return createResponse(workbook,"preferences.xlsx");
     }
 
     @GetMapping(value="/files/links/{id}")
-    public ResponseEntity<ByteArrayResource> downloadPreferences( @PathVariable long id) throws Exception {
+    public ResponseEntity<ByteArrayResource> downloadLinks( @PathVariable long id) throws Exception {
         Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, id);
         if (questionnaire == null)
             throw new NotFoundException("Not found questionnaire with id " + id);

@@ -1,7 +1,8 @@
 package pl.edu.agh.niebieskiekotki.routes;
 
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MvcResult;
@@ -12,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 
 public class QuestionnaireRouterTest extends AbstractRouterTest {
 	@Override
-	@Before
+	@BeforeEach
 	public void setUp() {
 		super.setUp();
 	//	hibernateAdapter.clearDatabase();
@@ -57,14 +58,15 @@ public class QuestionnaireRouterTest extends AbstractRouterTest {
 		String uri = "/questionnaires";
 		MvcResult mvcResult = mvc
 				.perform(MockMvcRequestBuilders.post(uri)
-				.content("    {\n" +
-						"        \"expirationDate\": \"2022-04-16T20:34:34\",\n" +
-						"        \"label\": \"with terms\",\n" +
-						"        \"teacher_id\":1,\n" +
-						"        \"availableTerms\":[1,2,3,4,5,11],\n" +
-						"        \"autoSendingLinks\":false,\n" +
-						"        \"studentsInfo\":[]\n" +
-						"    }").contentType("application/json")
+				.content("""
+						{
+						    "expirationDate": "2022-04-16T20:34:34",
+						    "label": "with terms",
+						    "teacher_id":1,
+						    "availableTerms":[1,2,3,4,5,11],
+						    "autoSendingLinks":false,
+						    "studentsInfo":[]
+						}""".indent(4)).contentType("application/json")
 				.accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
 		int status = mvcResult.getResponse().getStatus();

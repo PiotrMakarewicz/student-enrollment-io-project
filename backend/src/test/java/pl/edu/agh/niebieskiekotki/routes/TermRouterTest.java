@@ -1,7 +1,8 @@
 package pl.edu.agh.niebieskiekotki.routes;
 
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -10,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 
 public class TermRouterTest extends AbstractRouterTest {
     @Override
-    @Before
+    @BeforeEach
     public void setUp() {
         super.setUp();
     }
