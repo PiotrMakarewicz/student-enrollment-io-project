@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { Input } from "../form/basic";
 import Submit from "../form/basic/Submit";
 import { Calendar } from "../form/calendar";
-import SimpleWrapper from "../SimpleWrapper";
 import http from "../../services/http";
 import { useEffect } from "react";
 import { Spinner } from "react-bootstrap";

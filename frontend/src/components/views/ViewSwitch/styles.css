@@ -50,20 +50,21 @@
     opacity: 0.5;
 }
 
-[type="checkbox"] {
+#switch [type="checkbox"] {
     display: none;
 }
 
-[type="checkbox"]:checked + .switchLabel .toggle {
+#switch [type="checkbox"]:checked + .switchLabel .toggle {
     transform: translateX(100%);
     /* background-color: #34323d; */
 }
 
-[type="checkbox"]:checked + .switchLabel .groups {
+#switch [type="checkbox"]:checked + .switchLabel .groups {
     opacity: 1;
     color: black;
 }
-[type="checkbox"]:checked + .switchLabel .results {
+
+#switch [type="checkbox"]:checked + .switchLabel .results {
     color: #fff;
     opacity: 0.5;
 }

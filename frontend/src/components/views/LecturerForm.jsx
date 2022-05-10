@@ -3,7 +3,7 @@ import DatePicker from "react-widgets/DatePicker";
 import TimeInput from "react-widgets/TimeInput";
 import "react-widgets/styles.css";
 
-import { Input } from "../form/basic";
+import { CheckBox, Input } from "../form/basic";
 import Submit from "../form/basic/Submit";
 import FormWrapper from "../FormWrapper";
 import { Calendar } from "../form/calendar";
@@ -110,6 +110,14 @@ function LecturerForm() {
                         />
                     </div>
                 </div>
+
+                <CheckBox
+                    label="Agree"
+                    placeholder="whats your name"
+                    value={state.checkBox}
+                    onChange={(v) => setState({ ...state, checkBox: v })}
+                    id="example from checkbox"
+                />
 
                 <Calendar
                     selectedTerms={state.selected_terms}

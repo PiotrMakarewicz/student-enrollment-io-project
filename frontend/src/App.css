@@ -94,6 +94,6 @@ title {
 .app .table-results th,
 .app .table-results td {
     border: none;
-    border-radius: 0.25em;
+    border-radius: 0.1em;
     vertical-align: middle;
 }

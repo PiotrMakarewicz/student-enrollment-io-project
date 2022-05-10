@@ -1,5 +1,4 @@
 import React from "react";
-import SimpleWrapper from "../SimpleWrapper";
 import { Table } from "../table";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
