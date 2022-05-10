@@ -47,28 +47,46 @@
 .groups {
     -webkit-transition: color 500ms ease;
     transition: color 500ms ease;
-    opacity: 0.5;
+    opacity: 0.6;
 }
 
-#switch [type="checkbox"] {
+#switch {
     display: none;
 }
 
-#switch [type="checkbox"]:checked + .switchLabel .toggle {
+#switch:checked + .switchLabel .toggle {
     transform: translateX(100%);
     /* background-color: #34323d; */
 }
 
-#switch [type="checkbox"]:checked + .switchLabel .groups {
+#switch:checked + .switchLabel .groups {
     opacity: 1;
     color: black;
 }
 
-#switch [type="checkbox"]:checked + .switchLabel .results {
+#switch:checked + .switchLabel .results {
     color: #fff;
-    opacity: 0.5;
+    opacity: 0.6;
 }
 
 .inactive {
     display: none;
+}
+
+.app table tr th:empty {
+    padding: 0;
+}
+
+.backArrow {
+    transform: rotate(180deg);
+    top: 1rem;
+    left: 1rem;
+    position: absolute;
+}
+
+.backArrow button {
+    border: none;
+    border-radius: 50%;
+    width: 2.25em;
+    height: 2.25em;
 }

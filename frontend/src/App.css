@@ -81,8 +81,7 @@ title {
     vertical-align: middle;
 }
 
-.app .groupView .calendar-cell {
-    cursor: default;
+.rw-time-input-clear > svg {
     opacity: 1;
 }
 

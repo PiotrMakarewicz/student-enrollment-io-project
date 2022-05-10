@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SimpleWrapper from "../../SimpleWrapper";
-import GroupView from "../GroupView";
-import QuestionnaireResults from "../QuestionnaireResults";
+import { QuestionnaireResults, GroupView } from "../";
+import { Link } from "react-router-dom";
 import "./styles.css";
 
 function ViewSwitch() {
@@ -16,6 +16,12 @@ function ViewSwitch() {
     return (
         <>
             <SimpleWrapper>
+                <Link
+                    className="backArrow"
+                    to="/questionnaires"
+                >
+                    <button>{"\u279C"}</button>
+                </Link>
                 <input
                     type="checkbox"
                     id="switch"
@@ -34,6 +40,7 @@ function ViewSwitch() {
                 <div className="app">
                     {!state.isChecked && <QuestionnaireResults />}
                     {state.isChecked && <GroupView />}
+                    <hr />
                 </div>
             </SimpleWrapper>
         </>

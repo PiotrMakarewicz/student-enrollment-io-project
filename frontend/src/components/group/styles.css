@@ -1,0 +1,25 @@
+.groupView table {
+    align-items: center;
+    border-collapse: separate;
+    border-spacing: 0.2em;
+}
+
+.groupView th,
+.groupView td {
+    border: none;
+    border-radius: 0.1em;
+    vertical-align: middle;
+    padding: 0.5rem 0.5rem;
+    color: black;
+    background-color: lightgray;
+}
+
+.groupView td {
+    cursor: default;
+    opacity: 1;
+    background-color: lightcyan;
+}
+
+.groupView td:empty {
+    opacity: 0;
+}

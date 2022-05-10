@@ -18,7 +18,11 @@ import React from "react";
  */
 
 function Cell({ cell, lambda }) {
-    return <td className={lambda && lambda(cell)}>{cell == 1 ? "+" : cell}</td>;
+    return (
+        <td className={lambda && lambda(cell)}>
+            {cell == 1 ? "\u2713" : cell == 0 ? "\u2715" : cell}
+        </td>
+    );
 }
 
 export default Cell;
