@@ -12,8 +12,8 @@ function LecturerQuestionaire() {
         <ViewSwitch />
         <div className="lecturer-questionnaire-buttons">
             <div><span >File with user preferences</span><a href={`http://localhost:8080/files/preferences/english/${id}`}>download</a></div>
-            <div><span >File with user groups     </span><a href={`http://localhost:8080/files/preferences/english/${id}`}>download</a></div>
-            <div><span >File with user links      </span><a href={`http://localhost:8080/files/preferences/english/${id}`}>download</a></div>
+            <div><span >File with user groups     </span><a href={`http://localhost:8080/files/results/english/${id}`}>download</a></div>
+            <div><span >File with user links      </span><a href={`http://localhost:8080/files/links/${id}`}>download</a></div>
 
         </div>
        
