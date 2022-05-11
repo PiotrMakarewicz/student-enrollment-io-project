@@ -3,6 +3,7 @@ import http from "../../../services/http";
 import { Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { DayHeader, TermHeader, GroupBody } from "../../group";
+import "./styles.css";
 
 function GroupView() {
     const { id } = useParams();
@@ -99,7 +100,7 @@ function GroupView() {
                     { state.hasData ? (
                         <h5>Lecturer: {state.lecturerFullName}</h5>
                         ) :
-                        (<h5>Results not yet generated</h5>)
+                        (<h5>Groups not yet generated</h5>)
                     }
 
                     <table>
@@ -112,7 +113,7 @@ function GroupView() {
                         </tbody>
                     </table>
 
-                    <button onClick={askForResults}>Generate results</button>
+                    <button className="generateGroupsButton" onClick={askForResults}>Generate groups</button>
                 </div>
             )}
         </>
