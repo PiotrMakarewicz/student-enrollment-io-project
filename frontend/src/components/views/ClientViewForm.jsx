@@ -5,8 +5,8 @@ import Submit from "../form/basic/Submit";
 import { Calendar } from "../form/calendar";
 import http from "../../services/http";
 import { useEffect } from "react";
-import { Spinner } from "react-bootstrap";
 import FormWrapper from "../FormWrapper";
+import Confetti from "react-confetti";
 
 /**
  * View form for client
@@ -28,19 +28,30 @@ function ClientViewForm() {
         loading: true
     });
     let { id } = useParams();
-    var response;
     useEffect(() => {
         (async function () {
-            response = await http.get("/questionnaires/" + id);
-            console.log(response);
             setState({
                 ...state,
-                availableTermsSet: new Set(response["data"]["terms"]),
+                availableTermsSet: new Set(
+                    (await http.get("/questionnaires/" + id))["data"]["terms"]
+                ),
                 loading: false
             });
         })();
-    }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id]);
     const onSubmit = () => {
+
+        const { firstName, lastName, indexNumber, emailAdress, selectedTerms } = state;
+        http.post("/vote", {
+            firstName,
+            lastName,
+            indexNumber,
+            emailAdress,
+            selectedTerms: Array.from(selectedTerms),
+            questionnaireId: id
+        });
+
         setState({
             firstName: "",
             lastName: "",
@@ -48,16 +59,6 @@ function ClientViewForm() {
             emailAdress: "",
             s: state.selectedTerms,
             loading: true
-        });
-
-        const { firstName, lastName, indexNumber, emailAdress } = state;
-        http.post("/vote", {
-            firstName,
-            lastName,
-            indexNumber,
-            emailAdress,
-            selected_terms: Array.from(state.selectedTerms),
-            questionnaire_id: id
         });
     };
 
@@ -74,7 +75,11 @@ function ClientViewForm() {
         <>
             {state.loading ? (
                 <>
-                    <Spinner animation="border" />
+                    <h1>Thanks!</h1>
+                    <Confetti
+                        width={1500}
+                        height={700}
+                    />
                 </>
             ) : (
                 <>

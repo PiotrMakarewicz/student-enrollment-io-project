@@ -32,13 +32,9 @@ function Calendar({ selectedTerms, toggleTerm, availableTermsSet }) {
         loading: true
     });
 
-    var response;
     useEffect(() => {
         (async function () {
-            response = await http.get("/terms");
-            response = response["data"];
-            console.log(response);
-            setState({ termsInfo: response, loading: false });
+            setState({ termsInfo: (await http.get("/terms"))["data"], loading: false });
         })();
     }, []);
     return (
