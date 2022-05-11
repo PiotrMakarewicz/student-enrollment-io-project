@@ -28,6 +28,7 @@ function ViewSwitch() {
                     type="checkbox"
                     id="switch"
                     onClick={toggleHidden}
+                    hidden
                 />
                 <label
                     htmlFor="switch"
