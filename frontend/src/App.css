@@ -95,4 +95,10 @@ title {
     border: none;
     border-radius: 0.1em;
     vertical-align: middle;
+
+.dragDropField {
+    width: 100%;
+    height: 80%;
+    background-color: white;
+    /* border: 5px solid blue; */
 }

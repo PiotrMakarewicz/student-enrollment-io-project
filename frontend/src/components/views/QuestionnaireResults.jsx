@@ -17,7 +17,7 @@ function QuestionnaireResults() {
             const reqResult = await http.get(`/vote/${id}`);
             setState({ loading: false, tableInfo: reqResult["data"] });
         })();
-    }, []);
+    }, [id]);
     return (
         <>
             {state.loading ? (

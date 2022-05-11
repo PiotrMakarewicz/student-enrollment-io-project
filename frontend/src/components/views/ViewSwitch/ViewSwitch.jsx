@@ -11,6 +11,7 @@ function ViewSwitch() {
 
     const toggleHidden = () => {
         setState({ ...state, isChecked: !state.isChecked });
+      //  http.download("/files/preferences/english/32", "preferences", "xlsx"); // temporary, just to show that downloading works :)
     };
 
     return (
@@ -22,6 +23,7 @@ function ViewSwitch() {
                 >
                     <button>{"\u279C"}</button>
                 </Link>
+
                 <input
                     type="checkbox"
                     id="switch"
@@ -42,7 +44,6 @@ function ViewSwitch() {
                     {state.isChecked && <GroupView />}
                     <hr />
                 </div>
-            </SimpleWrapper>
         </>
     );
 }
