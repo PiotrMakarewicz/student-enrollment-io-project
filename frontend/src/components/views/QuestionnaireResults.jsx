@@ -25,13 +25,13 @@ function QuestionnaireResults() {
                     <Spinner animation="border" />
                 </>
             ) : (
-                <>
+                <div className="resultsView">
                     <Table
                         headers={state.tableInfo.headers}
                         records={state.tableInfo.rows}
                         lambda={(cell) => (cell === 1 ? "bg-success text-white" : "bg-light")}
                     />
-                </>
+                </div>
             )}
         </>
     );

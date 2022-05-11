@@ -103,3 +103,7 @@ title {
     background-color: white;
     /* border: 5px solid blue; */
 }
+
+.file-drop-area {
+    color: black;
+}
