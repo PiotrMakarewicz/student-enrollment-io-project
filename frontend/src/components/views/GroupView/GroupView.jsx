@@ -30,18 +30,18 @@ function GroupView() {
                 loading: false
             });
         })();
-    }, [id]);
+    }, [id, state]);
 
     const days = [];
     state.data.forEach((el) => {
         const student = `${el.student.firstName} ${el.student.lastName}`.trim();
-        if (days.some((e) => e.name == el.term.day)) {
-            let day = days.find((e) => e.name == el.term.day);
-            if (!day.terms.some((e) => e.timeslot.id == el.term.timeslot.id)) {
+        if (days.some((e) => e.name === el.term.day)) {
+            let day = days.find((e) => e.name === el.term.day);
+            if (!day.terms.some((e) => e.timeslot.id === el.term.timeslot.id)) {
                 day.terms = [...day.terms, { timeslot: el.term.timeslot, students: [student] }];
                 day.termsCount += 1;
             } else {
-                let term = day.terms.find((e) => e.timeslot.id == el.term.timeslot.id);
+                let term = day.terms.find((e) => e.timeslot.id === el.term.timeslot.id);
                 term.students = [...term.students, student];
                 if (term.students.length > maxGroupSize) maxGroupSize = term.students.length;
             }
