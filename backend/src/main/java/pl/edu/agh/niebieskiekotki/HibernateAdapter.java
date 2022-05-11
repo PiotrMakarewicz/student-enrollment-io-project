@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
 import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireAccess;
 import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireTerm;
+import pl.edu.agh.niebieskiekotki.entitites.Results;
 import pl.edu.agh.niebieskiekotki.views.QuestionnaireResults;
 
 import javax.persistence.EntityManager;
@@ -54,6 +55,22 @@ public class HibernateAdapter {
             session.delete(q);
 
         session.getTransaction().commit();
+        session.disconnect();
+
+    }
+
+    public void clearResultsWhere(long questionnaireId) {
+
+        Session session = entityManager.unwrap(Session.class);
+        //session.getTransaction().begin();
+
+        for(Results qr : getAll(Results.class)) {
+            if (qr.getQuestionnaire().getId() == questionnaireId) {
+                session.delete(qr);
+            }
+        }
+
+        //session.getTransaction().commit();
         session.disconnect();
 
     }

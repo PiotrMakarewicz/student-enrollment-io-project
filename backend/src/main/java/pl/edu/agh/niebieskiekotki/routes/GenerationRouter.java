@@ -25,7 +25,8 @@ public class GenerationRouter {
     @GetMapping("/generate_results/{id}/{numGroups}")
     public ResponseEntity<Object> startQuestionnaireResultsGeneration(@PathVariable Integer id, @PathVariable Integer numGroups){
         if (hibernateAdapter.getWhereEq(Results.class, "questionnaire", id).size() > 0){
-            return new ResponseEntity<>("Results for this questionnaire have already been generated.", HttpStatus.BAD_REQUEST);
+            hibernateAdapter.clearResultsWhere(id);
+            //return new ResponseEntity<>("Results for this questionnaire have already been generated.", HttpStatus.BAD_REQUEST);
         }
         Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, id.longValue());
         if (questionnaire == null) {

@@ -9,7 +9,8 @@ function GroupView() {
     const [state, setState] = useState({
         lecturerFullName: "",
         data: [],
-        loading: true
+        loading: true,
+        hasData: false
     });
 
     let maxGroupSize = 1;
@@ -20,15 +21,29 @@ function GroupView() {
         return a < b ? -1 : 1;
     };
 
+    const askForResults = async () => {
+        const response = await http.get(`/generate_results/${id}/3`);
+    }
+
     useEffect(() => {
         (async function () {
             const response = await http.get(`/results/${id}`);
-            setState({
-                ...state,
-                lecturerFullName: `${response["data"][0]["questionnaire"]["teacher"].lastName} ${response["data"][0]["questionnaire"]["teacher"].firstName}`,
-                data: response["data"],
-                loading: false
-            });
+            if (response.ok){
+                setState({
+                    ...state,
+                    lecturerFullName: `${response["data"][0]["questionnaire"]["teacher"].lastName} ${response["data"][0]["questionnaire"]["teacher"].firstName}`,
+                    data: response["data"],
+                    loading: false,
+                    hasData: true
+                });
+            } else {
+
+                setState({
+                    ...state,
+                    loading: false,
+                    hasData: false
+                });
+            }
         })();
     }, [id, state]);
 
@@ -80,7 +95,12 @@ function GroupView() {
                 </>
             ) : (
                 <div className="groupView">
-                    <h5>Lecturer: {state.lecturerFullName}</h5>
+                    
+                    { state.hasData ? (
+                        <h5>Lecturer: {state.lecturerFullName}</h5>
+                        ) :
+                        (<h5>Results not yet generated</h5>)
+                    }
 
                     <table>
                         <thead>
@@ -91,6 +111,8 @@ function GroupView() {
                             <GroupBody rows={rows} />
                         </tbody>
                     </table>
+
+                    <button onClick={askForResults}>Generate results</button>
                 </div>
             )}
         </>
