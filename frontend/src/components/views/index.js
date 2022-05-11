@@ -10,4 +10,12 @@ import QuestionnaireResults from "./QuestionnaireResults";
 import GroupView from "./GroupView/GroupView";
 import ViewSwitch from "./ViewSwitch/ViewSwitch";
 
-export { ChooseForm, ClientViewForm, LecturerForm, QuestionnaireResults, GroupView, ViewSwitch, LecturerQuestionaire};
+export {
+    ChooseForm,
+    ClientViewForm,
+    LecturerForm,
+    QuestionnaireResults,
+    GroupView,
+    ViewSwitch,
+    LecturerQuestionaire
+};

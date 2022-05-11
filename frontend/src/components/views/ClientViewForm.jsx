@@ -38,10 +38,9 @@ function ClientViewForm() {
                 loading: false
             });
         })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
     const onSubmit = () => {
-
         const { firstName, lastName, indexNumber, emailAdress, selectedTerms } = state;
         http.post("/vote", {
             firstName,

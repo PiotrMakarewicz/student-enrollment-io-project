@@ -56,31 +56,28 @@ code {
     margin-top: 100px;
 }
 
-
-.lecturer-questionnaire-buttons{
-  text-align: left;
-  width: 90%;
-  margin: 1.2em;
-  max-width: 500px;
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 12px;
-
+.lecturer-questionnaire-buttons {
+    text-align: left;
+    width: 90%;
+    margin: 1.2em;
+    max-width: 500px;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
-.lecturer-questionnaire-buttons > div{
-  display: flex;
-  margin: auto;
-  justify-content: center;
-  gap:10px;
+.lecturer-questionnaire-buttons > div {
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    gap: 10px;
 }
 
 .lecturer-questionnaire-buttons > div > {
-  margin: 0.2em;
+    margin: 0.2em;
 }
 
-.lecturer-questionnaire-buttons > div > span{
-  width:13em;
-  margin: 0.2em;
+.lecturer-questionnaire-buttons > div > span {
+    width: 13em;
+    margin: 0.2em;
 }
-
