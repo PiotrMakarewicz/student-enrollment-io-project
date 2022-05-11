@@ -23,7 +23,6 @@ function GroupView() {
     useEffect(() => {
         (async function () {
             const response = await http.get(`/results/${id}`);
-            console.log(response);
             setState({
                 ...state,
                 lecturerFullName: `${response["data"][0]["questionnaire"]["teacher"].lastName} ${response["data"][0]["questionnaire"]["teacher"].firstName}`,
@@ -57,7 +56,6 @@ function GroupView() {
     });
 
     const cols = Array.from(days).sort(sortDays);
-    // console.log(cols);
 
     let rows = [];
     for (let count = 0; count < maxGroupSize; count++) {
@@ -73,8 +71,6 @@ function GroupView() {
         }
         rows.push(row);
     }
-
-    // console.log(rows);
 
     return (
         <>
