@@ -7,14 +7,6 @@ import { Link } from "react-router-dom";
  */
 
 function Navbar() {
-    // const links = document.querySelectorAll("[data-active]");
-    // links.forEach((link) => {
-    //     link.addEventListener("click", () => {
-    //         document.querySelector('[data-active="true"]').dataset.active = false;
-    //         link.dataset.active = "true";
-    //     });
-    // });
-
     return (
         <header className="App-header px-4">
             <Link to="/">Home</Link>

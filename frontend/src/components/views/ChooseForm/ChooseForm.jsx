@@ -21,10 +21,10 @@ function createListElement(id, name, date) {
     var state = 0;
     state = getStateFromDate(date);
     if (state === 0) {
-        badgeType = "badge bg-warning rounded-pill align";
+        badgeType = "badge bg-warning rounded-pill align-middle";
         badgeValue = "otwarta";
     } else if (state === 1) {
-        badgeType = "badge bg-success rounded-pill";
+        badgeType = "badge bg-success rounded-pill align-middle";
         badgeValue = "zakończona";
     } else if (state === 2) {
         badgeType = "badge bg-primary rounded-pill";

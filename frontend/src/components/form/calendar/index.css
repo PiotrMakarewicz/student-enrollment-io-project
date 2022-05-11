@@ -1,15 +1,21 @@
 .calendar {
     table-layout: fixed;
+    padding: 0;
     width: 96%;
     text-align: center;
     margin: 2%;
+    border-collapse: separate;
+    border-spacing: 0.15em;
 }
 
 .calendar-cell {
     padding: 0.9em 0;
-    border: 0.5px solid;
+    /* border: 0.5px solid; */
+    border: none;
     transition: 0.3s;
     font-size: min(2.3vw, 1em);
+    border-radius: 0.1em;
+    font-weight: 600;
 }
 
 .calendar-cell-label {
@@ -43,4 +49,8 @@
 .calendar-cell-chosen:hover {
     opacity: 1;
     transition: 0.3s;
+}
+
+.calendar thead tr td:first-child::after {
+    content: "\01F4C6";
 }

@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import { Input } from "../form/basic";
 import Submit from "../form/basic/Submit";
 import { Calendar } from "../form/calendar";
-import SimpleWrapper from "../SimpleWrapper";
 import http from "../../services/http";
 import { useEffect } from "react";
+import FormWrapper from "../FormWrapper";
 import Confetti from "react-confetti";
 
 /**
@@ -38,10 +38,9 @@ function ClientViewForm() {
                 loading: false
             });
         })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
     const onSubmit = () => {
-
         const { firstName, lastName, indexNumber, emailAdress, selectedTerms } = state;
         http.post("/vote", {
             firstName,
@@ -83,7 +82,7 @@ function ClientViewForm() {
                 </>
             ) : (
                 <>
-                    <SimpleWrapper>
+                    <FormWrapper>
                         <form>
                             <Input
                                 label="Enter your name"
@@ -109,17 +108,17 @@ function ClientViewForm() {
                                 onChange={(v) => setState({ ...state, emailAdress: v })}
                                 id="emailAdress"
                             />
-                            <Calendar
-                                selectedTerms={state.selectedTerms}
-                                toggleTerm={toggleTerm}
-                                availableTermsSet={state.availableTermsSet}
-                            />
-                            <Submit
-                                value={"Send form"}
-                                onSubmit={onSubmit}
-                            />
                         </form>
-                    </SimpleWrapper>
+                        <Calendar
+                            selectedTerms={state.selectedTerms}
+                            toggleTerm={toggleTerm}
+                            availableTermsSet={state.availableTermsSet}
+                        />
+                        <Submit
+                            value={"Send form"}
+                            onSubmit={onSubmit}
+                        />
+                    </FormWrapper>
                 </>
             )}
         </>

@@ -55,7 +55,6 @@ const get = async (path, options) => {
     return await proccesResponse(response, "GET " + path);
 };
 
-
 const post = async (path, body) => {
     const response = await fetch(serverUrl + path, {
         method: "POST",

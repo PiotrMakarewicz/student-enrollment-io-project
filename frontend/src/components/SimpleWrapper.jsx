@@ -13,12 +13,14 @@ const styles = {
         padding: "1.25em 1em",
         margin: ".75em .25em",
         height: "fit-content",
-        backgroundColor: "var(--bs-gray-200)",
-        boxShadow: "0 8px 16px 6px #ccc",
+        backgroundColor: "var(--bs-gray-700)",
+        boxShadow: "0 8px 16px 4px ##6c757d",
         borderRadius: ".25em",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center"
+        alignItems: "center",
+        color: "white",
+        position: "relative"
     }
 };
 

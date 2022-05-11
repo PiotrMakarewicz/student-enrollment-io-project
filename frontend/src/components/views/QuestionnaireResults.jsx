@@ -29,7 +29,7 @@ function QuestionnaireResults() {
                     <Table
                         headers={state.tableInfo.headers}
                         records={state.tableInfo.rows}
-                        lambda={(cell) => (cell === 1 ? "bg-success" : "")}
+                        lambda={(cell) => (cell === 1 ? "bg-success text-white" : "bg-light")}
                     />
                 </>
             )}

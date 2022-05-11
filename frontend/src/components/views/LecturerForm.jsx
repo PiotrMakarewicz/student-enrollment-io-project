@@ -130,19 +130,21 @@ function LecturerForm() {
                         <TimeInput
                             defaultValue={null}
                             className="mb-1"
-                            style={{ width: "min(80%, 30vw)" }}
+                            style={{ width: "min(84%, 30vw, 155px)" }}
                             value={state.time_input}
                             id="time_input"
                             onChange={(v) => setState({ ...state, time_input: v })}
                         />
                     </div>
                 </div>
+
                 <DropZone fileHandler={fileHandler} />
                 <Switch
                     handleSwitchChange={handleSwitchChange}
                     checked={state.auto_sending_links}
                     label_="Auto sending links"
                 />
+
                 <Calendar
                     selectedTerms={state.selected_terms}
                     toggleTerm={toggleTerm}

@@ -20,7 +20,7 @@ function Headers({ headers }) {
     return (
         <thead className="thead">
             <tr>
-                <th>{"Students"}</th>
+                <th>{headers ? "Students index" : ""}</th>
                 {headers.map((label, key) => (
                     <th key={key}>{label}</th>
                 ))}

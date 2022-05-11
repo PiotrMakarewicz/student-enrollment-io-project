@@ -77,6 +77,26 @@ title {
     color: #61dafb;
 }
 
+.list-group-item span {
+    vertical-align: middle;
+}
+
+.rw-time-input-clear > svg {
+    opacity: 1;
+}
+
+.app .table-results {
+    border-collapse: separate;
+    border-spacing: 0.2em;
+}
+
+.app .table-results th,
+.app .table-results td {
+    border: none;
+    border-radius: 0.1em;
+    vertical-align: middle;
+}
+
 .dragDropField {
     width: 100%;
     height: 80%;
