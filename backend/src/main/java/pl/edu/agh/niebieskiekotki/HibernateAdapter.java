@@ -29,8 +29,8 @@ public class HibernateAdapter {
         criteriaQuery.select(root);
         Query<T> query = session.createQuery(criteriaQuery);
         List<T> results = query.getResultList();
-        session.close();
-        //session.disconnect();
+        //session.close();
+        session.disconnect();
 
 
         return results;
@@ -54,7 +54,7 @@ public class HibernateAdapter {
             session.delete(q);
 
         session.getTransaction().commit();
-        session.close();
+        session.disconnect();
 
     }
 
@@ -82,7 +82,8 @@ public class HibernateAdapter {
         criteriaQuery.select(root);
         Query<T> query = session.createQuery(criteriaQuery);
         List<T> result = query.getResultList();
-        session.close();
+        //session.close();
+        session.disconnect();
 
         return result;
     }
@@ -92,7 +93,8 @@ public class HibernateAdapter {
         session.getTransaction().begin();
         session.save(itemToSave);
         session.getTransaction().commit();
-        session.close();
+        //session.close();
+        session.disconnect();
     }
 
 }
