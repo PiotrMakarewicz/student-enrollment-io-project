@@ -58,7 +58,7 @@ public class VoteRouter {
             throw new NotFoundException("Not found questionnaire with id " + id);
 
 
-        List<Vote> votes = questionnaire.votes;
+        List<Vote> votes = questionnaire.getVotes();
 
         return new QuestionnaireResults(votes, questionnaire);
     }

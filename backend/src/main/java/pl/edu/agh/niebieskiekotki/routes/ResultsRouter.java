@@ -26,7 +26,7 @@ public class ResultsRouter {
     @GetMapping(value = "/results/{id}")
     public List<Results> GetOne(@PathVariable Long id) throws NotFoundException {
         List<Results> toReturn = hibernateAdapter.getWhereEq(Results.class, "questionnaire", id);
-        if (toReturn == null)
+        if (toReturn.size() == 0)
             throw new NotFoundException("Not found questionnaire with id:" + id);
 
         return toReturn;
