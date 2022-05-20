@@ -16,7 +16,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Comparator;
-import java.util.List;
 
 public class FileCreator {
 
@@ -26,7 +25,7 @@ public class FileCreator {
         row.createCell(0).setCellValue(student.getIndexNumber());
         row.createCell(1).setCellValue(student.getFirstName());
         row.createCell(2).setCellValue(student.getLastName());
-        row.createCell(3).setCellValue(student.getEmailAdress());
+        row.createCell(3).setCellValue(student.getEmailAddress());
         for (int i = 0; i < choices.length; i++) {
             row.createCell(4 + i).setCellValue(choices[i]);
         }
