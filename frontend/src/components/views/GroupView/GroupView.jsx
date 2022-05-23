@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import http from "../../../services/http";
+import { Input } from "../../form/basic";
 import { Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { DayHeader, TermHeader, GroupBody } from "../../group";
@@ -13,7 +14,9 @@ function GroupView() {
         loading: true,
         hasData: false
     });
-
+    const [numberOfGroupsState, setnumberOfGroupsState] = useState({
+        number_of_groups: 0
+    });
     let maxGroupSize = 1;
     const daysArr = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const sortDays = function (a, b) {
@@ -23,13 +26,15 @@ function GroupView() {
     };
 
     const askForResults = async () => {
-        const response = await http.get(`/generate_results/${id}/3`);
-    }
+        const response = await http.get(
+            `/generate_results/${id}/${numberOfGroupsState.number_of_groups}`
+        );
+    };
 
     useEffect(() => {
         (async function () {
             const response = await http.get(`/results/${id}`);
-            if (response.ok){
+            if (response.ok) {
                 setState({
                     ...state,
                     lecturerFullName: `${response["data"][0]["questionnaire"]["teacher"].lastName} ${response["data"][0]["questionnaire"]["teacher"].firstName}`,
@@ -38,7 +43,6 @@ function GroupView() {
                     hasData: true
                 });
             } else {
-
                 setState({
                     ...state,
                     loading: false,
@@ -95,25 +99,48 @@ function GroupView() {
                     <Spinner animation="border" />
                 </>
             ) : (
-                <div className="groupView">
-                    
-                    { state.hasData ? (
-                        <h5>Lecturer: {state.lecturerFullName}</h5>
-                        ) :
-                        (<h5>Groups not yet generated</h5>)
-                    }
+                <div>
+                    <div className="groupView">
+                        {state.hasData ? (
+                            <h5>Lecturer: {state.lecturerFullName}</h5>
+                        ) : (
+                            <h5>Groups not yet generated</h5>
+                        )}
 
-                    <table>
-                        <thead>
-                            <DayHeader cols={cols} />
-                            <TermHeader cols={cols} />
-                        </thead>
-                        <tbody>
-                            <GroupBody rows={rows} />
-                        </tbody>
-                    </table>
+                        <table>
+                            <thead>
+                                <DayHeader cols={cols} />
+                                <TermHeader cols={cols} />
+                            </thead>
+                            <tbody>
+                                <GroupBody rows={rows} />
+                            </tbody>
+                        </table>
 
-                    <button className="generateGroupsButton" onClick={askForResults}>Generate groups</button>
+                        <button
+                            className="generateGroupsButton"
+                            onClick={askForResults}
+                        >
+                            Generate groups
+                        </button>
+                    </div>
+                    <h6>Number Of Groups: </h6>
+                    <input
+                        type={"number"}
+                        value={numberOfGroupsState.number_of_groups}
+                        onChange={(v) => {
+                            setnumberOfGroupsState({
+                                ...numberOfGroupsState,
+                                number_of_groups: v.target.value
+                            });
+                        }}
+                        id={"number_of_groups"}
+                        style={{
+                            width:
+                                (numberOfGroupsState.number_of_groups.toString().length + 4) * 8 +
+                                "px"
+                        }}
+                    />
                 </div>
             )}
         </>
