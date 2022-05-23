@@ -19,13 +19,21 @@ public class GroupGeneratorTests {
     @Test
     public void test(){
         Student s1 = new Student();
+        s1.setId(0L);
         Student s2 = new Student();
+        s2.setId(1L);
         Student s3 = new Student();
+        s3.setId(2L);
         Student s4 = new Student();
+        s4.setId(3L);
         Student s5 = new Student();
+        s5.setId(4L);
         Student s6 = new Student();
+        s6.setId(5L);
         Student s7 = new Student();
+        s7.setId(6L);
         Student s8 = new Student();
+        s8.setId(7L);
 
         Term t1 = new Term(1L, Days.Monday, 1, null);
         Term t2 = new Term(2L, Days.Tuesday, 2, null);
