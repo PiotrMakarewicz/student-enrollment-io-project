@@ -1,7 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import { ChooseForm, ClientViewForm, LecturerForm, LecturerQuestionaire } from "./components/views";
+import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
     return (
@@ -37,6 +39,7 @@ function App() {
                     </div>
                 </div>
             </Router>
+            <ToastContainer/>
         </>
     );
 }

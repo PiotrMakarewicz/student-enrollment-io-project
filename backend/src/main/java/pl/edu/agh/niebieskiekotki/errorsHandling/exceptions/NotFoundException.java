@@ -1,7 +1,9 @@
 package pl.edu.agh.niebieskiekotki.errorsHandling.exceptions;
 
-public class NotFoundException extends Exception {
+import org.springframework.http.HttpStatus;
+
+public class NotFoundException extends HTTPException {
     public NotFoundException(String message) {
-        super(message);
+        super(HttpStatus.NOT_FOUND ,message);
     }
 }
