@@ -17,7 +17,7 @@ function App() {
                                 element={<ChooseForm />}
                             />
                             <Route
-                                path="/vote/:id"
+                                path="/vote/:hash"
                                 element={<ClientViewForm />}
                             />
                             <Route

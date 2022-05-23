@@ -27,10 +27,10 @@ function ClientViewForm() {
         selectedTerms: new Set(),
         loading: true
     });
-    let { id } = useParams();
+    let { hash } = useParams();
     useEffect(() => {
         (async function () {
-            let data =  (await http.get("/vote/" + id))["data"]
+            let data =  (await http.get("/vote/" + hash))["data"]
             setState({
                 ...state,
                 availableTermsSet: new Set(
@@ -41,10 +41,10 @@ function ClientViewForm() {
             });
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id]);
+    }, [hash]);
     const onSubmit = () => {
         const { firstName, lastName, indexNumber, emailAdress, selectedTerms } = state;
-        http.post("/vote/" + id, {
+        http.post("/vote/" + hash, {
             firstName,
             lastName,
             indexNumber,
