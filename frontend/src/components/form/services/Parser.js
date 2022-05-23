@@ -6,7 +6,7 @@ class Student {
         this.FieldOfStudy = fieldOfStudy;
         this.Faculty = faculty;
         this.indexNumber = indexNumber;
-        this.emailAdress = emailAdress;
+        this.emailAddress = emailAdress;
     }
 }
 

@@ -30,11 +30,13 @@ function ClientViewForm() {
     let { id } = useParams();
     useEffect(() => {
         (async function () {
+            let data =  (await http.get("/vote/" + id))["data"]
             setState({
                 ...state,
                 availableTermsSet: new Set(
-                    (await http.get("/questionnaires/" + id))["data"]["terms"]
+                    data["availableTerms"]
                 ),
+                selectedTerms: new Set( data["selectedTerms"]),
                 loading: false
             });
         })();
@@ -42,13 +44,12 @@ function ClientViewForm() {
     }, [id]);
     const onSubmit = () => {
         const { firstName, lastName, indexNumber, emailAdress, selectedTerms } = state;
-        http.post("/vote", {
+        http.post("/vote/" + id, {
             firstName,
             lastName,
             indexNumber,
             emailAdress,
             selectedTerms: Array.from(selectedTerms),
-            questionnaireId: id
         });
 
         setState({
