@@ -26,5 +26,53 @@ public class StudentVoteResults {
         for(QuestionnaireTerm term : questionnaire.getQuestionnaireTerms()){
             availableTerms.add(term.getTerm().getId());
         }
+
+    }
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public int getIndexNumber() {
+        return indexNumber;
+    }
+
+    public void setIndexNumber(int indexNumber) {
+        this.indexNumber = indexNumber;
+    }
+
+    public List<Long> getAvailableTerms() {
+        return availableTerms;
+    }
+
+    public void setAvailableTerms(List<Long> availableTerms) {
+        this.availableTerms = availableTerms;
+    }
+
+    public List<Long> getSelectedTerms() {
+        return selectedTerms;
+    }
+
+    public void setSelectedTerms(List<Long> selectedTerms) {
+        this.selectedTerms = selectedTerms;
     }
 }
