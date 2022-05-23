@@ -26,7 +26,7 @@ public class EmailService {
 
     public void sendToAll(Map<Student,String> studentLinkMap) {
         for(Map.Entry<Student,String> entry : studentLinkMap.entrySet()){
-            send(entry.getKey().getEmailAddress(),"Link","localhost:3000/vote/"+entry.getValue());
+            send(entry.getKey().getEmailAddress(),"Link","localhost:3000/"+entry.getValue());
         }
     }
 }

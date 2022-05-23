@@ -1,5 +1,6 @@
 package pl.edu.agh.niebieskiekotki.routes;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.niebieskiekotki.HibernateAdapter;
 import pl.edu.agh.niebieskiekotki.entitites.*;
@@ -78,7 +79,8 @@ public class QuestionnaireRouter {
                 hibernateAdapter.save(studentInfo);
                 student = studentInfo;
             }
-            QuestionnaireAccess questionnaireAccess = new QuestionnaireAccess(student, newQuestionnaire);
+            String sha256hex = DigestUtils.sha256Hex(newQuestionnaire.getId() +":" + student.getIndexNumber());
+            QuestionnaireAccess questionnaireAccess = new QuestionnaireAccess(student, newQuestionnaire,sha256hex);
             hibernateAdapter.save(questionnaireAccess);
             newQuestionnaire.questionnaireAccesses.add(questionnaireAccess);
         }

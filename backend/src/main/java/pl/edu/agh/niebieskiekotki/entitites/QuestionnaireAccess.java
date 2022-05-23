@@ -26,7 +26,21 @@ public class QuestionnaireAccess {
         linkPath= "" + questionnaire.getId();
     }
 
+    public QuestionnaireAccess(Student student, Questionnaire questionnaire, String hash) {
+        this.student = student;
+        this.questionnaire = questionnaire;
+        this.linkPath = "vote/" + hash;
+    }
+
     public QuestionnaireAccess() {
+    }
+
+    public Questionnaire getQuestionnaire() {
+        return questionnaire;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Student getStudent() {
