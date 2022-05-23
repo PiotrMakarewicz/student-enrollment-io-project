@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import http from "../../../services/http";
-import { Input } from "../../form/basic";
 import { Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { DayHeader, TermHeader, GroupBody } from "../../group";
@@ -14,7 +13,7 @@ function GroupView() {
         loading: true,
         hasData: false
     });
-    const [numberOfGroupsState, setnumberOfGroupsState] = useState({
+    const [numberOfGroupsState, setNumberOfGroupsState] = useState({
         number_of_groups: 0
     });
     let maxGroupSize = 1;
@@ -124,17 +123,18 @@ function GroupView() {
                             Generate groups
                         </button>
                     </div>
-                    <h6>Number Of Groups: </h6>
+                    <text>Number Of Groups: </text>
                     <input
                         type={"number"}
                         value={numberOfGroupsState.number_of_groups}
                         onChange={(v) => {
-                            setnumberOfGroupsState({
+                            setNumberOfGroupsState({
                                 ...numberOfGroupsState,
                                 number_of_groups: v.target.value
                             });
                         }}
                         id={"number_of_groups"}
+                        min="0"
                         style={{
                             width:
                                 (numberOfGroupsState.number_of_groups.toString().length + 4) * 8 +
