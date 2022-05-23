@@ -11,6 +11,12 @@ function App() {
                     <Navbar />
 
                     <div className="App-body">
+                        <div
+                            className="alert-container"
+                            data-alert-container
+                        >
+                            <div className="alert hide"></div>
+                        </div>
                         <Routes>
                             <Route
                                 path="/questionnaires"

@@ -11,6 +11,7 @@ import DropZone from "../form/services/DropZone";
 import Switch from "../form/services/Switch";
 import readXlsxFile from "read-excel-file";
 import { parseXlsxFile } from "../form/services/Parser";
+import { showAlert } from "../../services/alert";
 // import FileLoader from "../form/services/FileLoader"
 
 /**
@@ -143,6 +144,13 @@ function LecturerForm() {
                     handleSwitchChange={handleSwitchChange}
                     checked={state.auto_sending_links}
                     label_="Auto sending links"
+                />
+
+                <Submit
+                    value="test"
+                    onSubmit={() => {
+                        showAlert("Done", "bg-warning");
+                    }}
                 />
 
                 <Calendar

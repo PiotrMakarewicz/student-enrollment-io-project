@@ -15,7 +15,7 @@ describe("ViewSwitch", () => {
         // const toggleHidden = jest.fn();
         // const handleClick = jest.spyOn(React, "useState");
         // handleClick.mockImplementation((state) => [state, toggleHidden]);
-        // could not execute toggleHidden
+        // // could not execute toggleHidden
         // expect(toggleHidden).toBeCalled();
         // handleClick.mockRestore();
 
