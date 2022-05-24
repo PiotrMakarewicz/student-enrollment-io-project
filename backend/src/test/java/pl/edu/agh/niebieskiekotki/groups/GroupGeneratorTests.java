@@ -53,11 +53,11 @@ public class GroupGeneratorTests {
         List<Term> terms = new ArrayList<>();
         Map<Student, List<Term>> studentTerms = new HashMap<>();
 
-        studentsInit(students, 300);
-        termsInit(terms, 90);
-        studentTermsInit(studentTerms, students, terms, 7);
+        studentsInit(students, 30);
+        termsInit(terms, 9);
+        studentTermsInit(studentTerms, students, terms, 3);
 
-        GenerationOutput output = generator.generate(studentTerms, 30, 3);
+        GenerationOutput output = generator.generate(studentTerms, 3, 3);
 
         printOutputStats(output);
     }
@@ -68,7 +68,8 @@ public class GroupGeneratorTests {
         double sumUnassigned2 = 0;
         double sumUnassigned3 = 0;
 
-        for (int i = 0; i < 1000; i++) {
+        //change 10 for a larger number to compare
+        for (int i = 0; i < 10; i++) {
             List<Student> students = new ArrayList<>();
             List<Term> terms = new ArrayList<>();
             Map<Student, List<Term>> studentTerms = new HashMap<>();
