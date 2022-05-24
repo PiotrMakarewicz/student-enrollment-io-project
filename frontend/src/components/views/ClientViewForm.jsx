@@ -56,7 +56,7 @@ function ClientViewForm() {
             firstName,
             lastName,
             indexNumber,
-            emailAdress,
+            emailAddress,
             selectedTerms: Array.from(selectedTerms),
             impossibleTerms: Array.from(impossibleTerms)
         });
@@ -139,7 +139,7 @@ function ClientViewForm() {
                 <h1>Thanks!</h1>
                 <Confetti
                     width={1920}
-                    height={1080}
+                    height={900}
                 />
             </>
     );
