@@ -18,6 +18,7 @@ import { useEffect } from "react";
  * @param toggleTerm function which handles slot clicking
  * @param availableTermsSet set with available terms
  * @param impossibleTerms set with terms that are impossibilities
+ * @param termsInfo Array of terms represented in <Day> <Slot> form
  * @example
  * <Calendar selectedTerms ={availableTerms= {
         headers: ["Monday","Tuesday"],
@@ -26,38 +27,29 @@ import { useEffect } from "react";
  * 
  */
 
-function Calendar({ selectedTerms, toggleTerm, availableTermsSet, impossibleTerms }) {
+function Calendar({ selectedTerms, toggleTerm, availableTermsSet, impossibleTerms, termsInfo }) {
     const [state, setState] = useState({
         val: 1,
-        termsInfo: null,
         loading: true
     });
 
-    useEffect(() => {
-        (async function () {
-            setState({ termsInfo: (await http.get("/terms"))["data"], loading: false });
-        })();
-    }, []);
+    // useEffect(() => {
+    //     (async function () {
+    //         setState({ termsInfo: (await http.get("/terms"))["data"], loading: false });
+    //     })();
+    // }, []);
     return (
         <>
-            {state.loading ? (
-                <>
-                    <Spinner animation="border" />
-                </>
-            ) : (
-                <>
-                    <table className="calendar">
-                        <CalendarHeader labels={state.termsInfo["headers"]} />
-                        <CalendarBody
-                            termRows={state.termsInfo["rows"]}
-                            availableTermsSet={availableTermsSet}
-                            selectedTerms={selectedTerms}
-                            impossibleTerms={impossibleTerms}
-                            toggleTerm={toggleTerm}
-                        />
-                    </table>
-                </>
-            )}
+            <table className="calendar">
+                <CalendarHeader labels={termsInfo["headers"]} />
+                <CalendarBody
+                    termRows={termsInfo["rows"]}
+                    availableTermsSet={availableTermsSet}
+                    selectedTerms={selectedTerms}
+                    impossibleTerms={impossibleTerms}
+                    toggleTerm={toggleTerm}
+                />
+            </table>
         </>
     );
 }

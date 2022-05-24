@@ -9,7 +9,14 @@ import CalendarCell from "./CalendarCell";
  * @param availableTermsSet set contains available terms
  * @param impossibleTerms set with terms that are impossibilities
  */
-function CalendarRow({ label, cells, selectedTerms, toggleTerm, availableTermsSet, impossibleTerms }) {
+function CalendarRow({
+    label,
+    cells,
+    selectedTerms,
+    toggleTerm,
+    availableTermsSet,
+    impossibleTerms
+}) {
     var fields = cells.map((c, key) => (
         <CalendarCell
             key={key}

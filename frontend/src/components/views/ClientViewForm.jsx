@@ -7,6 +7,7 @@ import http from "../../services/http";
 import { useEffect } from "react";
 import FormWrapper from "../FormWrapper";
 import Confetti from "react-confetti";
+import { Spinner } from "react-bootstrap";
 
 /**
  * View form for client
@@ -26,47 +27,34 @@ function ClientViewForm() {
         availableTermsSet: new Set(),
         selectedTerms: new Set(),
         impossibleTerms: {},
+        termsInfo: null,
         loading: true
     });
-<<<<<<< HEAD
     let { hash } = useParams();
-=======
-    let { hash  } = useParams();
->>>>>>> 9bf69b0 (commit before rebase)
     useEffect(() => {
         (async function () {
             let data = (await http.get("/vote/" + hash))["data"];
+
             setState({
                 ...state,
                 availableTermsSet: new Set(data["availableTerms"]),
                 selectedTerms: new Set(data["selectedTerms"]),
+                termsInfo: (await http.get("/terms"))["data"],
                 loading: false
             });
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hash]);
     const onSubmit = () => {
-<<<<<<< HEAD
-        const { firstName, lastName, indexNumber, emailAdress, selectedTerms } = state;
+        const { firstName, lastName, indexNumber, emailAdress, selectedTerms, impossibleTerms } =
+            state;
         http.post("/vote/" + hash, {
-=======
-        const { firstName, lastName, indexNumber, emailAdress, selectedTerms, impossibleTerms } = state;
-        http.post("/vote", {
->>>>>>> a79c8f3 (red button, text window not ready)
             firstName,
             lastName,
             indexNumber,
             emailAdress,
-<<<<<<< HEAD
-            selectedTerms: Array.from(selectedTerms)
-=======
             selectedTerms: Array.from(selectedTerms),
-            impossibleTerms: Array.from(impossibleTerms),
-<<<<<<< HEAD
-            questionnaireId: id
->>>>>>> a79c8f3 (red button, text window not ready)
-=======
->>>>>>> 9bf69b0 (commit before rebase)
+            impossibleTerms: Array.from(impossibleTerms)
         });
 
         setState({
@@ -80,15 +68,14 @@ function ClientViewForm() {
     };
 
     var toggleTerm = (id) => {
-        const { selectedTerms,  impossibleTerms} = state;
-        if (!selectedTerms.has(id) && !id in impossibleTerms) {
+        const { selectedTerms, impossibleTerms } = state;
+        console.log(state.impossibleTerms);
+        if (!selectedTerms.has(id) && !(id in impossibleTerms)) {
             selectedTerms.add(id);
-        }
-        else if (selectedTerms.has(id) && !id in impossibleTerms) {
+        } else if (selectedTerms.has(id) && !(id in impossibleTerms)) {
             selectedTerms.delete(id);
             impossibleTerms[id] = "";
-        }
-        else if (!selectedTerms.has(id) && id in impossibleTerms){
+        } else if (!selectedTerms.has(id) && id in impossibleTerms) {
             delete impossibleTerms[id];
         }
         setState({ ...state });
@@ -131,25 +118,31 @@ function ClientViewForm() {
                                 onChange={(v) => setState({ ...state, emailAdress: v })}
                                 id="emailAdress"
                             />
-                            
                         </form>
                         <Calendar
                             selectedTerms={state.selectedTerms}
                             toggleTerm={toggleTerm}
                             availableTermsSet={state.availableTermsSet}
                             impossibleTerms={state.impossibleTerms}
+                            termsInfo={state.termsInfo}
                         />
-                        <>
                         {Object.keys(state.impossibleTerms).map((t, index) => (
                             <Input
-                                label={"Explain your impossibility for " + t}
-                                value={state.emailAdress}
-                                onChange={(v) => setState({ ...state, emailAdress: v })}
-                                id="emailAdress"
+                                label={
+                                    "Explain your impossibility for " +
+                                    [[""], ...state.termsInfo["headers"]][Math.floor(t / 10) + 1] +
+                                    " " +
+                                    state.termsInfo["rows"][(t % 10) - 1].label
+                                }
+                                value={state.impossibleTerms[t]}
+                                onChange={(v) => {
+                                    const { impossibleTerms } = state;
+                                    impossibleTerms[t] = v;
+                                    setState({ ...state });
+                                }}
+                                id={"impossibility" + t}
                             />
-                        ))
-                        }
-                        </>
+                        ))}
                         <Submit
                             value={"Send form"}
                             onSubmit={onSubmit}
