@@ -42,7 +42,7 @@ public class GroupGeneratorTests {
         studentTerms.put(s7, List.of(t1, t2, t3, t4, t5, t6));
         studentTerms.put(s8, List.of(t4, t5, t7));
 
-        GenerationOutput output = generator.generate(studentTerms, 3, 2);
+        GenerationOutput output = generator.generate(studentTerms, 3, 3);
 
         testOutput(output, List.of(s1, s2, s3, s4, s5, s6, s7, s8), studentTerms, 3);
     }
@@ -57,7 +57,7 @@ public class GroupGeneratorTests {
         termsInit(terms, 15);
         studentTermsInit(studentTerms, students, terms, 4);
 
-        GenerationOutput output = generator.generate(studentTerms, 5, 2);
+        GenerationOutput output = generator.generate(studentTerms, 5, 3);
 
         testOutput(output, students, studentTerms, 5);
         printOutputStats(output);
@@ -67,8 +67,8 @@ public class GroupGeneratorTests {
     public void compareAlgorithmsLarge(){
         double sumUnassigned1 = 0;
         double sumUnassigned2 = 0;
-        double sumSizeDifference1 = 0;
-        double sumSizeDifference2 = 0;
+        double sumUnassigned3 = 0;
+
         for (int i = 0; i < 1000; i++) {
             List<Student> students = new ArrayList<>();
             List<Term> terms = new ArrayList<>();
@@ -80,22 +80,18 @@ public class GroupGeneratorTests {
 
             GenerationOutput output1 = generator.generate(studentTerms, 4, 1);
 
-            students = new ArrayList<>();
-            terms = new ArrayList<>();
-            studentTerms = new HashMap<>();
-
-            studentsInit(students, 30);
-            termsInit(terms, 15);
-            studentTermsInit(studentTerms, students, terms, 3);
-
             GenerationOutput output2 = generator.generate(studentTerms, 4, 2);
+
+            GenerationOutput output3 = generator.generate(studentTerms, 4, 3);
 
             sumUnassigned1 += output1.getUnassignedStudents().size();
             sumUnassigned2 += output2.getUnassignedStudents().size();
+            sumUnassigned3 += output3.getUnassignedStudents().size();
         }
 
         System.out.println(sumUnassigned1/1000);
         System.out.println(sumUnassigned2/1000);
+        System.out.println(sumUnassigned3/1000);
     }
 
     @Test
@@ -106,22 +102,20 @@ public class GroupGeneratorTests {
 
         studentsInit(students, 30);
         termsInit(terms, 15);
-        studentTermsInit(studentTerms, students, terms, 3);
+        studentTermsInit(studentTerms, students, terms, 5);
 
-        GenerationOutput output1 = generator.generate(studentTerms, 4, 1);
+        GenerationOutput output1 = generator.generate(studentTerms, 2, 1);
 
-        students = new ArrayList<>();
-        terms = new ArrayList<>();
-        studentTerms = new HashMap<>();
+        GenerationOutput output2 = generator.generate(studentTerms, 2, 2);
 
-        studentsInit(students, 30);
-        termsInit(terms, 15);
-        studentTermsInit(studentTerms, students, terms, 3);
+        GenerationOutput output3 = generator.generate(studentTerms, 2, 3);
 
-        GenerationOutput output2 = generator.generate(studentTerms, 4, 2);
-
+        System.out.println("First algorithm:");
         printOutputStats(output1);
+        System.out.println("Second algorithm:");
         printOutputStats(output2);
+        System.out.println("Combined algorithm:");
+        printOutputStats(output3);
     }
 
     private void studentsInit(List<Student> students, int number){

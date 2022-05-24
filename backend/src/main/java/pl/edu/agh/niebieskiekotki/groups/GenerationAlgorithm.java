@@ -55,9 +55,38 @@ public class GenerationAlgorithm {
         } else if (algorithmVersion == 2) {
             return divideForTermsSecondAlgorithm(studentsTerms, chooseTerms(candidateTerms, termIndexes),
                     groupSizeVariation);
+        } else if (algorithmVersion == 3) {
+            GenerationOutput output1 = divideForTerms(studentsTerms, chooseTerms(candidateTerms, termIndexes));
+            GenerationOutput output2 = divideForTermsSecondAlgorithm(studentsTerms, chooseTerms(candidateTerms, termIndexes),
+                    groupSizeVariation);
+            if (rateOutput(output1) < rateOutput(output2)){
+                return output1;
+            }
+            return output2;
         } else {
             return divideForTerms(studentsTerms, chooseTerms(candidateTerms, termIndexes));
         }
+    }
+
+    private double rateOutput(GenerationOutput output){
+        int minimal = 100000;
+        int maximal = 0;
+
+        double result = 0;
+        for(Map.Entry<Term, Set<Student>> entry : output.getTermStudents().entrySet()){
+            if (entry.getValue().size() > maximal){
+                maximal = entry.getValue().size();
+            }
+            if (entry.getValue().size() < minimal){
+                if (entry.getValue().size() != 0) {
+                    minimal = entry.getValue().size();
+                } else {
+                    result += 1;
+                }
+            }
+
+        }
+        return output.getUnassignedStudents().size() * 3 + result + maximal - minimal;
     }
 
     private Set<Term> chooseTerms(List<Term> terms, List<Integer> indexes){

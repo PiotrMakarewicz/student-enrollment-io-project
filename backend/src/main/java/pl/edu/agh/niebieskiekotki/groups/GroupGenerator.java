@@ -33,7 +33,7 @@ public class GroupGenerator {
                 studentsTerms.get(student).add(term);
             }
         }
-        return algorithm.generate(studentsTerms, numGroups, 2);
+        return algorithm.generate(studentsTerms, numGroups, 3);
     }
 
 }
