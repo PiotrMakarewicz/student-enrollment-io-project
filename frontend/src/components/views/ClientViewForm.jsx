@@ -23,7 +23,7 @@ function ClientViewForm() {
         firstName: "",
         lastName: "",
         indexNumber: "",
-        emailAdress: "",
+        emailAddress: "",
         availableTermsSet: new Set(),
         selectedTerms: new Set(),
         impossibleTerms: {},
@@ -34,18 +34,23 @@ function ClientViewForm() {
     useEffect(() => {
         (async function () {
             let data = (await http.get("/vote/" + hash))["data"];
+            let student = data["student"];
             setState({
                 ...state,
                 availableTermsSet: new Set(data["availableTerms"]),
                 selectedTerms: new Set(data["selectedTerms"]),
                 termsInfo: (await http.get("/terms"))["data"],
-                loadingState: 1
+                loadingState: 1,
+                firstName: student["firstName"],
+                lastName: student["lastName"],
+                indexNumber: student["indexNumber"],
+                emailAddress: student["emailAddress"]
             });
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hash]);
     const onSubmit = () => {
-        const { firstName, lastName, indexNumber, emailAdress, selectedTerms, impossibleTerms } =
+        const { firstName, lastName, indexNumber, emailAddress, selectedTerms, impossibleTerms } =
             state;
         http.post("/vote/" + hash, {
             firstName,
@@ -60,7 +65,7 @@ function ClientViewForm() {
             firstName: "",
             lastName: "",
             indexNumber: "",
-            emailAdress: "",
+            emailAddress: "",
             s: state.selectedTerms,
             loadingState: 2
         });
@@ -89,30 +94,13 @@ function ClientViewForm() {
         return(
             <>
                     <FormWrapper>
-                            <Input
-                                label="Enter your name"
-                                value={state.firstName}
-                                onChange={(v) => setState({ ...state, firstName: v })}
-                                id="firstName"
-                            />
-                            <Input
-                                label="Enter your surname"
-                                value={state.lastName}
-                                onChange={(v) => setState({ ...state, lastName: v })}
-                                id="lastName"
-                            />
-                            <Input
-                                label="Enter your index"
-                                value={state.indexNumber}
-                                onChange={(v) => setState({ ...state, indexNumber: v })}
-                                id="indexNumber"
-                            />
-                            <Input
-                                label="Enter your email"
-                                value={state.emailAdress}
-                                onChange={(v) => setState({ ...state, emailAdress: v })}
-                                id="emailAdress"
-                            />
+                        <div className = "d-flex row mb-3 w-100">
+                            <label>Name: {state.firstName}</label>
+                            <label>Surname: {state.lastName}</label>
+                            <label>Index: {state.indexNumber}</label>
+                            <label>Email: {state.emailAddress}</label>
+                        </div>
+
                         <Calendar
                             selectedTerms={state.selectedTerms}
                             toggleTerm={toggleTerm}
@@ -150,82 +138,11 @@ function ClientViewForm() {
         <>
                 <h1>Thanks!</h1>
                 <Confetti
-                    width={1500}
-                    height={700}
+                    width={1920}
+                    height={1080}
                 />
             </>
     );
-    // return (
-    //     <>
-    //         {
-    //         state.loadingState ? (
-    //             <>
-    //                 <h1>Thanks!</h1>
-    //                 <Confetti
-    //                     width={1500}
-    //                     height={700}
-    //                 />
-    //             </>
-    //         ) : (
-    //             <>
-    //                 <FormWrapper>
-    //                         <Input
-    //                             label="Enter your name"
-    //                             value={state.firstName}
-    //                             onChange={(v) => setState({ ...state, firstName: v })}
-    //                             id="firstName"
-    //                         />
-    //                         <Input
-    //                             label="Enter your surname"
-    //                             value={state.lastName}
-    //                             onChange={(v) => setState({ ...state, lastName: v })}
-    //                             id="lastName"
-    //                         />
-    //                         <Input
-    //                             label="Enter your index"
-    //                             value={state.indexNumber}
-    //                             onChange={(v) => setState({ ...state, indexNumber: v })}
-    //                             id="indexNumber"
-    //                         />
-    //                         <Input
-    //                             label="Enter your email"
-    //                             value={state.emailAdress}
-    //                             onChange={(v) => setState({ ...state, emailAdress: v })}
-    //                             id="emailAdress"
-    //                         />
-    //                     <Calendar
-    //                         selectedTerms={state.selectedTerms}
-    //                         toggleTerm={toggleTerm}
-    //                         availableTermsSet={state.availableTermsSet}
-    //                         impossibleTerms={state.impossibleTerms}
-    //                         termsInfo={state.termsInfo}
-    //                     />
-    //                     {Object.keys(state.impossibleTerms).map((t, index) => (
-    //                         <Input
-    //                             label={
-    //                                 "Explain your impossibility for " +
-    //                                 [[""], ...state.termsInfo["headers"]][Math.floor(t / 10) + 1] +
-    //                                 " " +
-    //                                 state.termsInfo["rows"][(t % 10) - 1].label
-    //                             }
-    //                             value={state.impossibleTerms[t]}
-    //                             onChange={(v) => {
-    //                                 const { impossibleTerms } = state;
-    //                                 impossibleTerms[t] = v;
-    //                                 setState({ ...state });
-    //                             }}
-    //                             id={"impossibility" + t}
-    //                         />
-    //                     ))}
-    //                     <Submit
-    //                         value={"Send form"}
-    //                         onSubmit={onSubmit}
-    //                     />
-    //                 </FormWrapper>
-    //             </>
-    //         )}
-    //     </>
-    // );
 }
 
 export default ClientViewForm;
