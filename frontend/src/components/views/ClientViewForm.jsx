@@ -27,28 +27,27 @@ function ClientViewForm() {
         selectedTerms: new Set(),
         loading: true
     });
-    let { id } = useParams();
+    let { hash } = useParams();
     useEffect(() => {
         (async function () {
+            let data = (await http.get("/vote/" + hash))["data"];
             setState({
                 ...state,
-                availableTermsSet: new Set(
-                    (await http.get("/questionnaires/" + id))["data"]["terms"]
-                ),
+                availableTermsSet: new Set(data["availableTerms"]),
+                selectedTerms: new Set(data["selectedTerms"]),
                 loading: false
             });
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id]);
+    }, [hash]);
     const onSubmit = () => {
         const { firstName, lastName, indexNumber, emailAdress, selectedTerms } = state;
-        http.post("/vote", {
+        http.post("/vote/" + hash, {
             firstName,
             lastName,
             indexNumber,
             emailAdress,
-            selectedTerms: Array.from(selectedTerms),
-            questionnaireId: id
+            selectedTerms: Array.from(selectedTerms)
         });
 
         setState({
