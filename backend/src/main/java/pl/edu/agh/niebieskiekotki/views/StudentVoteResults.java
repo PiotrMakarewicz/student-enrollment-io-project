@@ -6,18 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentVoteResults {
-    private String firstName;
-    private String lastName;
-    private String emailAddress;
-    private int indexNumber;
+    private Student student;
     private List<Long> availableTerms;
     private List<Long> selectedTerms;
 
     public StudentVoteResults(Student student, Questionnaire questionnaire) {
-        this.firstName = student.getFirstName();
-        this.lastName = student.getLastName();
-        this.emailAddress = student.getEmailAddress();
-        this.indexNumber = student.getIndexNumber();
+        this.student=student;
         this.selectedTerms = new ArrayList<>();
         this.availableTerms = new ArrayList<>();
         for (Vote vote : questionnaire.getVotes()) {
@@ -26,39 +20,14 @@ public class StudentVoteResults {
         for (QuestionnaireTerm term : questionnaire.getQuestionnaireTerms()) {
             availableTerms.add(term.getTerm().getId());
         }
-
     }
 
-    public String getFirstName() {
-        return firstName;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
-    public int getIndexNumber() {
-        return indexNumber;
-    }
-
-    public void setIndexNumber(int indexNumber) {
-        this.indexNumber = indexNumber;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     public List<Long> getAvailableTerms() {
