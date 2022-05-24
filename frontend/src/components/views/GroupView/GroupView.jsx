@@ -123,7 +123,7 @@ function GroupView() {
                             Generate groups
                         </button>
                     </div>
-                    <text>Number Of Groups: </text>
+                    <label>Number Of Groups: </label>
                     <input
                         type={"number"}
                         value={numberOfGroupsState.number_of_groups}

@@ -22,7 +22,7 @@ function ClientViewForm() {
         firstName: "",
         lastName: "",
         indexNumber: "",
-        emailAdress: "",
+        emailAddress: "",
         availableTermsSet: new Set(),
         selectedTerms: new Set(),
         loading: true
@@ -31,22 +31,27 @@ function ClientViewForm() {
     useEffect(() => {
         (async function () {
             let data = (await http.get("/vote/" + hash))["data"];
+            let student = data["student"];
             setState({
                 ...state,
                 availableTermsSet: new Set(data["availableTerms"]),
                 selectedTerms: new Set(data["selectedTerms"]),
+                firstName: student["firstName"],
+                lastName: student["lastName"],
+                indexNumber: student["indexNumber"],
+                emailAddress: student["emailAddress"],
                 loading: false
             });
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hash]);
     const onSubmit = () => {
-        const { firstName, lastName, indexNumber, emailAdress, selectedTerms } = state;
+        const { firstName, lastName, indexNumber, emailAddress, selectedTerms } = state;
         http.post("/vote/" + hash, {
             firstName,
             lastName,
             indexNumber,
-            emailAdress,
+            emailAddress,
             selectedTerms: Array.from(selectedTerms)
         });
 
@@ -54,7 +59,7 @@ function ClientViewForm() {
             firstName: "",
             lastName: "",
             indexNumber: "",
-            emailAdress: "",
+            emailAddress: "",
             s: state.selectedTerms,
             loading: true
         });
@@ -82,32 +87,12 @@ function ClientViewForm() {
             ) : (
                 <>
                     <FormWrapper>
-                        <form>
-                            <Input
-                                label="Enter your name"
-                                value={state.firstName}
-                                onChange={(v) => setState({ ...state, firstName: v })}
-                                id="firstName"
-                            />
-                            <Input
-                                label="Enter your surname"
-                                value={state.lastName}
-                                onChange={(v) => setState({ ...state, lastName: v })}
-                                id="lastName"
-                            />
-                            <Input
-                                label="Enter your index"
-                                value={state.indexNumber}
-                                onChange={(v) => setState({ ...state, indexNumber: v })}
-                                id="indexNumber"
-                            />
-                            <Input
-                                label="Enter your email"
-                                value={state.emailAdress}
-                                onChange={(v) => setState({ ...state, emailAdress: v })}
-                                id="emailAdress"
-                            />
-                        </form>
+                        <div className = "d-flex row mb-3 w-100">
+                            <label>Name: {state.firstName}</label>
+                            <label>Surname: {state.lastName}</label>
+                            <label>Index: {state.indexNumber}</label>
+                            <label>Email: {state.emailAddress}</label>
+                        </div>
                         <Calendar
                             selectedTerms={state.selectedTerms}
                             toggleTerm={toggleTerm}
