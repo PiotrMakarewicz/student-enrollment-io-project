@@ -53,13 +53,12 @@ public class GroupGeneratorTests {
         List<Term> terms = new ArrayList<>();
         Map<Student, List<Term>> studentTerms = new HashMap<>();
 
-        studentsInit(students, 30);
-        termsInit(terms, 15);
-        studentTermsInit(studentTerms, students, terms, 4);
+        studentsInit(students, 300);
+        termsInit(terms, 90);
+        studentTermsInit(studentTerms, students, terms, 7);
 
-        GenerationOutput output = generator.generate(studentTerms, 5, 3);
+        GenerationOutput output = generator.generate(studentTerms, 30, 3);
 
-        testOutput(output, students, studentTerms, 5);
         printOutputStats(output);
     }
 
@@ -136,9 +135,10 @@ public class GroupGeneratorTests {
 
     private void studentTermsInit(Map<Student, List<Term>> studentTerms, List<Student> students, List<Term> terms,
                                   double averageStudentTerms){
-        List<Term> termsCopy = new ArrayList<>(terms);
+
         Random r = new Random();
         for (Student s : students) {
+            List<Term> termsCopy = new ArrayList<>(terms);
             Collections.shuffle(termsCopy);
             studentTerms.put(s, termsCopy.subList(0, Math.max(randomGaussianInt(r, averageStudentTerms, 2), 0)));
         }

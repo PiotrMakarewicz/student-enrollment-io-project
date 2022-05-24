@@ -86,7 +86,7 @@ public class GenerationAlgorithm {
             }
 
         }
-        return output.getUnassignedStudents().size() * 3 + result + maximal - minimal;
+        return output.getUnassignedStudents().size() * 2 + result * 2 + maximal - minimal;
     }
 
     private Set<Term> chooseTerms(List<Term> terms, List<Integer> indexes){
@@ -119,11 +119,11 @@ public class GenerationAlgorithm {
 
     private int additionalTermsFunction(int numGroups){
         //return 0;
-//        if (numGroups > 10){
-//            return 2;
-//        } else if (numGroups > 5){
-//            return 4;
-//        }
+        if (numGroups > 15){
+            return 2;
+        } else if (numGroups > 8){
+            return 4;
+        }
         return 6;
     }
 
