@@ -17,7 +17,7 @@ function CalendarRow({ label, cells, selectedTerms, toggleTerm, availableTermsSe
             onClick={toggleTerm}
             isAvailable={availableTermsSet === "All" || availableTermsSet.has(c)}
             isChosen={selectedTerms.has(c)}
-            isImpossible={impossibleTerms.has(c)}
+            isImpossible={c in impossibleTerms}
         />
     ));
     return (

@@ -25,10 +25,14 @@ function ClientViewForm() {
         emailAdress: "",
         availableTermsSet: new Set(),
         selectedTerms: new Set(),
-        impossibleTerms: new Set(),
+        impossibleTerms: {},
         loading: true
     });
+<<<<<<< HEAD
     let { hash } = useParams();
+=======
+    let { hash  } = useParams();
+>>>>>>> 9bf69b0 (commit before rebase)
     useEffect(() => {
         (async function () {
             let data = (await http.get("/vote/" + hash))["data"];
@@ -58,8 +62,11 @@ function ClientViewForm() {
 =======
             selectedTerms: Array.from(selectedTerms),
             impossibleTerms: Array.from(impossibleTerms),
+<<<<<<< HEAD
             questionnaireId: id
 >>>>>>> a79c8f3 (red button, text window not ready)
+=======
+>>>>>>> 9bf69b0 (commit before rebase)
         });
 
         setState({
@@ -74,15 +81,15 @@ function ClientViewForm() {
 
     var toggleTerm = (id) => {
         const { selectedTerms,  impossibleTerms} = state;
-        if (!selectedTerms.has(id) && !impossibleTerms.has(id)) {
+        if (!selectedTerms.has(id) && !id in impossibleTerms) {
             selectedTerms.add(id);
         }
-        else if (selectedTerms.has(id) && !impossibleTerms.has(id)) {
+        else if (selectedTerms.has(id) && !id in impossibleTerms) {
             selectedTerms.delete(id);
-            impossibleTerms.add(id);
+            impossibleTerms[id] = "";
         }
-        else if (!selectedTerms.has(id) && impossibleTerms.has(id)){
-            impossibleTerms.delete(id);
+        else if (!selectedTerms.has(id) && id in impossibleTerms){
+            delete impossibleTerms[id];
         }
         setState({ ...state });
     };
@@ -132,7 +139,8 @@ function ClientViewForm() {
                             availableTermsSet={state.availableTermsSet}
                             impossibleTerms={state.impossibleTerms}
                         />
-                        {state.impossibleTerms.map((t, key) => (
+                        <>
+                        {Object.keys(state.impossibleTerms).map((t, index) => (
                             <Input
                                 label={"Explain your impossibility for " + t}
                                 value={state.emailAdress}
@@ -141,6 +149,7 @@ function ClientViewForm() {
                             />
                         ))
                         }
+                        </>
                         <Submit
                             value={"Send form"}
                             onSubmit={onSubmit}
