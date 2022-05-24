@@ -41,12 +41,23 @@
     background-color: dimgray;
 }
 
+.calendar-cell-impossibility {
+    cursor: pointer;
+    opacity: 0.8;
+    background-color: rgb(128, 0, 0);
+}
+
 .calendar-cell-available:hover {
     opacity: 1;
     transition: 0.3s;
 }
 
 .calendar-cell-chosen:hover {
+    opacity: 1;
+    transition: 0.3s;
+}
+
+.calendar-cell-impossibility:hover {
     opacity: 1;
     transition: 0.3s;
 }

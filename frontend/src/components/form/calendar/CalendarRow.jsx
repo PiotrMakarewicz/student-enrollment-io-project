@@ -7,8 +7,9 @@ import CalendarCell from "./CalendarCell";
  * @param cells = list, list of objects which contains info about slots
  * @param toggleTerm function which handles slot clicking
  * @param availableTermsSet set contains available terms
+ * @param impossibleTerms set with terms that are impossibilities
  */
-function CalendarRow({ label, cells, selectedTerms, toggleTerm, availableTermsSet }) {
+function CalendarRow({ label, cells, selectedTerms, toggleTerm, availableTermsSet, impossibleTerms }) {
     var fields = cells.map((c, key) => (
         <CalendarCell
             key={key}
@@ -16,6 +17,7 @@ function CalendarRow({ label, cells, selectedTerms, toggleTerm, availableTermsSe
             onClick={toggleTerm}
             isAvailable={availableTermsSet === "All" || availableTermsSet.has(c)}
             isChosen={selectedTerms.has(c)}
+            isImpossible={impossibleTerms.has(c)}
         />
     ));
     return (

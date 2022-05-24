@@ -17,15 +17,16 @@ import { useEffect } from "react";
  * @param selectedTerms set contains selected slot id
  * @param toggleTerm function which handles slot clicking
  * @param availableTermsSet set with available terms
+ * @param impossibleTerms set with terms that are impossibilities
  * @example
  * <Calendar selectedTerms ={availableTerms= {
         headers: ["Monday","Tuesday"],
         rows: [{label:"8:00-9:30",cells:[{ id: 1,isAvailable: true},{id:1,isAvailable: false},{id:3,isAvailable: true}}]},
-    },new Set() toggleTerm ={(id)->console.log(id)}}
+    },new Set() toggleTerm ={(id)->console.log(id)}, new Set()}
  * 
  */
 
-function Calendar({ selectedTerms, toggleTerm, availableTermsSet }) {
+function Calendar({ selectedTerms, toggleTerm, availableTermsSet, impossibleTerms }) {
     const [state, setState] = useState({
         val: 1,
         termsInfo: null,
@@ -51,6 +52,7 @@ function Calendar({ selectedTerms, toggleTerm, availableTermsSet }) {
                             termRows={state.termsInfo["rows"]}
                             availableTermsSet={availableTermsSet}
                             selectedTerms={selectedTerms}
+                            impossibleTerms={impossibleTerms}
                             toggleTerm={toggleTerm}
                         />
                     </table>

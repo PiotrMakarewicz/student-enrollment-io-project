@@ -25,6 +25,7 @@ function ClientViewForm() {
         emailAdress: "",
         availableTermsSet: new Set(),
         selectedTerms: new Set(),
+        impossibleTerms: new Set(),
         loading: true
     });
     let { hash } = useParams();
@@ -41,13 +42,24 @@ function ClientViewForm() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hash]);
     const onSubmit = () => {
+<<<<<<< HEAD
         const { firstName, lastName, indexNumber, emailAdress, selectedTerms } = state;
         http.post("/vote/" + hash, {
+=======
+        const { firstName, lastName, indexNumber, emailAdress, selectedTerms, impossibleTerms } = state;
+        http.post("/vote", {
+>>>>>>> a79c8f3 (red button, text window not ready)
             firstName,
             lastName,
             indexNumber,
             emailAdress,
+<<<<<<< HEAD
             selectedTerms: Array.from(selectedTerms)
+=======
+            selectedTerms: Array.from(selectedTerms),
+            impossibleTerms: Array.from(impossibleTerms),
+            questionnaireId: id
+>>>>>>> a79c8f3 (red button, text window not ready)
         });
 
         setState({
@@ -61,11 +73,16 @@ function ClientViewForm() {
     };
 
     var toggleTerm = (id) => {
-        const { selectedTerms } = state;
-        if (selectedTerms.has(id)) {
-            selectedTerms.delete(id);
-        } else {
+        const { selectedTerms,  impossibleTerms} = state;
+        if (!selectedTerms.has(id) && !impossibleTerms.has(id)) {
             selectedTerms.add(id);
+        }
+        else if (selectedTerms.has(id) && !impossibleTerms.has(id)) {
+            selectedTerms.delete(id);
+            impossibleTerms.add(id);
+        }
+        else if (!selectedTerms.has(id) && impossibleTerms.has(id)){
+            impossibleTerms.delete(id);
         }
         setState({ ...state });
     };
@@ -107,12 +124,23 @@ function ClientViewForm() {
                                 onChange={(v) => setState({ ...state, emailAdress: v })}
                                 id="emailAdress"
                             />
+                            
                         </form>
                         <Calendar
                             selectedTerms={state.selectedTerms}
                             toggleTerm={toggleTerm}
                             availableTermsSet={state.availableTermsSet}
+                            impossibleTerms={state.impossibleTerms}
                         />
+                        {state.impossibleTerms.map((t, key) => (
+                            <Input
+                                label={"Explain your impossibility for " + t}
+                                value={state.emailAdress}
+                                onChange={(v) => setState({ ...state, emailAdress: v })}
+                                id="emailAdress"
+                            />
+                        ))
+                        }
                         <Submit
                             value={"Send form"}
                             onSubmit={onSubmit}
