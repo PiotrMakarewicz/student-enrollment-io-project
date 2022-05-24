@@ -28,19 +28,18 @@ function ClientViewForm() {
         selectedTerms: new Set(),
         impossibleTerms: {},
         termsInfo: null,
-        loading: true
+        loadingState: 0
     });
     let { hash } = useParams();
     useEffect(() => {
         (async function () {
             let data = (await http.get("/vote/" + hash))["data"];
-
             setState({
                 ...state,
                 availableTermsSet: new Set(data["availableTerms"]),
                 selectedTerms: new Set(data["selectedTerms"]),
                 termsInfo: (await http.get("/terms"))["data"],
-                loading: false
+                loadingState: 1
             });
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -63,13 +62,12 @@ function ClientViewForm() {
             indexNumber: "",
             emailAdress: "",
             s: state.selectedTerms,
-            loading: true
+            loadingState: 2
         });
     };
 
     var toggleTerm = (id) => {
         const { selectedTerms, impossibleTerms } = state;
-        console.log(state.impossibleTerms);
         if (!selectedTerms.has(id) && !(id in impossibleTerms)) {
             selectedTerms.add(id);
         } else if (selectedTerms.has(id) && !(id in impossibleTerms)) {
@@ -80,20 +78,17 @@ function ClientViewForm() {
         }
         setState({ ...state });
     };
-    return (
-        <>
-            {state.loading ? (
-                <>
-                    <h1>Thanks!</h1>
-                    <Confetti
-                        width={1500}
-                        height={700}
-                    />
-                </>
-            ) : (
-                <>
+    if(state.loadingState === 0){
+        return(
+            <>
+                    <Spinner animation="border" />
+            </>
+        ); 
+    }
+    else if (state.loadingState === 1){
+        return(
+            <>
                     <FormWrapper>
-                        <form>
                             <Input
                                 label="Enter your name"
                                 value={state.firstName}
@@ -118,7 +113,6 @@ function ClientViewForm() {
                                 onChange={(v) => setState({ ...state, emailAdress: v })}
                                 id="emailAdress"
                             />
-                        </form>
                         <Calendar
                             selectedTerms={state.selectedTerms}
                             toggleTerm={toggleTerm}
@@ -126,7 +120,7 @@ function ClientViewForm() {
                             impossibleTerms={state.impossibleTerms}
                             termsInfo={state.termsInfo}
                         />
-                        {Object.keys(state.impossibleTerms).map((t, index) => (
+                        {Object.keys(state.impossibleTerms).map((t, key) => (
                             <Input
                                 label={
                                     "Explain your impossibility for " +
@@ -141,6 +135,7 @@ function ClientViewForm() {
                                     setState({ ...state });
                                 }}
                                 id={"impossibility" + t}
+                                key={key}
                             />
                         ))}
                         <Submit
@@ -149,9 +144,88 @@ function ClientViewForm() {
                         />
                     </FormWrapper>
                 </>
-            )}
-        </>
+        ); 
+    }
+    else return(
+        <>
+                <h1>Thanks!</h1>
+                <Confetti
+                    width={1500}
+                    height={700}
+                />
+            </>
     );
+    // return (
+    //     <>
+    //         {
+    //         state.loadingState ? (
+    //             <>
+    //                 <h1>Thanks!</h1>
+    //                 <Confetti
+    //                     width={1500}
+    //                     height={700}
+    //                 />
+    //             </>
+    //         ) : (
+    //             <>
+    //                 <FormWrapper>
+    //                         <Input
+    //                             label="Enter your name"
+    //                             value={state.firstName}
+    //                             onChange={(v) => setState({ ...state, firstName: v })}
+    //                             id="firstName"
+    //                         />
+    //                         <Input
+    //                             label="Enter your surname"
+    //                             value={state.lastName}
+    //                             onChange={(v) => setState({ ...state, lastName: v })}
+    //                             id="lastName"
+    //                         />
+    //                         <Input
+    //                             label="Enter your index"
+    //                             value={state.indexNumber}
+    //                             onChange={(v) => setState({ ...state, indexNumber: v })}
+    //                             id="indexNumber"
+    //                         />
+    //                         <Input
+    //                             label="Enter your email"
+    //                             value={state.emailAdress}
+    //                             onChange={(v) => setState({ ...state, emailAdress: v })}
+    //                             id="emailAdress"
+    //                         />
+    //                     <Calendar
+    //                         selectedTerms={state.selectedTerms}
+    //                         toggleTerm={toggleTerm}
+    //                         availableTermsSet={state.availableTermsSet}
+    //                         impossibleTerms={state.impossibleTerms}
+    //                         termsInfo={state.termsInfo}
+    //                     />
+    //                     {Object.keys(state.impossibleTerms).map((t, index) => (
+    //                         <Input
+    //                             label={
+    //                                 "Explain your impossibility for " +
+    //                                 [[""], ...state.termsInfo["headers"]][Math.floor(t / 10) + 1] +
+    //                                 " " +
+    //                                 state.termsInfo["rows"][(t % 10) - 1].label
+    //                             }
+    //                             value={state.impossibleTerms[t]}
+    //                             onChange={(v) => {
+    //                                 const { impossibleTerms } = state;
+    //                                 impossibleTerms[t] = v;
+    //                                 setState({ ...state });
+    //                             }}
+    //                             id={"impossibility" + t}
+    //                         />
+    //                     ))}
+    //                     <Submit
+    //                         value={"Send form"}
+    //                         onSubmit={onSubmit}
+    //                     />
+    //                 </FormWrapper>
+    //             </>
+    //         )}
+    //     </>
+    // );
 }
 
 export default ClientViewForm;
