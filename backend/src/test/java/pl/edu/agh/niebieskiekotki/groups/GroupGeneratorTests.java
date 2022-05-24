@@ -5,10 +5,7 @@ import pl.edu.agh.niebieskiekotki.entitites.Student;
 import pl.edu.agh.niebieskiekotki.entitites.Term;
 import pl.edu.agh.niebieskiekotki.utility.Days;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,23 +14,15 @@ public class GroupGeneratorTests {
     GenerationAlgorithm generator = new GenerationAlgorithm();
 
     @Test
-    public void test(){
-        Student s1 = new Student();
-        s1.setId(0L);
-        Student s2 = new Student();
-        s2.setId(1L);
-        Student s3 = new Student();
-        s3.setId(2L);
-        Student s4 = new Student();
-        s4.setId(3L);
-        Student s5 = new Student();
-        s5.setId(4L);
-        Student s6 = new Student();
-        s6.setId(5L);
-        Student s7 = new Student();
-        s7.setId(6L);
-        Student s8 = new Student();
-        s8.setId(7L);
+    public void testSimple(){
+        Student s1 = new Student(0L);
+        Student s2 = new Student(1L);
+        Student s3 = new Student(2L);
+        Student s4 = new Student(3L);
+        Student s5 = new Student(4L);
+        Student s6 = new Student(5L);
+        Student s7 = new Student(6L);
+        Student s8 = new Student(7L);
 
         Term t1 = new Term(1L, Days.Monday, 1, null);
         Term t2 = new Term(2L, Days.Tuesday, 2, null);
@@ -53,22 +42,140 @@ public class GroupGeneratorTests {
         studentTerms.put(s7, List.of(t1, t2, t3, t4, t5, t6));
         studentTerms.put(s8, List.of(t4, t5, t7));
 
-        GenerationOutput output = generator.generate(studentTerms, 3);
+        GenerationOutput output = generator.generate(studentTerms, 3, 2);
 
+        testOutput(output, List.of(s1, s2, s3, s4, s5, s6, s7, s8), studentTerms, 3);
+    }
+
+    @Test
+    public void testLargeRandom(){
+        List<Student> students = new ArrayList<>();
+        List<Term> terms = new ArrayList<>();
+        Map<Student, List<Term>> studentTerms = new HashMap<>();
+
+        studentsInit(students, 30);
+        termsInit(terms, 15);
+        studentTermsInit(studentTerms, students, terms, 4);
+
+        GenerationOutput output = generator.generate(studentTerms, 5, 2);
+
+        testOutput(output, students, studentTerms, 5);
+        printOutputStats(output);
+    }
+
+    @Test
+    public void compareAlgorithmsLarge(){
+        double sumUnassigned1 = 0;
+        double sumUnassigned2 = 0;
+        double sumSizeDifference1 = 0;
+        double sumSizeDifference2 = 0;
+        for (int i = 0; i < 1000; i++) {
+            List<Student> students = new ArrayList<>();
+            List<Term> terms = new ArrayList<>();
+            Map<Student, List<Term>> studentTerms = new HashMap<>();
+
+            studentsInit(students, 30);
+            termsInit(terms, 15);
+            studentTermsInit(studentTerms, students, terms, 3);
+
+            GenerationOutput output1 = generator.generate(studentTerms, 4, 1);
+
+            students = new ArrayList<>();
+            terms = new ArrayList<>();
+            studentTerms = new HashMap<>();
+
+            studentsInit(students, 30);
+            termsInit(terms, 15);
+            studentTermsInit(studentTerms, students, terms, 3);
+
+            GenerationOutput output2 = generator.generate(studentTerms, 4, 2);
+
+            sumUnassigned1 += output1.getUnassignedStudents().size();
+            sumUnassigned2 += output2.getUnassignedStudents().size();
+        }
+
+        System.out.println(sumUnassigned1/1000);
+        System.out.println(sumUnassigned2/1000);
+    }
+
+    @Test
+    public void compareAlgorithms(){
+        List<Student> students = new ArrayList<>();
+        List<Term> terms = new ArrayList<>();
+        Map<Student, List<Term>> studentTerms = new HashMap<>();
+
+        studentsInit(students, 30);
+        termsInit(terms, 15);
+        studentTermsInit(studentTerms, students, terms, 3);
+
+        GenerationOutput output1 = generator.generate(studentTerms, 4, 1);
+
+        students = new ArrayList<>();
+        terms = new ArrayList<>();
+        studentTerms = new HashMap<>();
+
+        studentsInit(students, 30);
+        termsInit(terms, 15);
+        studentTermsInit(studentTerms, students, terms, 3);
+
+        GenerationOutput output2 = generator.generate(studentTerms, 4, 2);
+
+        printOutputStats(output1);
+        printOutputStats(output2);
+    }
+
+    private void studentsInit(List<Student> students, int number){
+        for (int i = 0; i < number; i++) {
+            students.add(new Student(i));
+        }
+    }
+
+    private void termsInit(List<Term> terms, int number){
+        for (int i = 0; i < number; i++) {
+            terms.add(new Term((long) i, Days.Friday, 0, null));
+        }
+    }
+
+    private int randomGaussianInt(Random r, double mean, double deviation){
+        return (int)(mean + r.nextGaussian() * deviation + 0.5);
+    }
+
+    private void studentTermsInit(Map<Student, List<Term>> studentTerms, List<Student> students, List<Term> terms,
+                                  double averageStudentTerms){
+        List<Term> termsCopy = new ArrayList<>(terms);
+        Random r = new Random();
+        for (Student s : students) {
+            Collections.shuffle(termsCopy);
+            studentTerms.put(s, termsCopy.subList(0, Math.max(randomGaussianInt(r, averageStudentTerms, 2), 0)));
+        }
+    }
+
+    private void printOutputStats(GenerationOutput output){
         Set<Student> unassignedStudents = output.getUnassignedStudents();
         Map<Term, Set<Student>> termStudents = output.getTermStudents();
 
-        assertEquals(3, output.getTermStudents().keySet().size());
+        System.out.println("Number of unassigned students: " + unassignedStudents.size());
+        for (Map.Entry<Term, Set<Student>> entry : output.getTermStudents().entrySet()) {
+            System.out.println("Group with " + entry.getValue().size() + " students");
+        }
+    }
 
-        for (Student student: List.of(s1, s2, s3, s4, s5, s6, s7, s8)){
+    private void testOutput(GenerationOutput output, List<Student> students, Map<Student, List<Term>> studentTerms,
+                            int groupNumber){
+        Set<Student> unassignedStudents = output.getUnassignedStudents();
+        Map<Term, Set<Student>> termStudents = output.getTermStudents();
+
+        assertEquals(groupNumber, output.getTermStudents().keySet().size());
+
+        for (Student student: students){
             if (unassignedStudents.contains(student)){
                 assertTrue(termStudents.keySet().stream()
-                                .noneMatch(t -> termStudents.get(t).contains(student)
-                ));
+                        .noneMatch(t -> termStudents.get(t).contains(student)
+                        ));
             } else {
                 assertTrue(termStudents.keySet().stream()
-                                .filter(t -> termStudents.get(t).contains(student))
-                                .count() == 1);
+                        .filter(t -> termStudents.get(t).contains(student))
+                        .count() == 1);
             }
         }
 

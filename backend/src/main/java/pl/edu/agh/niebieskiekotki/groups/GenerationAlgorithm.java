@@ -1,6 +1,8 @@
 package pl.edu.agh.niebieskiekotki.groups;
 
 import org.jgrapht.alg.flow.DinicMFImpl;
+import org.jgrapht.alg.flow.mincost.CapacityScalingMinimumCostFlow;
+import org.jgrapht.alg.flow.mincost.MinimumCostFlowProblem;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.springframework.stereotype.Component;
@@ -12,22 +14,28 @@ import java.util.stream.Collectors;
 
 @Component
 public class GenerationAlgorithm {
-    public GenerationOutput generate(Map<Student, List<Term>> studentsTerms, int numGroups){
 
+    public GenerationOutput generate(Map<Student, List<Term>> studentsTerms, int numGroups,
+                                     int algorithmVersion, int groupSizeVariation){
         Set<Term> allTerms = getAllTerms(studentsTerms);
         int additionalTerms = additionalTermsFunction(numGroups);
         List<Term> candidateTerms = getCandidateTerms(studentsTerms, allTerms,
                 numGroups + additionalTerms);
 
+        int termIndexesLen = Math.min(numGroups, candidateTerms.size());
+
         List<Integer> termIndexes = new ArrayList<>();
-        for (int i = 0; i < numGroups; i++) {
+        for (int i = 0; i < termIndexesLen; i++) {
             termIndexes.add(i);
         }
 
-        GenerationOutput output = divideForTerms(studentsTerms, chooseTerms(candidateTerms, termIndexes));
+        GenerationOutput output = runCorrectAlgorithm(studentsTerms, algorithmVersion,
+                candidateTerms, termIndexes, groupSizeVariation);
 
         while (createNextIndexes(termIndexes, candidateTerms.size())) {
-            GenerationOutput newOutput = divideForTerms(studentsTerms, chooseTerms(candidateTerms, termIndexes));
+            GenerationOutput newOutput = runCorrectAlgorithm(studentsTerms, algorithmVersion,
+                    candidateTerms, termIndexes, groupSizeVariation);
+
             if (newOutput.getUnassignedStudents().size() < output.getUnassignedStudents().size()){
                 output = newOutput;
             }
@@ -35,9 +43,26 @@ public class GenerationAlgorithm {
 
         return output;
     }
+    public GenerationOutput generate(Map<Student, List<Term>> studentsTerms, int numGroups, int algorithmVersion){
+        return generate(studentsTerms, numGroups, algorithmVersion, 1);
+    }
+
+    private GenerationOutput runCorrectAlgorithm(Map<Student, List<Term>> studentsTerms, int algorithmVersion,
+                                                 List<Term> candidateTerms, List<Integer> termIndexes,
+                                                 int groupSizeVariation){
+        if (algorithmVersion == 1) {
+            return divideForTerms(studentsTerms, chooseTerms(candidateTerms, termIndexes));
+        } else if (algorithmVersion == 2) {
+            return divideForTermsSecondAlgorithm(studentsTerms, chooseTerms(candidateTerms, termIndexes),
+                    groupSizeVariation);
+        } else {
+            return divideForTerms(studentsTerms, chooseTerms(candidateTerms, termIndexes));
+        }
+    }
 
     private Set<Term> chooseTerms(List<Term> terms, List<Integer> indexes){
         Set<Term> result = new HashSet<>();
+        //System.out.println(terms.size());
         for (Integer i : indexes) {
             result.add(terms.get(i));
         }
@@ -64,11 +89,95 @@ public class GenerationAlgorithm {
 
 
     private int additionalTermsFunction(int numGroups){
-        return 5;
+        //return 0;
+//        if (numGroups > 10){
+//            return 2;
+//        } else if (numGroups > 5){
+//            return 4;
+//        }
+        return 6;
+    }
+
+    private GenerationOutput divideForTermsSecondAlgorithm(Map<Student, List<Term>> studentsTerms, Set<Term> terms,
+                                                           int groupSizeVariation){
+        Set<Student> allStudents = studentsTerms.keySet();
+        int averageGroupSize = (int) Math.round(((double) allStudents.size() / terms.size()));
+        int maxGroupSize = averageGroupSize + groupSizeVariation;
+        //int minGroupSize = averageGroupSize - groupSizeVariation;
+        int minGroupSize = 0;
+        var network = new DefaultDirectedWeightedGraph<>(DefaultWeightedEdge.class);
+        var destination = new Object();
+
+        Map<Object, Integer> supplyDict = new HashMap<>();
+
+        Map<DefaultWeightedEdge, Integer> capacityDict = new HashMap<>();
+        Map<DefaultWeightedEdge, Integer> minCapacityDict = new HashMap<>();
+
+        network.addVertex(destination);
+        supplyDict.put(destination, -1 * allStudents.size());
+
+        for (var term : terms){
+            network.addVertex(term);
+            supplyDict.put(term, 0);
+            network.addEdge(term, destination);
+            capacityDict.put(network.getEdge(term, destination), maxGroupSize);
+            minCapacityDict.put(network.getEdge(term, destination), minGroupSize);
+            network.setEdgeWeight(term, destination, 0);
+        }
+
+        var unassigned = new Object();
+        network.addVertex(unassigned);
+        supplyDict.put(unassigned, 0);
+        network.addEdge(unassigned, destination);
+        capacityDict.put(network.getEdge(unassigned, destination), 2000);
+        minCapacityDict.put(network.getEdge(unassigned, destination), 0);
+        network.setEdgeWeight(unassigned, destination, 0);
+
+        for (var student: allStudents){
+            network.addVertex(student);
+            supplyDict.put(student, 1);
+            for (var term : studentsTerms.get(student)) {
+                if (network.containsVertex(term)) {
+                    network.addEdge(student, term);
+                    capacityDict.put(network.getEdge(student, term), 1);
+                    minCapacityDict.put(network.getEdge(student, term), 0);
+                    network.setEdgeWeight(student, term, -100);
+                }
+            }
+            network.addEdge(student, unassigned);
+            capacityDict.put(network.getEdge(student, unassigned), 1);
+            minCapacityDict.put(network.getEdge(student, unassigned), 0);
+            network.setEdgeWeight(student, unassigned, -1);
+        }
+
+        var problem = new MinimumCostFlowProblem.MinimumCostFlowProblemImpl<>(network,
+                supplyDict::get, capacityDict::get, minCapacityDict::get);
+
+        var algorithm = new CapacityScalingMinimumCostFlow<Object, DefaultWeightedEdge>();
+
+        algorithm.getMinimumCostFlow(problem);
+
+        Map<DefaultWeightedEdge, Double> flowMap = algorithm.getFlowMap();
+
+        GenerationOutput output = new GenerationOutput(terms);
+
+        for (Map.Entry<Student, List<Term>> entry : studentsTerms.entrySet()) {
+            Student student = entry.getKey();
+            for (Term term : entry.getValue()) {
+                if (flowMap.getOrDefault(network.getEdge(student, term), 0.0) > 0){
+                    //System.out.println("Student " + student.getId() + " goes to group " + term.getId());
+                    output.getTermStudents().get(term).add(student);
+                }
+            }
+            if (flowMap.getOrDefault(network.getEdge(student, unassigned), 0.0) > 0){
+                output.getUnassignedStudents().add(student);
+            }
+        }
+        return output;
     }
 
     private GenerationOutput divideForTerms(Map<Student, List<Term>> studentsTerms, Set<Term> terms){
-        System.out.println("Starting division");
+        //System.out.println("Starting division");
 
         var network = new DefaultDirectedWeightedGraph<>(DefaultWeightedEdge.class);
         var source = new Object();
@@ -96,7 +205,7 @@ public class GenerationAlgorithm {
             }
         }
 
-        double maxGroupSize = Math.round(((double) allStudents.size() / terms.size()) + 0.5);
+        double maxGroupSize = Math.round(((double) allStudents.size() / terms.size() + 0.5));
 
         for (var term: terms){
             network.addVertex(term);
@@ -118,7 +227,6 @@ public class GenerationAlgorithm {
                     && edgeTarget instanceof Student student
                     && flow.getFlow(edge) < 0.1)
             {
-                System.out.println(student.getId());
                 output.addUnassignedStudent(student);
             }
 
@@ -126,7 +234,6 @@ public class GenerationAlgorithm {
                     && edgeTarget instanceof Term term
                     && flow.getFlow(edge) > 0.9)
             {
-                System.out.println(student.getId() + " unassigned ");
                 output.getTermStudents().get(term).add(student);
             }
         }
