@@ -19,17 +19,14 @@ public class VoteRouterTest extends AbstractRouterTest {
 
 
     @Test
-    public void addQuestionnaire() throws Exception {
-        String uri = "/vote";
+    public void addVote() throws Exception {
+
+        String hash = "06b13127cd02afc8067c1e6b159f76463de9832f623e071c6d804a64ddd39f38";
+        String uri = "/vote/"+hash;
         MvcResult mvcResult = mvc
                 .perform(MockMvcRequestBuilders.post(uri)
                         .content("""
                                 {
-                                    "questionnaireId":1,
-                                    "firstName":"Adam",
-                                    "lastName":"Kowalski",
-                                    "emailAddress":"a@a.pl",
-                                    "indexNumber":1234569,
                                     "selectedTerms":[1,2,3]
                                 }""").contentType("application/json")
                         .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
@@ -40,7 +37,7 @@ public class VoteRouterTest extends AbstractRouterTest {
 
     @Test
     public void getVotes() throws Exception {
-        String uri = "/vote/1";
+        String uri = "/votes/1";
         MvcResult mvcResult = mvc
                 .perform(MockMvcRequestBuilders.get(uri)
                         .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
