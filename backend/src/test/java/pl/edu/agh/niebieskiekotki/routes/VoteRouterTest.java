@@ -21,7 +21,7 @@ public class VoteRouterTest extends AbstractRouterTest {
     @Test
     public void addVote() throws Exception {
 
-        String hash = "06b13127cd02afc8067c1e6b159f76463de9832f623e071c6d804a64ddd39f38";
+        String hash = "0b998e0b5b298e793eb9bc308ca74f8d437d29c5ebdfab50d04748768428eb1f";
         String uri = "/vote/"+hash;
         MvcResult mvcResult = mvc
                 .perform(MockMvcRequestBuilders.post(uri)
