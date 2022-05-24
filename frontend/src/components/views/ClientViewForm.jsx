@@ -7,6 +7,7 @@ import http from "../../services/http";
 import { useEffect } from "react";
 import FormWrapper from "../FormWrapper";
 import Confetti from "react-confetti";
+import { Spinner } from "react-bootstrap";
 
 /**
  * View form for client
@@ -25,7 +26,9 @@ function ClientViewForm() {
         emailAddress: "",
         availableTermsSet: new Set(),
         selectedTerms: new Set(),
-        loading: true
+        impossibleTerms: {},
+        termsInfo: null,
+        loadingState: 0
     });
     let { hash } = useParams();
     useEffect(() => {
@@ -36,19 +39,26 @@ function ClientViewForm() {
                 ...state,
                 availableTermsSet: new Set(data["availableTerms"]),
                 selectedTerms: new Set(data["selectedTerms"]),
+                termsInfo: (await http.get("/terms"))["data"],
+                loadingState: 1,
                 firstName: student["firstName"],
                 lastName: student["lastName"],
                 indexNumber: student["indexNumber"],
-                emailAddress: student["emailAddress"],
-                loading: false
+                emailAddress: student["emailAddress"]
             });
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hash]);
     const onSubmit = () => {
-        const { firstName, lastName, indexNumber, emailAddress, selectedTerms } = state;
+        const { firstName, lastName, indexNumber, emailAddress, selectedTerms, impossibleTerms } =
+            state;
         http.post("/vote/" + hash, {
-            selectedTerms: Array.from(selectedTerms)
+            firstName,
+            lastName,
+            indexNumber,
+            emailAddress,
+            selectedTerms: Array.from(selectedTerms),
+            impossibleTerms: Array.from(impossibleTerms)
         });
 
         setState({
@@ -57,31 +67,32 @@ function ClientViewForm() {
             indexNumber: "",
             emailAddress: "",
             s: state.selectedTerms,
-            loading: true
+            loadingState: 2
         });
     };
 
     var toggleTerm = (id) => {
-        const { selectedTerms } = state;
-        if (selectedTerms.has(id)) {
-            selectedTerms.delete(id);
-        } else {
+        const { selectedTerms, impossibleTerms } = state;
+        if (!selectedTerms.has(id) && !(id in impossibleTerms)) {
             selectedTerms.add(id);
+        } else if (selectedTerms.has(id) && !(id in impossibleTerms)) {
+            selectedTerms.delete(id);
+            impossibleTerms[id] = "";
+        } else if (!selectedTerms.has(id) && id in impossibleTerms) {
+            delete impossibleTerms[id];
         }
         setState({ ...state });
     };
-    return (
-        <>
-            {state.loading ? (
-                <>
-                    <h1>Thanks!</h1>
-                    <Confetti
-                        width={1500}
-                        height={700}
-                    />
-                </>
-            ) : (
-                <>
+    if(state.loadingState === 0){
+        return(
+            <>
+                    <Spinner animation="border" />
+            </>
+        ); 
+    }
+    else if (state.loadingState === 1){
+        return(
+            <>
                     <FormWrapper>
                         <div className = "d-flex row mb-3 w-100">
                             <label>Name: {state.firstName}</label>
@@ -89,19 +100,48 @@ function ClientViewForm() {
                             <label>Index: {state.indexNumber}</label>
                             <label>Email: {state.emailAddress}</label>
                         </div>
+
                         <Calendar
                             selectedTerms={state.selectedTerms}
                             toggleTerm={toggleTerm}
                             availableTermsSet={state.availableTermsSet}
+                            impossibleTerms={state.impossibleTerms}
+                            termsInfo={state.termsInfo}
                         />
+                        {Object.keys(state.impossibleTerms).map((t, key) => (
+                            <Input
+                                label={
+                                    "Explain your impossibility for " +
+                                    [[""], ...state.termsInfo["headers"]][Math.floor(t / 10) + 1] +
+                                    " " +
+                                    state.termsInfo["rows"][(t % 10) - 1].label
+                                }
+                                value={state.impossibleTerms[t]}
+                                onChange={(v) => {
+                                    const { impossibleTerms } = state;
+                                    impossibleTerms[t] = v;
+                                    setState({ ...state });
+                                }}
+                                id={"impossibility" + t}
+                                key={key}
+                            />
+                        ))}
                         <Submit
                             value={"Send form"}
                             onSubmit={onSubmit}
                         />
                     </FormWrapper>
                 </>
-            )}
-        </>
+        ); 
+    }
+    else return(
+        <>
+                <h1>Thanks!</h1>
+                <Confetti
+                    width={1920}
+                    height={900}
+                />
+            </>
     );
 }
 

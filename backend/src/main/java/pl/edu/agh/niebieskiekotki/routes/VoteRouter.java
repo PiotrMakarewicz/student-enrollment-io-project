@@ -23,7 +23,7 @@ public class VoteRouter {
     @PostMapping(value = "/vote/{hash}")
     public void AddVote(@RequestBody VoteView vote, @PathVariable String hash) throws NotFoundException {
         //get questionnaire and student connected with hash
-        QuestionnaireAccess questionnaireAccess = hibernateAdapter.getOneWhereEq(QuestionnaireAccess.class, "linkPath", "vote/" + hash);
+        QuestionnaireAccess questionnaireAccess = hibernateAdapter.getOneWhereEq(QuestionnaireAccess.class, "linkPath", hash);
         if (questionnaireAccess == null) throw new NotFoundException("Invalid hash");
         Questionnaire questionnaire = questionnaireAccess.getQuestionnaire();
         Student student = questionnaireAccess.getStudent();
@@ -42,7 +42,7 @@ public class VoteRouter {
 
     @GetMapping(value = "/vote/{hash}")
     public StudentVoteResults getStudentVotes(@PathVariable String hash) throws NotFoundException {
-        QuestionnaireAccess questionnaireAccess = hibernateAdapter.getOneWhereEq(QuestionnaireAccess.class, "linkPath", "vote/" + hash);
+        QuestionnaireAccess questionnaireAccess = hibernateAdapter.getOneWhereEq(QuestionnaireAccess.class, "linkPath", hash);
         if (questionnaireAccess == null) throw new NotFoundException("Invalid hash");
         Student student = questionnaireAccess.getStudent();
         Questionnaire questionnaire = questionnaireAccess.getQuestionnaire();
