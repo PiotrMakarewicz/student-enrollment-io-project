@@ -29,7 +29,7 @@ public class QuestionnaireAccess {
     public QuestionnaireAccess(Student student, Questionnaire questionnaire, String hash) {
         this.student = student;
         this.questionnaire = questionnaire;
-        this.linkPath = "vote/" + hash;
+        this.linkPath = hash;
     }
 
     public QuestionnaireAccess() {
