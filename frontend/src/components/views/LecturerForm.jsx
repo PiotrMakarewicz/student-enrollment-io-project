@@ -30,14 +30,14 @@ function LecturerForm() {
         date_input: new Date(),
         time_input: new Date(new Date().setHours(0, 0, 0, 0)),
         selected_terms: new Set(),
-        termsInfo: null,
+        terms_info: null,
         students_info: [],
         auto_sending_links: true,
         loading: true
     });
     useEffect(() => {
         (async function () {
-            setState({ termsInfo: (await http.get("/terms"))["data"], loading: false });
+            setState({ ...state, terms_info: (await http.get("/terms"))["data"], loading: false });
         })();
     }, []);
     const onSubmit = async () => {
@@ -165,8 +165,8 @@ function LecturerForm() {
                             toggleTerm={toggleTerm}
                             availableTermsSet="All"
                             impossibleTerms={{}}
+                            termsInfo={state.terms_info}
                         />
-
                         <Submit
                             value={"Continue"}
                             onSubmit={onSubmit}
