@@ -13,21 +13,22 @@ public class StudentVoteResults {
     private List<Long> availableTerms;
     private List<Long> selectedTerms;
 
-    public StudentVoteResults(Student student, Questionnaire questionnaire){
-        this.firstName=student.getFirstName();
-        this.lastName=student.getLastName();
-        this.emailAddress=student.getEmailAddress();
-        this.indexNumber= student.getIndexNumber();
+    public StudentVoteResults(Student student, Questionnaire questionnaire) {
+        this.firstName = student.getFirstName();
+        this.lastName = student.getLastName();
+        this.emailAddress = student.getEmailAddress();
+        this.indexNumber = student.getIndexNumber();
         this.selectedTerms = new ArrayList<>();
         this.availableTerms = new ArrayList<>();
-        for(Vote vote : questionnaire.getVotes()){
+        for (Vote vote : questionnaire.getVotes()) {
             selectedTerms.add(vote.getTerm().getId());
         }
-        for(QuestionnaireTerm term : questionnaire.getQuestionnaireTerms()){
+        for (QuestionnaireTerm term : questionnaire.getQuestionnaireTerms()) {
             availableTerms.add(term.getTerm().getId());
         }
 
     }
+
     public String getFirstName() {
         return firstName;
     }

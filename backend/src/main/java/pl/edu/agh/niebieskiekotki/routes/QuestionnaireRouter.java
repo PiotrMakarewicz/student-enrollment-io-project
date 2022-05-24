@@ -42,7 +42,7 @@ public class QuestionnaireRouter {
         return new QuestionnaireDetail(toReturn);
     }
 
-    @DeleteMapping (value = "/questionnaires")
+    @DeleteMapping(value = "/questionnaires")
     public void GetOne() throws NotFoundException {
         hibernateAdapter.clearDatabase();
     }
@@ -79,12 +79,12 @@ public class QuestionnaireRouter {
                 hibernateAdapter.save(studentInfo);
                 student = studentInfo;
             }
-            String sha256hex = DigestUtils.sha256Hex(newQuestionnaire.getId() +":" + student.getIndexNumber());
-            QuestionnaireAccess questionnaireAccess = new QuestionnaireAccess(student, newQuestionnaire,sha256hex);
+            String sha256hex = DigestUtils.sha256Hex(newQuestionnaire.getId() + ":" + student.getIndexNumber());
+            QuestionnaireAccess questionnaireAccess = new QuestionnaireAccess(student, newQuestionnaire, sha256hex);
             hibernateAdapter.save(questionnaireAccess);
             newQuestionnaire.questionnaireAccesses.add(questionnaireAccess);
         }
-        if(addQuestionnaireView.isAutoSendingLinks()) {
+        if (addQuestionnaireView.isAutoSendingLinks()) {
             Map<Student, String> studentsWithLinks = newQuestionnaire.studentsWithLinks();
             emailService.sendToAll(studentsWithLinks);
         }

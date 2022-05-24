@@ -30,13 +30,11 @@ function ClientViewForm() {
     let { hash } = useParams();
     useEffect(() => {
         (async function () {
-            let data =  (await http.get("/vote/" + hash))["data"]
+            let data = (await http.get("/vote/" + hash))["data"];
             setState({
                 ...state,
-                availableTermsSet: new Set(
-                    data["availableTerms"]
-                ),
-                selectedTerms: new Set( data["selectedTerms"]),
+                availableTermsSet: new Set(data["availableTerms"]),
+                selectedTerms: new Set(data["selectedTerms"]),
                 loading: false
             });
         })();
@@ -49,7 +47,7 @@ function ClientViewForm() {
             lastName,
             indexNumber,
             emailAdress,
-            selectedTerms: Array.from(selectedTerms),
+            selectedTerms: Array.from(selectedTerms)
         });
 
         setState({
