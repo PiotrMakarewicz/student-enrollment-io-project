@@ -48,10 +48,6 @@ function ClientViewForm() {
     const onSubmit = () => {
         const { firstName, lastName, indexNumber, emailAddress, selectedTerms } = state;
         http.post("/vote/" + hash, {
-            firstName,
-            lastName,
-            indexNumber,
-            emailAddress,
             selectedTerms: Array.from(selectedTerms)
         });
 
