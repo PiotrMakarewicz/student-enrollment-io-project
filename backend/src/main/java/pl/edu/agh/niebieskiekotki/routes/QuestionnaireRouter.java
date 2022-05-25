@@ -1,5 +1,6 @@
 package pl.edu.agh.niebieskiekotki.routes;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.niebieskiekotki.HibernateAdapter;
 import pl.edu.agh.niebieskiekotki.entitites.*;
@@ -46,7 +47,7 @@ public class QuestionnaireRouter {
         return new QuestionnaireDetail(questionnaire);
     }
 
-    @DeleteMapping (value = "/questionnaires")
+    @DeleteMapping(value = "/questionnaires")
     public void GetOne() throws NotFoundException {
         hibernateAdapter.clearDatabase();
     }
@@ -86,11 +87,12 @@ public class QuestionnaireRouter {
                 hibernateAdapter.save(studentInfo);
                 student = studentInfo;
             }
-            QuestionnaireAccess questionnaireAccess = new QuestionnaireAccess(student, newQuestionnaire);
+            String sha256hex = DigestUtils.sha256Hex(newQuestionnaire.getId() + ":" + student.getIndexNumber());
+            QuestionnaireAccess questionnaireAccess = new QuestionnaireAccess(student, newQuestionnaire, sha256hex);
             hibernateAdapter.save(questionnaireAccess);
             newQuestionnaire.questionnaireAccesses.add(questionnaireAccess);
         }
-        if(addQuestionnaireView.isAutoSendingLinks()) {
+        if (addQuestionnaireView.isAutoSendingLinks()) {
             Map<Student, String> studentsWithLinks = newQuestionnaire.studentsWithLinks();
             emailService.sendToAll(studentsWithLinks);
         }

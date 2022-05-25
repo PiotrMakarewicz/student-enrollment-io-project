@@ -3,10 +3,7 @@ package pl.edu.agh.niebieskiekotki;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
-import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireAccess;
-import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireTerm;
-import pl.edu.agh.niebieskiekotki.entitites.Results;
+import pl.edu.agh.niebieskiekotki.entitites.*;
 import pl.edu.agh.niebieskiekotki.views.QuestionnaireResults;
 
 import javax.persistence.EntityManager;
@@ -60,7 +57,6 @@ public class HibernateAdapter {
     }
 
     public void clearResultsWhere(long questionnaireId) {
-
         Session session = entityManager.unwrap(Session.class);
         //session.getTransaction().begin();
 
@@ -69,10 +65,20 @@ public class HibernateAdapter {
                 session.delete(qr);
             }
         }
-
         //session.getTransaction().commit();
         session.disconnect();
+    }
+    public void clearVotesWhere(long questionnaireId,long studentIndex) {
+        Session session = entityManager.unwrap(Session.class);
+        //session.getTransaction().begin();
 
+        for(Vote qr : getAll(Vote.class)) {
+            if (qr.getQuestionnaire().getId() == questionnaireId && qr.getStudent().getIndexNumber()==studentIndex) {
+                session.delete(qr);
+            }
+        }
+        //session.getTransaction().commit();
+        session.disconnect();
     }
 
     public <T> T getById(Class<T> c, Long id) {
