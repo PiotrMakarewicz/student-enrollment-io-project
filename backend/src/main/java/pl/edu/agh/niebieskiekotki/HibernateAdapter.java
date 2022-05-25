@@ -3,9 +3,7 @@ package pl.edu.agh.niebieskiekotki;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
-import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireAccess;
-import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireTerm;
+import pl.edu.agh.niebieskiekotki.entitites.*;
 import pl.edu.agh.niebieskiekotki.views.QuestionnaireResults;
 
 import javax.persistence.EntityManager;
@@ -29,8 +27,8 @@ public class HibernateAdapter {
         criteriaQuery.select(root);
         Query<T> query = session.createQuery(criteriaQuery);
         List<T> results = query.getResultList();
-        session.close();
-        //session.disconnect();
+        //session.close();
+        session.disconnect();
 
 
         return results;
@@ -54,8 +52,33 @@ public class HibernateAdapter {
             session.delete(q);
 
         session.getTransaction().commit();
-        session.close();
+        session.disconnect();
 
+    }
+
+    public void clearResultsWhere(long questionnaireId) {
+        Session session = entityManager.unwrap(Session.class);
+        //session.getTransaction().begin();
+
+        for(Results qr : getAll(Results.class)) {
+            if (qr.getQuestionnaire().getId() == questionnaireId) {
+                session.delete(qr);
+            }
+        }
+        //session.getTransaction().commit();
+        session.disconnect();
+    }
+    public void clearVotesWhere(long questionnaireId,long studentIndex) {
+        Session session = entityManager.unwrap(Session.class);
+        //session.getTransaction().begin();
+
+        for(Vote qr : getAll(Vote.class)) {
+            if (qr.getQuestionnaire().getId() == questionnaireId && qr.getStudent().getIndexNumber()==studentIndex) {
+                session.delete(qr);
+            }
+        }
+        //session.getTransaction().commit();
+        session.disconnect();
     }
 
     public <T> T getById(Class<T> c, Long id) {
@@ -82,7 +105,8 @@ public class HibernateAdapter {
         criteriaQuery.select(root);
         Query<T> query = session.createQuery(criteriaQuery);
         List<T> result = query.getResultList();
-        session.close();
+        //session.close();
+        session.disconnect();
 
         return result;
     }
@@ -92,7 +116,8 @@ public class HibernateAdapter {
         session.getTransaction().begin();
         session.save(itemToSave);
         session.getTransaction().commit();
-        session.close();
+        //session.close();
+        session.disconnect();
     }
 
 }

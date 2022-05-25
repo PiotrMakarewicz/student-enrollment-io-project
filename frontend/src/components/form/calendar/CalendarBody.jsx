@@ -8,10 +8,11 @@ import CalendarRow from "./CalendarRow";
  * @param selectedTerms set contains selected terms
  * @param toggleTerm function which handles slot clicking
  * @param availableTermsSet set contains available terms
+ * @param impossibleTerms set with terms that are impossibilities
  * @example  <CalendarBody termRows={availableTerms.rows} selectedTerms={selectedTerms} toggleTerm={toggleTerm}/>
  *
  */
-function CalendarBody({ termRows, selectedTerms, toggleTerm, availableTermsSet }) {
+function CalendarBody({ termRows, selectedTerms, toggleTerm, availableTermsSet, impossibleTerms }) {
     var calendarRows = termRows.map((r, key) => (
         <CalendarRow
             key={key}
@@ -19,6 +20,7 @@ function CalendarBody({ termRows, selectedTerms, toggleTerm, availableTermsSet }
             cells={r.cells}
             availableTermsSet={availableTermsSet}
             selectedTerms={selectedTerms}
+            impossibleTerms={impossibleTerms}
             toggleTerm={toggleTerm}
         />
     ));

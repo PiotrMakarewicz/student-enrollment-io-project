@@ -18,9 +18,11 @@ function GroupView() {
         lecturerFullName: "",
         data: [],
         loading: true,
-        abc: {}
+        hasData: false
     });
-
+    const [numberOfGroupsState, setNumberOfGroupsState] = useState({
+        number_of_groups: 0
+    });
     let maxGroupSize = 1;
     const daysArr = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const sortDays = function (a, b) {
@@ -29,15 +31,30 @@ function GroupView() {
         return a < b ? -1 : 1;
     };
 
+    const askForResults = async () => {
+        const response = await http.get(
+            `/generate_results/${id}/${numberOfGroupsState.number_of_groups}`
+        );
+    };
+
     useEffect(() => {
         (async function () {
             const response = await http.get(`/results/${id}`);
-            setState({
-                ...state,
-                lecturerFullName: `${response["data"][0]["questionnaire"]["teacher"].lastName} ${response["data"][0]["questionnaire"]["teacher"].firstName}`,
-                data: response["data"],
-                loading: false
-            });
+            if (response.ok) {
+                setState({
+                    ...state,
+                    lecturerFullName: `${response["data"][0]["questionnaire"]["teacher"].lastName} ${response["data"][0]["questionnaire"]["teacher"].firstName}`,
+                    data: response["data"],
+                    loading: false,
+                    hasData: true
+                });
+            } else {
+                setState({
+                    ...state,
+                    loading: false,
+                    hasData: false
+                });
+            }
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
@@ -89,18 +106,49 @@ function GroupView() {
                     <Spinner animation="border" />
                 </>
             ) : (
-                <div className="groupView">
-                    <h5>Lecturer: {state.lecturerFullName}</h5>
+                <div>
+                    <div className="groupView">
+                        {state.hasData ? (
+                            <h5>Lecturer: {state.lecturerFullName}</h5>
+                        ) : (
+                            <h5>Groups not yet generated</h5>
+                        )}
 
-                    <table>
-                        <thead>
-                            <DayHeader cols={cols} />
-                            <TermHeader cols={cols} />
-                        </thead>
-                        <tbody>
-                            <GroupBody rows={rows} />
-                        </tbody>
-                    </table>
+                        <table>
+                            <thead>
+                                <DayHeader cols={cols} />
+                                <TermHeader cols={cols} />
+                            </thead>
+                            <tbody>
+                                <GroupBody rows={rows} />
+                            </tbody>
+                        </table>
+
+                        <button
+                            className="generateGroupsButton"
+                            onClick={askForResults}
+                        >
+                            Generate groups
+                        </button>
+                    </div>
+                    <label>Number Of Groups: </label>
+                    <input
+                        type={"number"}
+                        value={numberOfGroupsState.number_of_groups}
+                        onChange={(v) => {
+                            setNumberOfGroupsState({
+                                ...numberOfGroupsState,
+                                number_of_groups: v.target.value
+                            });
+                        }}
+                        id={"number_of_groups"}
+                        min="0"
+                        style={{
+                            width:
+                                (numberOfGroupsState.number_of_groups.toString().length + 4) * 8 +
+                                "px"
+                        }}
+                    />
                 </div>
             )}
         </>

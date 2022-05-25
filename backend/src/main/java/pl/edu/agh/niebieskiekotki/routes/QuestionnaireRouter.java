@@ -1,9 +1,11 @@
 package pl.edu.agh.niebieskiekotki.routes;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.niebieskiekotki.HibernateAdapter;
 import pl.edu.agh.niebieskiekotki.entitites.*;
 import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.NotFoundException;
+import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.UnauthorizedException;
 import pl.edu.agh.niebieskiekotki.utility.EmailService;
 import pl.edu.agh.niebieskiekotki.views.AddQuestionnaireView;
 import pl.edu.agh.niebieskiekotki.views.QuestionnaireDetail;
@@ -26,29 +28,36 @@ public class QuestionnaireRouter {
     }
 
     @GetMapping(value = "/questionnaires")
-    public List<Questionnaire> GetAll() {
-        return hibernateAdapter.getAll(Questionnaire.class);
+    public List<Questionnaire> GetAll(@RequestHeader("Auth-Token") String token) throws UnauthorizedException {
+        Teacher teacher = AuthRoute.getTeacherFromToken(token, hibernateAdapter);
+        System.out.println(teacher.getId());
+        return hibernateAdapter.getWhereEq(Questionnaire.class, "teacher", teacher);
     }
 
     @GetMapping(value = "/questionnaires/{id}")
-    public QuestionnaireDetail GetOne(@PathVariable Long id) throws NotFoundException {
+    public QuestionnaireDetail GetOne(@RequestHeader("Auth-Token") String token, @PathVariable Long id) throws NotFoundException, UnauthorizedException {
+        Teacher teacher = AuthRoute.getTeacherFromToken(token, hibernateAdapter);
+        Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, id);
 
-        Questionnaire toReturn = hibernateAdapter.getById(Questionnaire.class, id);
-
-        if (toReturn == null)
+        if (questionnaire == null)
             throw new NotFoundException("Not found questionnaire with id:" + id);
+        if(!questionnaire.getTeacher().equals(teacher))
+            throw new UnauthorizedException("Its not your questionnaire");
 
-        return new QuestionnaireDetail(toReturn);
+        return new QuestionnaireDetail(questionnaire);
     }
 
-    @DeleteMapping (value = "/questionnaires")
+    @DeleteMapping(value = "/questionnaires")
     public void GetOne() throws NotFoundException {
         hibernateAdapter.clearDatabase();
     }
 
 
     @PostMapping(value = "/questionnaires")
-    public QuestionnaireDetail Post(@RequestBody AddQuestionnaireView addQuestionnaireView) {
+    public QuestionnaireDetail Post(@RequestHeader("Auth-Token") String token, @RequestBody AddQuestionnaireView addQuestionnaireView) throws UnauthorizedException {
+
+
+        Teacher teacher = AuthRoute.getTeacherFromToken(token, hibernateAdapter);
 
         Questionnaire newQuestionnaire = new Questionnaire();
 
@@ -56,7 +65,7 @@ public class QuestionnaireRouter {
 
         newQuestionnaire.setExpirationDate(addQuestionnaireView.getExpirationDate());
         newQuestionnaire.setLabel(addQuestionnaireView.getLabel());
-        newQuestionnaire.getTeacher().setId(addQuestionnaireView.getTeacherId());
+        newQuestionnaire.setTeacher(teacher);
         newQuestionnaire.setQuestionnaireTerms(new ArrayList<>());
         newQuestionnaire.setQuestionnaireAccesses(new ArrayList<>());
 
@@ -78,11 +87,12 @@ public class QuestionnaireRouter {
                 hibernateAdapter.save(studentInfo);
                 student = studentInfo;
             }
-            QuestionnaireAccess questionnaireAccess = new QuestionnaireAccess(student, newQuestionnaire);
+            String sha256hex = DigestUtils.sha256Hex(newQuestionnaire.getId() + ":" + student.getIndexNumber());
+            QuestionnaireAccess questionnaireAccess = new QuestionnaireAccess(student, newQuestionnaire, sha256hex);
             hibernateAdapter.save(questionnaireAccess);
             newQuestionnaire.questionnaireAccesses.add(questionnaireAccess);
         }
-        if(addQuestionnaireView.isAutoSendingLinks()) {
+        if (addQuestionnaireView.isAutoSendingLinks()) {
             Map<Student, String> studentsWithLinks = newQuestionnaire.studentsWithLinks();
             emailService.sendToAll(studentsWithLinks);
         }

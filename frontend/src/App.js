@@ -1,9 +1,10 @@
-import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import { ChooseForm, ClientViewForm, LecturerForm, LecturerQuestionaire } from "./components/views";
+import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
     return (
@@ -15,16 +16,11 @@ function App() {
                     <div className="App-body">
                         <Routes>
                             <Route
-                                exact
-                                path="/"
-                                element={<Navigate to="/addQuestionnaire" />}
-                            ></Route>
-                            <Route
                                 path="/questionnaires"
                                 element={<ChooseForm />}
                             />
                             <Route
-                                path="/vote/:id"
+                                path="/vote/:hash"
                                 element={<ClientViewForm />}
                             />
                             <Route
@@ -44,7 +40,7 @@ function App() {
                     </div>
                 </div>
             </Router>
-            <ToastContainer />
+            <ToastContainer/>
         </>
     );
 }

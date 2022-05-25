@@ -14,6 +14,8 @@ import { parseXlsxFile } from "../form/services/Parser";
 import FloatingActionButton from "../form/services/FloatingActionButton";
 import { toast } from "react-toastify";
 // import { showAlert } from "../../services/alert";
+import { Spinner } from "react-bootstrap";
+import { useEffect } from "react";
 // import FileLoader from "../form/services/FileLoader"
 
 /**
@@ -31,9 +33,16 @@ function LecturerForm() {
         date_input: new Date(),
         time_input: new Date(new Date().setHours(0, 0, 0, 0)),
         selected_terms: new Set(),
+        terms_info: null,
         students_info: [],
-        auto_sending_links: true
+        auto_sending_links: true,
+        loading: true
     });
+    useEffect(() => {
+        (async function () {
+            setState({ ...state, terms_info: (await http.get("/terms"))["data"], loading: false });
+        })();
+    }, []);
     const onSubmit = async () => {
         const {
             date_input,
@@ -68,6 +77,7 @@ function LecturerForm() {
                 progress: undefined
             });
             setState({
+                ...state,
                 name_input: "",
                 fullname_input: "",
                 date_input: new Date(),
@@ -102,73 +112,83 @@ function LecturerForm() {
 
     return (
         <>
-            <FormWrapper>
-                <title className="display-6 pb-5 pt-2">New poll</title>
-                <Input
-                    type={"text"}
-                    label="Subject Name"
-                    value={state.name_input}
-                    onChange={(v) => setState({ ...state, name_input: v })}
-                    id={"name_input"}
-                />
-
-                <Input
-                    type={"text"}
-                    label="Lecturer Full Name"
-                    value={state.fullname_input}
-                    onChange={(v) => setState({ ...state, fullname_input: v })}
-                    id={"fullname_input"}
-                    placeholder={""}
-                />
-
-                <div className="row">
-                    <div className="col-xs-12 col-sm-6">
-                        <label htmlFor="date_picker">Expiry Date</label>
-                        <DatePicker
-                            defaultValue={new Date()}
-                            className="mb-1"
-                            value={state.date_input}
-                            id="date_picker"
-                            onChange={(v) => setState({ ...state, date_input: v })}
+            {state.loading ? (
+                <>
+                    <Spinner animation="border" />
+                </>
+            ) : (
+                <>
+                    <FormWrapper>
+                        <title className="display-6 pb-5 pt-2">New poll</title>
+                        <Input
+                            type={"text"}
+                            label="Subject Name"
+                            value={state.name_input}
+                            onChange={(v) => setState({ ...state, name_input: v })}
+                            id={"name_input"}
                         />
-                    </div>
-                    <div className="col-xs-12 col-sm-6">
-                        <label
-                            className="w-100"
-                            htmlFor="time_input"
-                        >
-                            Expiry Time
-                        </label>
-                        <TimeInput
-                            defaultValue={null}
-                            className="mb-1"
-                            style={{ width: "min(84%, 30vw, 155px)" }}
-                            value={state.time_input}
-                            id="time_input"
-                            onChange={(v) => setState({ ...state, time_input: v })}
+
+                        <Input
+                            type={"text"}
+                            label="Lecturer Full Name"
+                            value={state.fullname_input}
+                            onChange={(v) => setState({ ...state, fullname_input: v })}
+                            id={"fullname_input"}
+                            placeholder={""}
                         />
-                    </div>
-                </div>
 
-                <DropZone fileHandler={fileHandler} />
-                <Switch
-                    handleSwitchChange={handleSwitchChange}
-                    checked={state.auto_sending_links}
-                    label_="Auto sending links"
-                />
+                        <div className="row">
+                            <div className="col-xs-12 col-sm-6">
+                                <label htmlFor="date_picker">Expiry Date</label>
+                                <DatePicker
+                                    defaultValue={new Date()}
+                                    className="mb-1"
+                                    value={state.date_input}
+                                    id="date_picker"
+                                    onChange={(v) => setState({ ...state, date_input: v })}
+                                />
+                            </div>
+                            <div className="col-xs-12 col-sm-6">
+                                <label
+                                    className="w-100"
+                                    htmlFor="time_input"
+                                >
+                                    Expiry Time
+                                </label>
+                                <TimeInput
+                                    defaultValue={null}
+                                    className="mb-1"
+                                    style={{ width: "min(84%, 30vw, 155px)" }}
+                                    value={state.time_input}
+                                    id="time_input"
+                                    onChange={(v) => setState({ ...state, time_input: v })}
+                                />
+                            </div>
+                        </div>
 
-                <Calendar
-                    selectedTerms={state.selected_terms}
-                    toggleTerm={toggleTerm}
-                    availableTermsSet="All"
-                />
+                        <DropZone fileHandler={fileHandler} />
+                        <Switch
+                            handleSwitchChange={handleSwitchChange}
+                            checked={state.auto_sending_links}
+                            label_="Auto sending links"
+                        />
 
-                <Submit
-                    value={"Continue"}
-                    onSubmit={onSubmit}
-                />
-            </FormWrapper>
-            <FloatingActionButton />
+                        <Calendar
+                            selectedTerms={state.selected_terms}
+                            toggleTerm={toggleTerm}
+                            availableTermsSet="All"
+                            impossibleTerms={{}}
+                            termsInfo={state.terms_info}
+                        />
+                        <Submit
+                            value={"Continue"}
+                            onSubmit={onSubmit}
+                        />
+                    </FormWrapper>
+                    <FloatingActionButton />
+                </>
+            )}
+
         </>
     );
 }

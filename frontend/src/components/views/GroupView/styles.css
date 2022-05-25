@@ -22,3 +22,16 @@
 .groupView td:empty {
     opacity: 0;
 }
+
+.generateGroupsButton {
+    width: max(50%, 10em);
+    /* width: 100%; */
+    background-color: #fff;
+    box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 100px;
+    position: relative;
+    margin: 1.8rem 0 4rem 0;
+    cursor: pointer;
+    align-self: center;
+}
+

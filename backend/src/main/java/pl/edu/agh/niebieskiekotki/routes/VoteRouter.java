@@ -2,12 +2,10 @@ package pl.edu.agh.niebieskiekotki.routes;
 
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.niebieskiekotki.HibernateAdapter;
-import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
-import pl.edu.agh.niebieskiekotki.entitites.Student;
-import pl.edu.agh.niebieskiekotki.entitites.Term;
-import pl.edu.agh.niebieskiekotki.entitites.Vote;
+import pl.edu.agh.niebieskiekotki.entitites.*;
 import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.NotFoundException;
 import pl.edu.agh.niebieskiekotki.views.QuestionnaireResults;
+import pl.edu.agh.niebieskiekotki.views.StudentVoteResults;
 import pl.edu.agh.niebieskiekotki.views.VoteView;
 
 import java.util.List;
@@ -22,27 +20,19 @@ public class VoteRouter {
         this.hibernateAdapter = hibernateAdapter;
     }
 
-    @PostMapping(value = "/vote")
-    public void AddVote(@RequestBody VoteView vote) throws NotFoundException {
+    @PostMapping(value = "/vote/{hash}")
+    public void AddVote(@RequestBody VoteView vote, @PathVariable String hash) throws NotFoundException {
+        //get questionnaire and student connected with hash
+        QuestionnaireAccess questionnaireAccess = hibernateAdapter.getOneWhereEq(QuestionnaireAccess.class, "linkPath", hash);
+        if (questionnaireAccess == null) throw new NotFoundException("Invalid hash");
+        Questionnaire questionnaire = questionnaireAccess.getQuestionnaire();
+        Student student = questionnaireAccess.getStudent();
 
-        System.out.println("got a post request on /vote");
+        //delete old votes
+        hibernateAdapter.clearVotesWhere(questionnaire.getId(), student.getIndexNumber());
 
-        Student student = new Student(vote.getFirstName(), vote.getLastName(), vote.getEmailAddress(), vote.getIndexNumber());
-        hibernateAdapter.save(student);
-
-
-        Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, vote.getQuestionnaireId());
-        if (questionnaire == null) {
-            System.out.println("soemthign wetn very wrong");
-            throw new NotFoundException("Not found questionnaire with id " + vote.getQuestionnaireId());
-        }
-
-        System.out.println("questionnaire:" + questionnaire);
-
+        //add new votes
         List<Term> terms = hibernateAdapter.getAll(Term.class);
-
-        System.out.println(terms);
-
         for (Term term : terms) {
             if (vote.getSelectedTerms().contains(term.getId())) {
                 hibernateAdapter.save(new Vote(questionnaire, student, 1, term, ""));
@@ -50,16 +40,26 @@ public class VoteRouter {
         }
     }
 
-    @GetMapping(value = "/vote/{id}")
+    @GetMapping(value = "/vote/{hash}")
+    public StudentVoteResults getStudentVotes(@PathVariable String hash) throws NotFoundException {
+        QuestionnaireAccess questionnaireAccess = hibernateAdapter.getOneWhereEq(QuestionnaireAccess.class, "linkPath", hash);
+        if (questionnaireAccess == null) throw new NotFoundException("Invalid hash");
+        Student student = questionnaireAccess.getStudent();
+        Questionnaire questionnaire = questionnaireAccess.getQuestionnaire();
+
+        return new StudentVoteResults(student, questionnaire);
+
+
+    }
+
+    @GetMapping(value = "/votes/{id}")
     public QuestionnaireResults getVotes(@PathVariable Long id) throws NotFoundException {
 
         Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, id);
         if (questionnaire == null)
             throw new NotFoundException("Not found questionnaire with id " + id);
 
-
         List<Vote> votes = questionnaire.getVotes();
-
         return new QuestionnaireResults(votes, questionnaire);
     }
 }

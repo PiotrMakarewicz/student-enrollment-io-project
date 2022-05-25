@@ -4,6 +4,12 @@ import { _download } from "./downloader";
 
 const serverUrl = "http://localhost:8080";
 
+let token;
+const setToken = (t)  => {
+  token = t;
+}
+
+
 function optionsObjectToString(options) {
     if (!options) return "";
 
@@ -37,7 +43,11 @@ async function proccesResponse(response, toastComunicat) {
 
 const download = async (path, filename, extension) => {
     const response = await fetch(serverUrl + path, {
-        method: "GET"
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'auth-token': token,
+        },
     });
     const reader = response.body.getReader();
     var bytes = (await reader.read()).value;
@@ -48,7 +58,8 @@ const get = async (path, options) => {
     const response = await fetch(serverUrl + path + optionsObjectToString(options), {
         method: "GET",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            'auth-token': token,
         }
     });
 
@@ -60,7 +71,8 @@ const post = async (path, body) => {
         method: "POST",
         body: JSON.stringify(body),
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            'auth-token': token,
         }
     });
     return await proccesResponse(response, "GET " + path);
@@ -69,7 +81,8 @@ const post = async (path, body) => {
 const http = {
     get,
     post,
-    download
+    download,
+    setToken
 };
 
 export default http;
