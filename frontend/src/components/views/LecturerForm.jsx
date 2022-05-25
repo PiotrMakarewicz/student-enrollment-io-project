@@ -65,6 +65,7 @@ function LecturerForm() {
 
         if (response.ok) {
             setState({
+                ...state,
                 name_input: "",
                 fullname_input: "",
                 date_input: new Date(),
