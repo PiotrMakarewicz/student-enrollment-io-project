@@ -10,9 +10,23 @@
  * 
  * @example <Submit value="test"
                     onSubmit={() => {
-                        showAlert(message="Done", bgColor="bg-warning");
+                        showAlert("Done", "bg-warning");
                     }}
             />
+ */
+
+/* 
+available colors
+.text-secondary
+.text-success
+.text-danger
+.text-warning
+.text-info
+.text-light
+.text-dark
+.text-body
+.text-muted
+.text-white 
  */
 
 export function showAlert(message, bgColor = "bg-primary", color = "text-light", duration = 1800) {

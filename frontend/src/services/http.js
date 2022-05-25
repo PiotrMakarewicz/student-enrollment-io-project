@@ -18,7 +18,7 @@ function optionsObjectToString(options) {
 }
 async function proccesResponse(response, toastComunicat) {
     if (response.ok) {
-        toast.success(`${toastComunicat}`);
+        // toast.success(`${toastComunicat}`);
         const data = await response.json();
 
         return {
@@ -27,7 +27,7 @@ async function proccesResponse(response, toastComunicat) {
         };
     } else {
         const text = await response.text();
-        toast.error(`${toastComunicat} \n ${text}`);
+        // toast.error(`${toastComunicat} \n ${text}`);
         return {
             ok: false,
             data: text

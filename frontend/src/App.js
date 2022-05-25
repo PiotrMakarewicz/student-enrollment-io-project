@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
@@ -13,12 +13,6 @@ function App() {
                     <Navbar />
 
                     <div className="App-body">
-                        <div
-                            className="alertContainer"
-                            data-alert-container
-                        >
-                            <div className="alert hide"></div>
-                        </div>
                         <Routes>
                             <Route
                                 exact

@@ -10,12 +10,18 @@ function QuestionnaireResults() {
     const { id } = useParams();
     const [state, setState] = useState({
         tableInfo: null,
+        name: "",
         loading: true
     });
     useEffect(() => {
         (async function () {
             const reqResult = await http.get(`/vote/${id}`);
-            setState({ loading: false, tableInfo: reqResult["data"] });
+            const nameRequest = await http.get(`/questionnaires/${id}`);
+            setState({
+                loading: false,
+                tableInfo: reqResult["data"],
+                name: nameRequest.data.detail.label
+            });
         })();
     }, [id]);
     return (
@@ -26,6 +32,7 @@ function QuestionnaireResults() {
                 </>
             ) : (
                 <div className="resultsView">
+                    <h2>{state.name}</h2>
                     <Table
                         headers={state.tableInfo.headers}
                         records={state.tableInfo.rows}

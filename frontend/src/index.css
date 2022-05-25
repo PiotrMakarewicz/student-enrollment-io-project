@@ -5,7 +5,11 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-y: overlay;
-    --accent-clr: #ffa826;
+    --accent-clr: #fd9452;
+    --accent-clr-2: #f47500;
+    --accent-clr-3: #ef4765;
+    --light-green: #409d4f;
+    --dark-green: #03761c;
     --bg-primary: #1e151f;
 }
 

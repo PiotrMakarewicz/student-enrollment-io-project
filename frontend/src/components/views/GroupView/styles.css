@@ -17,7 +17,6 @@
 .groupView td {
     cursor: default;
     opacity: 1;
-    background-color: lightcyan;
 }
 
 .groupView td:empty {

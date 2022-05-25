@@ -7,6 +7,7 @@ import http from "../../services/http";
 import { useEffect } from "react";
 import FormWrapper from "../FormWrapper";
 import Confetti from "react-confetti";
+import { toast } from "react-toastify";
 
 /**
  * View form for client
@@ -25,20 +26,23 @@ function ClientViewForm() {
         emailAdress: "",
         availableTermsSet: new Set(),
         selectedTerms: new Set(),
+        name: "",
         loading: true
     });
     let { id } = useParams();
     useEffect(() => {
         (async function () {
+            const reqResult = (await http.get(`/questionnaires/${id}`))["data"];
+
             setState({
                 ...state,
-                availableTermsSet: new Set(
-                    (await http.get("/questionnaires/" + id))["data"]["terms"]
-                ),
-                loading: false
+                availableTermsSet: new Set(reqResult.terms),
+                loading: false,
+                name: reqResult.detail.label
             });
         })();
-    }, [id, state]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id]);
     const onSubmit = () => {
         const { firstName, lastName, indexNumber, emailAdress, selectedTerms } = state;
         http.post("/vote", {
@@ -50,6 +54,15 @@ function ClientViewForm() {
             questionnaireId: id
         });
 
+        toast.success("Questionnaire sent", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined
+        });
         setState({
             firstName: "",
             lastName: "",
@@ -83,6 +96,7 @@ function ClientViewForm() {
                 <>
                     <FormWrapper>
                         <form>
+                            <h2>{state.name}</h2>
                             <Input
                                 label="Enter your name"
                                 value={state.firstName}

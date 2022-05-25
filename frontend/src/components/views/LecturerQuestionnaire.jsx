@@ -2,6 +2,7 @@ import React from "react";
 import SimpleWrapper from "../SimpleWrapper";
 import ViewSwitch from "./ViewSwitch/ViewSwitch";
 import { useParams } from "react-router-dom";
+import FloatingActionButton from "../form/services/FloatingActionButton";
 
 function LecturerQuestionaire() {
     const { id } = useParams();
@@ -26,6 +27,7 @@ function LecturerQuestionaire() {
                     <a href={`http://localhost:8080/files/preferences/english/${id}`}>download</a>
                 </div>
             </div>
+            <FloatingActionButton />
         </SimpleWrapper>
     );
 }

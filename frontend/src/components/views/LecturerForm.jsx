@@ -11,7 +11,9 @@ import DropZone from "../form/services/DropZone";
 import Switch from "../form/services/Switch";
 import readXlsxFile from "read-excel-file";
 import { parseXlsxFile } from "../form/services/Parser";
-import { showAlert } from "../../services/alert";
+import FloatingActionButton from "../form/services/FloatingActionButton";
+import { toast } from "react-toastify";
+// import { showAlert } from "../../services/alert";
 // import FileLoader from "../form/services/FileLoader"
 
 /**
@@ -56,6 +58,15 @@ function LecturerForm() {
         });
 
         if (response.ok) {
+            toast.success("Questionnaire created", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
+            });
             setState({
                 name_input: "",
                 fullname_input: "",
@@ -157,7 +168,7 @@ function LecturerForm() {
                     onSubmit={onSubmit}
                 />
             </FormWrapper>
-            <div className="floatingActionBtn">New poll</div>
+            <FloatingActionButton />
         </>
     );
 }

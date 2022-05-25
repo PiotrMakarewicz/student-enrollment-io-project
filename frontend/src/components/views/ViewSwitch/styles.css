@@ -1,77 +1,3 @@
-/* .names > p {
-    font-size: 90%;
-    margin: 0;
-}
-
-.switchLabel,
-.toggle {
-    height: 2.8rem;
-    border-radius: 100px;
-}
-.switchLabel {
-    width: max(50%, 10em);
-    background-color: rgba(0, 0, 0, 0.2);
-    box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.25);
-    border-radius: 100px;
-    position: relative;
-    margin: 1.8rem 0 4rem 0;
-    cursor: pointer;
-}
-.toggle {
-    position: absolute;
-    width: 50%;
-    background-color: #fff;
-    box-shadow: 0 2px 15px 3px rgba(0, 0, 0, 0.35);
-    transition: transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-.names {
-    font-size: 90%;
-    font-weight: bolder;
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    user-select: none;
-}
-
-.results {
-    color: black;
-    -webkit-transition: color 500ms ease;
-    transition: color 500ms ease;
-}
-.groups {
-    -webkit-transition: color 500ms ease;
-    transition: color 500ms ease;
-    opacity: 0.6;
-}
-
-#switch {
-    display: none;
-}
-
-#switch:checked + .switchLabel .toggle {
-    transform: translateX(100%);
-}
-
-#switch:checked + .switchLabel .groups {
-    opacity: 1;
-    color: black;
-}
-
-#switch:checked + .switchLabel .results {
-    color: #fff;
-    opacity: 0.6;
-}
-
-.inactive {
-    display: none;
-}
-*/
-
 .switch {
     position: relative;
     height: 2.5rem;
@@ -122,7 +48,7 @@
     background: var(--accent-clr);
     border-radius: 15px;
     transition: left 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    box-shadow: 0 2px 15px 3px rgba(0, 0, 0, 0.35);
+    /* box-shadow: 0 0 2px 1px var(--accent-clr); */
 }
 
 .app table tr th:empty {
@@ -141,6 +67,7 @@
     border-radius: 50%;
     width: 2.25em;
     height: 2.25em;
+    transition: all 120ms ease-in;
 }
 
 .backArrow button:hover {

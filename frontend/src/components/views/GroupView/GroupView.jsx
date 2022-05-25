@@ -3,6 +3,7 @@ import http from "../../../services/http";
 import { Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { DayHeader, TermHeader, GroupBody } from "../../group";
+import "./styles.css";
 
 /**
  * @description function returning view with generated groups
@@ -16,7 +17,8 @@ function GroupView() {
     const [state, setState] = useState({
         lecturerFullName: "",
         data: [],
-        loading: true
+        loading: true,
+        abc: {}
     });
 
     let maxGroupSize = 1;
