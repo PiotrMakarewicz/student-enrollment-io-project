@@ -23,7 +23,8 @@ public class VoteRouter {
     @PostMapping(value = "/vote/{hash}")
     public void AddVote(@RequestBody VoteView vote, @PathVariable String hash) throws NotFoundException {
         //get questionnaire and student connected with hash
-        QuestionnaireAccess questionnaireAccess = hibernateAdapter.getOneWhereEq(QuestionnaireAccess.class, "linkPath", hash);
+        QuestionnaireAccess questionnaireAccess = hibernateAdapter.getOneWhereEq(QuestionnaireAccess.class,
+                "linkPath", hash);
         if (questionnaireAccess == null) throw new NotFoundException("Invalid hash");
         Questionnaire questionnaire = questionnaireAccess.getQuestionnaire();
         Student student = questionnaireAccess.getStudent();
@@ -33,16 +34,23 @@ public class VoteRouter {
 
         //add new votes
         List<Term> terms = hibernateAdapter.getAll(Term.class);
+        System.out.println("Dzien dobry " + vote.getImpossibleTerms());
         for (Term term : terms) {
             if (vote.getSelectedTerms().contains(term.getId())) {
+                System.out.println("Dodajemy zwykly");
                 hibernateAdapter.save(new Vote(questionnaire, student, 1, term, ""));
+            } else if (vote.getImpossibleTerms().containsKey(term.getId())) {
+                System.out.println("Dodajemy niemozliwosc");
+                hibernateAdapter.save(new Vote(questionnaire, student, 2, term,
+                        vote.getImpossibleTerms().get(term.getId())));
             }
         }
     }
 
     @GetMapping(value = "/vote/{hash}")
     public StudentVoteResults getStudentVotes(@PathVariable String hash) throws NotFoundException {
-        QuestionnaireAccess questionnaireAccess = hibernateAdapter.getOneWhereEq(QuestionnaireAccess.class, "linkPath", hash);
+        QuestionnaireAccess questionnaireAccess = hibernateAdapter.getOneWhereEq(QuestionnaireAccess.class,
+                "linkPath", hash);
         if (questionnaireAccess == null) throw new NotFoundException("Invalid hash");
         Student student = questionnaireAccess.getStudent();
         Questionnaire questionnaire = questionnaireAccess.getQuestionnaire();

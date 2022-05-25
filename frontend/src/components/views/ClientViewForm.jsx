@@ -26,7 +26,7 @@ function ClientViewForm() {
         emailAddress: "",
         availableTermsSet: new Set(),
         selectedTerms: new Set(),
-        impossibleTerms: {},
+        impossibleTerms: new Map(),
         termsInfo: null,
         loadingState: 0
     });
@@ -39,6 +39,7 @@ function ClientViewForm() {
                 ...state,
                 availableTermsSet: new Set(data["availableTerms"]),
                 selectedTerms: new Set(data["selectedTerms"]),
+                impossibleTerms: new Object(data["impossibleTerms"]),
                 termsInfo: (await http.get("/terms"))["data"],
                 loadingState: 1,
                 firstName: student["firstName"],
@@ -58,7 +59,7 @@ function ClientViewForm() {
             indexNumber,
             emailAddress,
             selectedTerms: Array.from(selectedTerms),
-            impossibleTerms: Array.from(impossibleTerms)
+            impossibleTerms: impossibleTerms
         });
 
         setState({

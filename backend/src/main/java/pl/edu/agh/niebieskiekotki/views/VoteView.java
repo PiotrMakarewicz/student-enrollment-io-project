@@ -1,6 +1,7 @@
 package pl.edu.agh.niebieskiekotki.views;
 
 import java.util.List;
+import java.util.Map;
 
 public class VoteView {
 
@@ -10,6 +11,7 @@ public class VoteView {
     private String emailAddress;
     private int indexNumber;
     private List<Long> selectedTerms;
+    private Map<Long, String> impossibleTerms;
 
 
     public Long getQuestionnaireId() {
@@ -58,5 +60,13 @@ public class VoteView {
 
     public void setSelectedTerms(List<Long> selectedTerms) {
         this.selectedTerms = selectedTerms;
+    }
+
+    public Map<Long, String> getImpossibleTerms() {
+        return impossibleTerms;
+    }
+
+    public void setImpossibleTerms(Map<Long, String> impossibleTerms) {
+        this.impossibleTerms = impossibleTerms;
     }
 }
