@@ -34,13 +34,10 @@ public class VoteRouter {
 
         //add new votes
         List<Term> terms = hibernateAdapter.getAll(Term.class);
-        System.out.println("Dzien dobry " + vote.getImpossibleTerms());
         for (Term term : terms) {
             if (vote.getSelectedTerms().contains(term.getId())) {
-                System.out.println("Dodajemy zwykly");
                 hibernateAdapter.save(new Vote(questionnaire, student, 1, term, ""));
             } else if (vote.getImpossibleTerms().containsKey(term.getId())) {
-                System.out.println("Dodajemy niemozliwosc");
                 hibernateAdapter.save(new Vote(questionnaire, student, 2, term,
                         vote.getImpossibleTerms().get(term.getId())));
             }
