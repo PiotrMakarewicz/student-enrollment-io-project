@@ -4,6 +4,13 @@ import { Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { DayHeader, TermHeader, GroupBody } from "../../group";
 
+/**
+ * @description function returning view with generated groups
+ *
+ * @example <GroupView/>
+ *
+ */
+
 function GroupView() {
     const { id } = useParams();
     const [state, setState] = useState({
@@ -30,7 +37,8 @@ function GroupView() {
                 loading: false
             });
         })();
-    }, [id, state]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id]);
 
     const days = [];
     state.data.forEach((el) => {

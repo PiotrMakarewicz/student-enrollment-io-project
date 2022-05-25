@@ -146,13 +146,6 @@ function LecturerForm() {
                     label_="Auto sending links"
                 />
 
-                <Submit
-                    value="test"
-                    onSubmit={() => {
-                        showAlert("Done", "bg-warning");
-                    }}
-                />
-
                 <Calendar
                     selectedTerms={state.selected_terms}
                     toggleTerm={toggleTerm}
@@ -164,6 +157,7 @@ function LecturerForm() {
                     onSubmit={onSubmit}
                 />
             </FormWrapper>
+            <div className="floatingActionBtn">New poll</div>
         </>
     );
 }

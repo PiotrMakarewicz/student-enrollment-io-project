@@ -1,4 +1,6 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import { ChooseForm, ClientViewForm, LecturerForm, LecturerQuestionaire } from "./components/views";
@@ -12,12 +14,17 @@ function App() {
 
                     <div className="App-body">
                         <div
-                            className="alert-container"
+                            className="alertContainer"
                             data-alert-container
                         >
                             <div className="alert hide"></div>
                         </div>
                         <Routes>
+                            <Route
+                                exact
+                                path="/"
+                                element={<Navigate to="/addQuestionnaire" />}
+                            ></Route>
                             <Route
                                 path="/questionnaires"
                                 element={<ChooseForm />}
@@ -43,6 +50,7 @@ function App() {
                     </div>
                 </div>
             </Router>
+            <ToastContainer />
         </>
     );
 }

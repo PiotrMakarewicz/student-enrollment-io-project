@@ -104,11 +104,7 @@ title {
     /* border: 5px solid blue; */
 }
 
-.file-drop-area {
-    color: black;
-}
-
-.alert-container {
+.alertContainer {
     position: fixed;
     top: 10vh;
     left: 50vw;
@@ -136,4 +132,11 @@ title {
 
 .alert.hide {
     opacity: 0;
+}
+
+.floatingActionBtn {
+}
+
+:where(button, input):where(:not(:active)):focus-visible {
+    outline-offset: 5px;
 }

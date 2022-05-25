@@ -8,7 +8,10 @@ function LecturerQuestionaire() {
 
     return (
         <SimpleWrapper>
-            <ViewSwitch />
+            <ViewSwitch
+                values={["Results", "Groups", "Impossibility"]}
+                selected_="Results"
+            />
             <div className="lecturer-questionnaire-buttons">
                 <div>
                     <span>File with user preferences</span>
