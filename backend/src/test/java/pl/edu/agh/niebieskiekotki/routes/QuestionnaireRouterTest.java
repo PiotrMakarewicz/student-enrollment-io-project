@@ -1,6 +1,5 @@
 package pl.edu.agh.niebieskiekotki.routes;
 
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -9,7 +8,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.junit.Assert.assertEquals;
-
 
 public class QuestionnaireRouterTest extends AbstractRouterTest {
 	@Override
@@ -24,6 +22,7 @@ public class QuestionnaireRouterTest extends AbstractRouterTest {
 
 		String uri = "/questionnaires";
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
+				.header("Auth-Token","eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYW4ucHJvZmVzb3Jza2lAYWdoLmVkdS5wbCJ9.UDo9s4GiJzXDsPekwF6EMNQevup4NJT3Ns1rei09vhUrUajFvS2e8TJkpsPDjOtTBGV_oLoifwyA5i7FC1GHDg")
 				.accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
 
@@ -38,6 +37,7 @@ public class QuestionnaireRouterTest extends AbstractRouterTest {
 
 		String uri = "/questionnaires/1";
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
+				.header("Auth-Token","eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYW4ucHJvZmVzb3Jza2lAYWdoLmVkdS5wbCJ9.UDo9s4GiJzXDsPekwF6EMNQevup4NJT3Ns1rei09vhUrUajFvS2e8TJkpsPDjOtTBGV_oLoifwyA5i7FC1GHDg")
 				.accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
 		int status = mvcResult.getResponse().getStatus();
@@ -47,6 +47,7 @@ public class QuestionnaireRouterTest extends AbstractRouterTest {
 		uri = "/questionnaires/12333";
 
 		mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
+				.header("Auth-Token","eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYW4ucHJvZmVzb3Jza2lAYWdoLmVkdS5wbCJ9.UDo9s4GiJzXDsPekwF6EMNQevup4NJT3Ns1rei09vhUrUajFvS2e8TJkpsPDjOtTBGV_oLoifwyA5i7FC1GHDg")
 				.accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 		status = mvcResult.getResponse().getStatus();
 
@@ -58,7 +59,8 @@ public class QuestionnaireRouterTest extends AbstractRouterTest {
 		String uri = "/questionnaires";
 		MvcResult mvcResult = mvc
 				.perform(MockMvcRequestBuilders.post(uri)
-				.content("""
+						.header("Auth-Token","eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYW4ucHJvZmVzb3Jza2lAYWdoLmVkdS5wbCJ9.UDo9s4GiJzXDsPekwF6EMNQevup4NJT3Ns1rei09vhUrUajFvS2e8TJkpsPDjOtTBGV_oLoifwyA5i7FC1GHDg")
+						.content("""
 						{
 						    "expirationDate": "2022-04-16T20:34:34",
 						    "label": "with terms",
