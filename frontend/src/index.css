@@ -81,3 +81,18 @@ code {
     width: 13em;
     margin: 0.2em;
 }
+
+
+.error{
+    color:red;
+    font-size: 1.2em;
+}
+
+.input-error{
+    display: block;
+    padding: 5px;
+}
+
+.center-content{
+    text-align: center;
+}

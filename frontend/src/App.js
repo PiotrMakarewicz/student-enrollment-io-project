@@ -1,7 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import { ChooseForm, ClientViewForm, LecturerForm, LecturerQuestionaire } from "./components/views";
+import 'react-toastify/dist/ReactToastify.css'
+import LoginFormView from "./components/views/LoginFormView";
 
 function App() {
     return (
@@ -30,6 +33,12 @@ function App() {
                             />
 
                             <Route
+                                path="/login"
+                                element={<LoginFormView />}
+                            />
+
+
+                            <Route
                                 path="*"
                                 element={<h2>Page not found</h2>}
                             />
@@ -37,6 +46,7 @@ function App() {
                     </div>
                 </div>
             </Router>
+            <ToastContainer/>
         </>
     );
 }
