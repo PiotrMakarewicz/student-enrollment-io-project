@@ -49,7 +49,7 @@ function GroupView() {
                 });
             }
         })();
-    }, [id, state]);
+    }, [id]);
 
     const days = [];
     state.data.forEach((el) => {

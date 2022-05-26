@@ -27,6 +27,7 @@ dependencies {
 	implementation 'org.apache.directory.studio:org.apache.commons.io:2.4'
 	implementation 'org.jgrapht:jgrapht-core:1.5.1'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.6.5'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.2'
 	implementation group: 'commons-codec', name: 'commons-codec', version: '1.11'
 }
 

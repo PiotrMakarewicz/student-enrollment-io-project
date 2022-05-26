@@ -3,6 +3,7 @@ package pl.edu.agh.niebieskiekotki.views;
 import pl.edu.agh.niebieskiekotki.entitites.Student;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddQuestionnaireView {
@@ -10,8 +11,8 @@ public class AddQuestionnaireView {
     private Long teacherId;
 
     private String label;
-    private List<Long> availableTerms;
-    private List<Student> studentsInfo;
+    private List<Long> availableTerms = new ArrayList<>();
+    private List<Student> studentsInfo = new ArrayList<>();
     private boolean autoSendingLinks;
 
     public boolean isAutoSendingLinks() {

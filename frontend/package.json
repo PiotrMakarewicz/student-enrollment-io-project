@@ -14,6 +14,7 @@
         "jest": "28.0.3",
         "jest-coverage-badges": "^1.1.2",
         "jsdoc": "^3.6.10",
+        "jwt-decode": "^3.1.2",
         "react": "^17.0.2",
         "react-bootstrap": "^2.2.3",
         "react-confetti": "^6.0.1",
@@ -80,5 +81,8 @@
             "text",
             "lcov"
         ]
+    },
+    "optionalDependencies": {
+        "fsevents": "^2.3.2"
     }
 }
