@@ -37,15 +37,13 @@ function ClientViewForm() {
         (async function () {
             let data = (await http.get("/vote/" + hash))["data"];
             let student = data["student"];
-            // console.log((await http.get(`/questionnaires/${hash}`))["data"]["detail"]["label"]);
-            // TODO wyświetlanie komunikatu w razie braku danych oraz pobieranie nazwy przedmiotu
             setState({
                 ...state,
                 availableTermsSet: new Set(data["availableTerms"]),
                 selectedTerms: new Set(data["selectedTerms"]),
                 termsInfo: (await http.get("/terms"))["data"],
                 loadingState: 1,
-                subjectName: "",
+                subjectName: data["label"],
                 firstName: student["firstName"],
                 lastName: student["lastName"],
                 indexNumber: student["indexNumber"],
