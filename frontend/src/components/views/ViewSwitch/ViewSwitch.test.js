@@ -18,12 +18,7 @@ describe("ViewSwitch", () => {
         // // could not execute toggleHidden
         // expect(toggleHidden).toBeCalled();
         // handleClick.mockRestore();
-
-        // console.log(wrapper.find(".groupView").length);
-        expect(wrapper.find(".names p").length).toBe(2);
-
         // expect(wrapper.find(".resultsView").length).toBe(1);
-        wrapper.find("#switch").simulate("click");
         // expect(wrapper.find(".groupView").length).toBe(1);
     });
 });
