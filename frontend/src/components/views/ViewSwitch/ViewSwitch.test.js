@@ -8,7 +8,12 @@ configure({ adapter: new Adapter() });
 describe("ViewSwitch", () => {
     let wrapper;
     test("renders corectly", () => {
-        wrapper = shallow(<ViewSwitch />);
+        wrapper = shallow(
+            <ViewSwitch
+                values={["a", "b", "c"]}
+                selected_="a"
+            />
+        );
     });
 
     test("changes state on click", () => {
