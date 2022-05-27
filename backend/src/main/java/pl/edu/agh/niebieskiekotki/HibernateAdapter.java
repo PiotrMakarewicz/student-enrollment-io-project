@@ -1,84 +1,100 @@
 package pl.edu.agh.niebieskiekotki;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import pl.edu.agh.niebieskiekotki.entitites.*;
 import pl.edu.agh.niebieskiekotki.views.QuestionnaireResults;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-@Component
+@Repository
 public class HibernateAdapter {
-    @PersistenceContext
-    public EntityManager entityManager;
+
+    @Autowired
+    protected SessionFactory sessionFactory;
 
     public <T> List<T> getAll(Class<T> c) {
-        Session session = entityManager.unwrap(Session.class);
+        Session session = getSession();
+        Transaction transaction = getTransaction(session);
+
+        List<T> resultList = getAll(c, session);
+
+        transaction.commit();
+
+        return resultList;
+    }
+
+    private <T> List<T> getAll(Class<T> c, Session session) {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(c);
 
         Root<T> root = criteriaQuery.from(c);
         criteriaQuery.select(root);
-        Query<T> query = session.createQuery(criteriaQuery);
-        List<T> results = query.getResultList();
-        //session.close();
-        session.disconnect();
+        Query<T> query = getSession().createQuery(criteriaQuery);
+
+        return query.getResultList();
+    }
 
 
-        return results;
+    public <T> void save(T itemToSave) {
+        Session session = getSession();
+        Transaction transaction = getTransaction(session);
+
+        session.save(itemToSave);
+
+        transaction.commit();
     }
 
     public void clearDatabase() {
+        Session session = getSession();
+        Transaction transaction = getTransaction(session);
 
-        Session session = entityManager.unwrap(Session.class);
-        session.getTransaction().begin();
-
-        for(QuestionnaireTerm qt : getAll(QuestionnaireTerm.class))
+        for (QuestionnaireTerm qt : getAll(QuestionnaireTerm.class))
             session.delete(qt);
 
-        for(QuestionnaireAccess qa : getAll(QuestionnaireAccess.class))
+        for (QuestionnaireAccess qa : getAll(QuestionnaireAccess.class))
             session.delete(qa);
 
-        for(QuestionnaireResults qr : getAll(QuestionnaireResults.class))
+        for (QuestionnaireResults qr : getAll(QuestionnaireResults.class))
             session.delete(qr);
 
-        for(Questionnaire q : getAll(Questionnaire.class))
+        for (Questionnaire q : getAll(Questionnaire.class))
             session.delete(q);
 
-        session.getTransaction().commit();
-        session.disconnect();
-
+        transaction.commit();
     }
 
     public void clearResultsWhere(long questionnaireId) {
-        Session session = entityManager.unwrap(Session.class);
-        //session.getTransaction().begin();
+        Session session = getSession();
+        Transaction transaction = getTransaction(session);
 
-        for(Results qr : getAll(Results.class)) {
+        List<Results> allResults = getAll(Results.class, session);
+        for (Results qr : allResults) {
             if (qr.getQuestionnaire().getId() == questionnaireId) {
                 session.delete(qr);
             }
         }
-        //session.getTransaction().commit();
-        session.disconnect();
+        transaction.commit();
     }
-    public void clearVotesWhere(long questionnaireId,long studentIndex) {
-        Session session = entityManager.unwrap(Session.class);
-        //session.getTransaction().begin();
 
-        for(Vote qr : getAll(Vote.class)) {
+    public void clearVotesWhere(long questionnaireId,long studentIndex) {
+        Session session = getSession();
+        Transaction transaction = getTransaction(session);
+
+        List<Vote> allVotes = getAll(Vote.class, session);
+        for (Vote qr : allVotes) {
             if (qr.getQuestionnaire().getId() == questionnaireId && qr.getStudent().getIndexNumber()==studentIndex) {
                 session.delete(qr);
             }
         }
-        //session.getTransaction().commit();
-        session.disconnect();
+        transaction.commit();
     }
 
     public <T> T getById(Class<T> c, Long id) {
@@ -88,36 +104,40 @@ public class HibernateAdapter {
     }
 
     public <T, V> T getOneWhereEq(Class<T> c, String fieldName, V value) {
-
         List<T> results = getWhereEq(c, fieldName, value);
         if (results == null || results.size() == 0) return null;
         return results.get(0);
     }
 
     public <T, V> List<T> getWhereEq(Class<T> c, String fieldName, V value) {
+        Session session = getSession();
+        Transaction transaction = getTransaction(session);
 
-        Session session = entityManager.unwrap(Session.class);
-        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaBuilder builder = getSession().getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(c);
         Root<T> root = criteriaQuery.from(c);
 
         criteriaQuery.where(builder.equal(root.get(fieldName), value));
         criteriaQuery.select(root);
-        Query<T> query = session.createQuery(criteriaQuery);
-        List<T> result = query.getResultList();
-        //session.close();
-        session.disconnect();
+        Query<T> query = getSession().createQuery(criteriaQuery);
+        var resultList = query.getResultList();
 
-        return result;
+        transaction.commit();
+
+        return resultList;
     }
 
-    public <T> void save(T itemToSave) {
-        Session session = entityManager.unwrap(Session.class).getSession();
-        session.getTransaction().begin();
-        session.save(itemToSave);
-        session.getTransaction().commit();
-        //session.close();
-        session.disconnect();
+    protected Session getSession(){
+        return sessionFactory.getCurrentSession();
     }
 
+    protected Transaction getTransaction(Session session){
+        Transaction transaction;
+        try {
+            transaction = session.beginTransaction();
+        } catch (IllegalStateException e){
+            transaction = session.getTransaction();
+        }
+        return transaction;
+    }
 }
