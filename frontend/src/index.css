@@ -87,10 +87,12 @@ code {
     text-decoration: none;
     padding: 0 1em;
     border-radius: 10px;
+    transition: all 200ms ease-in;
 }
 .lecturer-questionnaire-buttons > div a:hover {
     background-color: var(--accent-clr);
     color: white;
+    transition: all 200ms ease-in;
 }
 
 .lecturer-questionnaire-buttons > div > span {
