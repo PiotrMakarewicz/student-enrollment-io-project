@@ -35,7 +35,7 @@ public class QuestionnaireRouterTest extends AbstractRouterTest {
 	@Test
 	public void getSpecificQuestionnaire() throws Exception {
 
-		String uri = "/questionnaires/1";
+		String uri = "/questionnaires/2";
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
 				.header("Auth-Token","eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYW4ucHJvZmVzb3Jza2lAYWdoLmVkdS5wbCJ9.UDo9s4GiJzXDsPekwF6EMNQevup4NJT3Ns1rei09vhUrUajFvS2e8TJkpsPDjOtTBGV_oLoifwyA5i7FC1GHDg")
 				.accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
