@@ -11,9 +11,7 @@ import DropZone from "../form/services/DropZone";
 import Switch from "../form/services/Switch";
 import readXlsxFile from "read-excel-file";
 import { parseXlsxFile } from "../form/services/Parser";
-import FloatingActionButton from "../form/services/FloatingActionButton";
 import { toast } from "react-toastify";
-// import { showAlert } from "../../services/alert";
 import { Spinner } from "react-bootstrap";
 import { useEffect } from "react";
 // import FileLoader from "../form/services/FileLoader"
@@ -42,6 +40,7 @@ function LecturerForm() {
         (async function () {
             setState({ ...state, terms_info: (await http.get("/terms"))["data"], loading: false });
         })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const onSubmit = async () => {
         const {
@@ -185,10 +184,8 @@ function LecturerForm() {
                             onSubmit={onSubmit}
                         />
                     </FormWrapper>
-                    <FloatingActionButton />
                 </>
             )}
-
         </>
     );
 }

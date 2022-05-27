@@ -37,13 +37,15 @@ function ClientViewForm() {
         (async function () {
             let data = (await http.get("/vote/" + hash))["data"];
             let student = data["student"];
+            // console.log((await http.get(`/questionnaires/${hash}`))["data"]["detail"]["label"]);
+            // TODO wyświetlanie komunikatu w razie braku danych oraz pobieranie nazwy przedmiotu
             setState({
                 ...state,
                 availableTermsSet: new Set(data["availableTerms"]),
                 selectedTerms: new Set(data["selectedTerms"]),
                 termsInfo: (await http.get("/terms"))["data"],
                 loadingState: 1,
-                subjectName: (await http.get(`/questionnaires/${hash}`))["data"]["detail"]["label"],
+                subjectName: "",
                 firstName: student["firstName"],
                 lastName: student["lastName"],
                 indexNumber: student["indexNumber"],
@@ -95,67 +97,66 @@ function ClientViewForm() {
         }
         setState({ ...state });
     };
-    if(state.loadingState === 0){
-        return(
+    if (state.loadingState === 0) {
+        return (
             <>
-                    <Spinner animation="border" />
+                <Spinner animation="border" />
             </>
-        ); 
-    }
-    else if (state.loadingState === 1){
-        return(
+        );
+    } else if (state.loadingState === 1) {
+        return (
             <>
-                    <FormWrapper>
-                        <div className = "d-flex row mb-3 w-100">
-                             <h2>{state.subjectName}</h2>
-                            <label>Name: {state.firstName}</label>
-                            <label>Surname: {state.lastName}</label>
-                            <label>Index: {state.indexNumber}</label>
-                            <label>Email: {state.emailAddress}</label>
-                        </div>
+                <FormWrapper>
+                    <div className="d-flex row mb-3 w-100">
+                        <h2>{state.subjectName}</h2>
+                        <label>Name: {state.firstName}</label>
+                        <label>Surname: {state.lastName}</label>
+                        <label>Index: {state.indexNumber}</label>
+                        <label>Email: {state.emailAddress}</label>
+                    </div>
 
-                        <Calendar
-                            selectedTerms={state.selectedTerms}
-                            toggleTerm={toggleTerm}
-                            availableTermsSet={state.availableTermsSet}
-                            impossibleTerms={state.impossibleTerms}
-                            termsInfo={state.termsInfo}
+                    <Calendar
+                        selectedTerms={state.selectedTerms}
+                        toggleTerm={toggleTerm}
+                        availableTermsSet={state.availableTermsSet}
+                        impossibleTerms={state.impossibleTerms}
+                        termsInfo={state.termsInfo}
+                    />
+                    {Object.keys(state.impossibleTerms).map((t, key) => (
+                        <Input
+                            label={
+                                "Explain your impossibility for " +
+                                [[""], ...state.termsInfo["headers"]][Math.floor(t / 10) + 1] +
+                                " " +
+                                state.termsInfo["rows"][(t % 10) - 1].label
+                            }
+                            value={state.impossibleTerms[t]}
+                            onChange={(v) => {
+                                const { impossibleTerms } = state;
+                                impossibleTerms[t] = v;
+                                setState({ ...state });
+                            }}
+                            id={"impossibility" + t}
+                            key={key}
                         />
-                        {Object.keys(state.impossibleTerms).map((t, key) => (
-                            <Input
-                                label={
-                                    "Explain your impossibility for " +
-                                    [[""], ...state.termsInfo["headers"]][Math.floor(t / 10) + 1] +
-                                    " " +
-                                    state.termsInfo["rows"][(t % 10) - 1].label
-                                }
-                                value={state.impossibleTerms[t]}
-                                onChange={(v) => {
-                                    const { impossibleTerms } = state;
-                                    impossibleTerms[t] = v;
-                                    setState({ ...state });
-                                }}
-                                id={"impossibility" + t}
-                                key={key}
-                            />
-                        ))}
-                        <Submit
-                            value={"Send form"}
-                            onSubmit={onSubmit}
-                        />
-                    </FormWrapper>
-                </>
-        ); 
-    }
-    else return(
-        <>
+                    ))}
+                    <Submit
+                        value={"Send form"}
+                        onSubmit={onSubmit}
+                    />
+                </FormWrapper>
+            </>
+        );
+    } else
+        return (
+            <>
                 <h1>Thanks!</h1>
                 <Confetti
                     width={1920}
                     height={900}
                 />
             </>
-    );
+        );
 }
 
 export default ClientViewForm;

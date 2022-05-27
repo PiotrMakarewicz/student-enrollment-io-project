@@ -15,7 +15,7 @@ function QuestionnaireResults() {
     });
     useEffect(() => {
         (async function () {
-            const reqResult = await http.get(`/vote/${id}`);
+            const reqResult = await http.get(`/votes/${id}`);
             const nameRequest = await http.get(`/questionnaires/${id}`);
             setState({
                 loading: false,
