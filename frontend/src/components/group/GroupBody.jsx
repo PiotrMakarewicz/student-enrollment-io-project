@@ -15,7 +15,14 @@ function GroupBody({ rows }) {
                 return (
                     <tr key={key}>
                         {row.map((el, key) => {
-                            return <td key={key}>{el}</td>;
+                            return (
+                                <td
+                                    className="bg-light"
+                                    key={key}
+                                >
+                                    {el}
+                                </td>
+                            );
                         })}
                     </tr>
                 );

@@ -4,6 +4,7 @@ import http from "../../../services/http";
 import "./choose.css";
 import SimpleWrapper from "../../SimpleWrapper";
 import { Spinner } from "react-bootstrap";
+import FloatingActionButton from "../../form/services/FloatingActionButton";
 
 /**
  * Example form
@@ -92,6 +93,7 @@ function ChooseForm() {
                     <SimpleWrapper>
                         <ul className="list-group main-list">{rows}</ul>
                     </SimpleWrapper>
+                    <FloatingActionButton />
                 </>
             )}
         </>
