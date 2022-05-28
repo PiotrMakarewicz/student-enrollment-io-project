@@ -39,7 +39,7 @@ public class GenerationRouter {
         if (questionnaire == null)
             throw new NotFoundException("There is no questionnaire with provided id.");
 
-        if(questionnaire.getTeacher() == null || questionnaire.getTeacher().equals(teacher))
+        if(questionnaire.getTeacher() == null || !questionnaire.getTeacher().equals(teacher))
             throw new UnauthorizedException("This questionare isn't yours");
 
         uploader.upload(questionnaire, generator.generate(questionnaire, numGroups));
