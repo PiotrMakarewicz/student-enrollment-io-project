@@ -7,6 +7,7 @@ import http from "../../services/http";
 import { useEffect } from "react";
 import FormWrapper from "../FormWrapper";
 import Confetti from "react-confetti";
+import { toast } from "react-toastify";
 import { Spinner } from "react-bootstrap";
 
 /**
@@ -28,7 +29,8 @@ function ClientViewForm() {
         selectedTerms: new Set(),
         impossibleTerms: {},
         termsInfo: null,
-        loadingState: 0
+        loadingState: 0,
+        subjectName: ""
     });
     let { hash } = useParams();
     useEffect(() => {
@@ -41,6 +43,7 @@ function ClientViewForm() {
                 selectedTerms: new Set(data["selectedTerms"]),
                 termsInfo: (await http.get("/terms"))["data"],
                 loadingState: 1,
+                subjectName: data["label"],
                 firstName: student["firstName"],
                 lastName: student["lastName"],
                 indexNumber: student["indexNumber"],
@@ -61,6 +64,15 @@ function ClientViewForm() {
             impossibleTerms: Array.from(impossibleTerms)
         });
 
+        toast.success("Questionnaire sent", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined
+        });
         setState({
             firstName: "",
             lastName: "",
@@ -83,66 +95,66 @@ function ClientViewForm() {
         }
         setState({ ...state });
     };
-    if(state.loadingState === 0){
-        return(
+    if (state.loadingState === 0) {
+        return (
             <>
-                    <Spinner animation="border" />
+                <Spinner animation="border" />
             </>
-        ); 
-    }
-    else if (state.loadingState === 1){
-        return(
+        );
+    } else if (state.loadingState === 1) {
+        return (
             <>
-                    <FormWrapper>
-                        <div className = "d-flex row mb-3 w-100">
-                            <label>Name: {state.firstName}</label>
-                            <label>Surname: {state.lastName}</label>
-                            <label>Index: {state.indexNumber}</label>
-                            <label>Email: {state.emailAddress}</label>
-                        </div>
+                <FormWrapper>
+                    <div className="d-flex row mb-3 w-100">
+                        <h2>{state.subjectName}</h2>
+                        <label>Name: {state.firstName}</label>
+                        <label>Surname: {state.lastName}</label>
+                        <label>Index: {state.indexNumber}</label>
+                        <label>Email: {state.emailAddress}</label>
+                    </div>
 
-                        <Calendar
-                            selectedTerms={state.selectedTerms}
-                            toggleTerm={toggleTerm}
-                            availableTermsSet={state.availableTermsSet}
-                            impossibleTerms={state.impossibleTerms}
-                            termsInfo={state.termsInfo}
+                    <Calendar
+                        selectedTerms={state.selectedTerms}
+                        toggleTerm={toggleTerm}
+                        availableTermsSet={state.availableTermsSet}
+                        impossibleTerms={state.impossibleTerms}
+                        termsInfo={state.termsInfo}
+                    />
+                    {Object.keys(state.impossibleTerms).map((t, key) => (
+                        <Input
+                            label={
+                                "Explain your impossibility for " +
+                                [[""], ...state.termsInfo["headers"]][Math.floor(t / 10) + 1] +
+                                " " +
+                                state.termsInfo["rows"][(t % 10) - 1].label
+                            }
+                            value={state.impossibleTerms[t]}
+                            onChange={(v) => {
+                                const { impossibleTerms } = state;
+                                impossibleTerms[t] = v;
+                                setState({ ...state });
+                            }}
+                            id={"impossibility" + t}
+                            key={key}
                         />
-                        {Object.keys(state.impossibleTerms).map((t, key) => (
-                            <Input
-                                label={
-                                    "Explain your impossibility for " +
-                                    [[""], ...state.termsInfo["headers"]][Math.floor(t / 10) + 1] +
-                                    " " +
-                                    state.termsInfo["rows"][(t % 10) - 1].label
-                                }
-                                value={state.impossibleTerms[t]}
-                                onChange={(v) => {
-                                    const { impossibleTerms } = state;
-                                    impossibleTerms[t] = v;
-                                    setState({ ...state });
-                                }}
-                                id={"impossibility" + t}
-                                key={key}
-                            />
-                        ))}
-                        <Submit
-                            value={"Send form"}
-                            onSubmit={onSubmit}
-                        />
-                    </FormWrapper>
-                </>
-        ); 
-    }
-    else return(
-        <>
+                    ))}
+                    <Submit
+                        value={"Send form"}
+                        onSubmit={onSubmit}
+                    />
+                </FormWrapper>
+            </>
+        );
+    } else
+        return (
+            <>
                 <h1>Thanks!</h1>
                 <Confetti
                     width={1920}
                     height={900}
                 />
             </>
-    );
+        );
 }
 
 export default ClientViewForm;
