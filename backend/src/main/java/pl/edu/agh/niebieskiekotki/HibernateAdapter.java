@@ -22,6 +22,7 @@ public class HibernateAdapter {
     protected SessionFactory sessionFactory;
 
     public <T> List<T> getAll(Class<T> c) {
+        closeTransaction();
         Session session = getSession();
         Transaction transaction = getTransaction(session);
 
@@ -45,15 +46,18 @@ public class HibernateAdapter {
 
 
     public <T> void save(T itemToSave) {
+        closeTransaction();
         Session session = getSession();
         Transaction transaction = getTransaction(session);
 
         session.save(itemToSave);
 
         transaction.commit();
+
     }
 
     public void clearDatabase() {
+        closeTransaction();
         Session session = getSession();
         Transaction transaction = getTransaction(session);
 
@@ -70,27 +74,28 @@ public class HibernateAdapter {
             session.delete(q);
 
         transaction.commit();
+
     }
 
     public void clearResultsWhere(long questionnaireId) {
+        closeTransaction();
         Session session = getSession();
         Transaction transaction = getTransaction(session);
 
-        List<Results> allResults = getWhereEq(Results.class,"questionnaire" ,questionnaireId,session);
+        List<Results> allResults = getWhereEq(Results.class, "questionnaire", questionnaireId, session);
         for (Results qr : allResults) {
-            if (qr.getQuestionnaire().getId() == questionnaireId) {
-                session.delete(qr);
-            }
+            session.delete(qr);
         }
         transaction.commit();
     }
 
-    public void clearVotesWhere(long questionnaireId,long studentIndex) {
+    public void clearVotesWhere(long questionnaireId, long studentIndex) {
+        closeTransaction();
         Session session = getSession();
         Transaction transaction = getTransaction(session);
-        List<Vote> allVotes = getWhereEq(Vote.class, "questionnaire",questionnaireId,session);
+        List<Vote> allVotes = getWhereEq(Vote.class, "questionnaire", questionnaireId, session);
         for (Vote qr : allVotes) {
-            if (qr.getStudent().getIndexNumber()==studentIndex) {
+            if (qr.getStudent().getIndexNumber() == studentIndex) {
                 session.delete(qr);
             }
         }
@@ -98,29 +103,32 @@ public class HibernateAdapter {
     }
 
     public <T> T getById(Class<T> c, Long id) {
+        closeTransaction();
         List<T> results = getWhereEq(c, "id", id);
         if (results == null || results.size() == 0) return null;
         return results.get(0);
     }
 
     public <T, V> T getOneWhereEq(Class<T> c, String fieldName, V value) {
+        closeTransaction();
         List<T> results = getWhereEq(c, fieldName, value);
         if (results == null || results.size() == 0) return null;
         return results.get(0);
     }
 
     public <T, V> List<T> getWhereEq(Class<T> c, String fieldName, V value) {
+        closeTransaction();
         Session session = getSession();
         Transaction transaction = getTransaction(session);
 
-        var resultList = getWhereEq(c,fieldName,value,session);
+        var resultList = getWhereEq(c, fieldName, value, session);
 
         //transaction.commit();
 
         return resultList;
     }
 
-    public <T, V> List<T> getWhereEq(Class<T> c, String fieldName, V value,Session session) {
+    public <T, V> List<T> getWhereEq(Class<T> c, String fieldName, V value, Session session) {
 
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(c);
@@ -134,17 +142,29 @@ public class HibernateAdapter {
         return resultList;
     }
 
-    protected Session getSession(){
+    protected Session getSession() {
         return sessionFactory.getCurrentSession();
     }
 
-    protected Transaction getTransaction(Session session){
+    protected Transaction getTransaction(Session session) {
         Transaction transaction;
         try {
             transaction = session.beginTransaction();
-        } catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             transaction = session.getTransaction();
         }
         return transaction;
+    }
+
+    public void closeTransaction(){
+        Session session = getSession();
+        Transaction transaction;
+        try {
+            transaction = session.beginTransaction();
+        } catch (IllegalStateException e) {
+            transaction = session.getTransaction();
+        }
+        transaction.commit();
+
     }
 }
