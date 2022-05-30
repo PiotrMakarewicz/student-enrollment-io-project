@@ -1,25 +1,23 @@
 package pl.edu.agh.niebieskiekotki;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 import pl.edu.agh.niebieskiekotki.entitites.*;
 import pl.edu.agh.niebieskiekotki.views.QuestionnaireResults;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.Arrays;
 import java.util.List;
 
-@Repository
+@Component
 public class HibernateAdapter {
-
-    @Autowired
-    protected SessionFactory sessionFactory;
+    @PersistenceContext
+    public EntityManager entityManager;
 
     public <T> List<T> getAll(Class<T> c) {
         closeTransaction();
@@ -142,10 +140,6 @@ public class HibernateAdapter {
         return resultList;
     }
 
-    protected Session getSession() {
-        return sessionFactory.getCurrentSession();
-    }
-
     protected Transaction getTransaction(Session session) {
         Transaction transaction;
         try {
@@ -157,7 +151,7 @@ public class HibernateAdapter {
     }
 
     public void closeTransaction(){
-        Session session = getSession();
+        Session session =getSession();
         Transaction transaction;
         try {
             transaction = session.beginTransaction();
@@ -165,6 +159,9 @@ public class HibernateAdapter {
             transaction = session.getTransaction();
         }
         transaction.commit();
-
     }
+    protected Session getSession() {
+        return entityManager.unwrap(Session.class).getSession();
+    }
+
 }
