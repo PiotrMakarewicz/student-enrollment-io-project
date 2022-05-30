@@ -12,6 +12,7 @@ import pl.edu.agh.niebieskiekotki.views.QuestionnaireResults;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -75,7 +76,7 @@ public class HibernateAdapter {
         Session session = getSession();
         Transaction transaction = getTransaction(session);
 
-        List<Results> allResults = getAll(Results.class, session);
+        List<Results> allResults = getWhereEq(Results.class,"questionnaire" ,questionnaireId,session);
         for (Results qr : allResults) {
             if (qr.getQuestionnaire().getId() == questionnaireId) {
                 session.delete(qr);
@@ -87,10 +88,9 @@ public class HibernateAdapter {
     public void clearVotesWhere(long questionnaireId,long studentIndex) {
         Session session = getSession();
         Transaction transaction = getTransaction(session);
-
-        List<Vote> allVotes = getAll(Vote.class, session);
+        List<Vote> allVotes = getWhereEq(Vote.class, "questionnaire",questionnaireId,session);
         for (Vote qr : allVotes) {
-            if (qr.getQuestionnaire().getId() == questionnaireId && qr.getStudent().getIndexNumber()==studentIndex) {
+            if (qr.getStudent().getIndexNumber()==studentIndex) {
                 session.delete(qr);
             }
         }
@@ -113,16 +113,23 @@ public class HibernateAdapter {
         Session session = getSession();
         Transaction transaction = getTransaction(session);
 
-        CriteriaBuilder builder = getSession().getCriteriaBuilder();
+        var resultList = getWhereEq(c,fieldName,value,session);
+
+        //transaction.commit();
+
+        return resultList;
+    }
+
+    public <T, V> List<T> getWhereEq(Class<T> c, String fieldName, V value,Session session) {
+
+        CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(c);
         Root<T> root = criteriaQuery.from(c);
 
         criteriaQuery.where(builder.equal(root.get(fieldName), value));
         criteriaQuery.select(root);
-        Query<T> query = getSession().createQuery(criteriaQuery);
+        Query<T> query = session.createQuery(criteriaQuery);
         var resultList = query.getResultList();
-
-        transaction.commit();
 
         return resultList;
     }
