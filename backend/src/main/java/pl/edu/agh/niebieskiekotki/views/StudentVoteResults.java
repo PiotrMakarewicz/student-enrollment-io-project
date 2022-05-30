@@ -7,11 +7,13 @@ import java.util.List;
 
 public class StudentVoteResults {
     private Student student;
+    private String label;
     private List<Long> availableTerms;
     private List<Long> selectedTerms;
 
     public StudentVoteResults(Student student, Questionnaire questionnaire) {
-        this.student=student;
+        this.student = student;
+        this.label = questionnaire.getLabel();
         this.selectedTerms = new ArrayList<>();
         this.availableTerms = new ArrayList<>();
         for (Vote vote : questionnaire.getVotes()) {
@@ -45,4 +47,6 @@ public class StudentVoteResults {
     public void setSelectedTerms(List<Long> selectedTerms) {
         this.selectedTerms = selectedTerms;
     }
+
+    public String getLabel() { return label; }
 }

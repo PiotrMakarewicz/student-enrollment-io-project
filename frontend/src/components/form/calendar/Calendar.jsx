@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import CalendarBody from "./CalendarBody";
 import CalendarHeader from "./CalendarHeader";
-import http from "../../../services/http";
-import { Spinner } from "react-bootstrap";
-import { useEffect } from "react";
 
 /**
  * Creates calendar as a table
@@ -28,10 +25,10 @@ import { useEffect } from "react";
  */
 
 function Calendar({ selectedTerms, toggleTerm, availableTermsSet, impossibleTerms, termsInfo }) {
-    const [state, setState] = useState({
-        val: 1,
-        loading: true
-    });
+    // const [state, setState] = useState({
+    //     val: 1,
+    //     loading: true
+    // });
 
     // useEffect(() => {
     //     (async function () {
