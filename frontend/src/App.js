@@ -5,6 +5,7 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import { ChooseForm, ClientViewForm, LecturerForm, LecturerQuestionaire } from "./components/views";
 import 'react-toastify/dist/ReactToastify.css'
+import LoginFormView from "./components/views/LoginFormView";
 
 function App() {
     return (
@@ -31,6 +32,12 @@ function App() {
                                 path="/questionnaire/:id"
                                 element={<LecturerQuestionaire />}
                             />
+
+                            <Route
+                                path="/login"
+                                element={<LoginFormView />}
+                            />
+
 
                             <Route
                                 path="*"

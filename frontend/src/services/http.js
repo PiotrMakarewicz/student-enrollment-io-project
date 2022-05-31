@@ -32,7 +32,7 @@ async function proccesResponse(response, toastComunicat) {
             data
         };
     } else {
-        const text = await response.text();
+        const text = await response.json();
         // toast.error(`${toastComunicat} \n ${text}`);
         return {
             ok: false,
