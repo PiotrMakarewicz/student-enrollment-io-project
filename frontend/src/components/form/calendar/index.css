@@ -20,14 +20,14 @@
 
 .calendar-cell-label {
     user-select: none;
-    background-color: orange;
+    background-color: var(--accent-clr);
     opacity: 1;
 }
 
 .calendar-cell-chosen {
     cursor: pointer;
     opacity: 0.8;
-    background-color: green;
+    background-color: var(--light-green);
 }
 
 .calendar-cell-available {

@@ -103,3 +103,68 @@ title {
     background-color: white;
     /* border: 5px solid blue; */
 }
+
+.floatingActionBtn {
+    position: fixed;
+    width: 8rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: row;
+    bottom: 3rem;
+    right: 2.5rem;
+    background: linear-gradient(to bottom right, var(--accent-clr-3), var(--accent-clr));
+    border: 0;
+    border-radius: 2rem;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 2.5;
+    outline: transparent;
+    padding: 0.4rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    transition: box-shadow 0.2s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+}
+
+.floatingActionBtn::after {
+    content: "\002B";
+    background-color: red;
+    position: absolute;
+    left: 0.45em;
+    bottom: 2.25em;
+    font-size: 2rem;
+    vertical-align: middle;
+    height: 0;
+}
+
+.floatingActionBtn:focus {
+    color: white;
+    box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.5), -0.125rem -0.125rem 1rem rgba(239, 71, 101, 0.5),
+        0.125rem 0.125rem 1rem rgba(255, 154, 90, 0.5);
+}
+
+.floatingActionBtn:hover {
+    color: white;
+    box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.5), -0.125rem -0.125rem 1rem rgba(239, 71, 101, 0.5),
+        0.125rem 0.125rem 1rem rgba(255, 154, 90, 0.5);
+}
+.plusIcon {
+    font-size: 24px;
+
+    text-align: center;
+}
+
+:where(button, input):where(:not(:active)):focus-visible {
+    outline-offset: 5px;
+}
+
+.resultsView h2 {
+    text-align: center;
+    margin-bottom: 0.75em;
+}

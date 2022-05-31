@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 import { _download } from "./downloader";
 
@@ -24,7 +24,7 @@ function optionsObjectToString(options) {
 }
 async function proccesResponse(response, toastComunicat) {
     if (response.ok) {
-        toast.success(`${toastComunicat}`);
+        // toast.success(`${toastComunicat}`);
         const data = await response.json();
 
         return {
@@ -32,8 +32,8 @@ async function proccesResponse(response, toastComunicat) {
             data
         };
     } else {
-        const text = await response.text();
-        toast.error(`${toastComunicat} \n ${text}`);
+        const text = await response.json();
+        // toast.error(`${toastComunicat} \n ${text}`);
         return {
             ok: false,
             data: text

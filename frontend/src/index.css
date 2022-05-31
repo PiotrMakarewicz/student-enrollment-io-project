@@ -5,6 +5,12 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-y: overlay;
+    --accent-clr: #fd9452;
+    --accent-clr-2: #f47500;
+    --accent-clr-3: #ef4765;
+    --light-green: #409d4f;
+    --dark-green: #03761c;
+    --bg-primary: #1e151f;
 }
 
 code {
@@ -20,6 +26,7 @@ code {
     border: 1px dashed rgba(138, 133, 133, 0.627);
     border-radius: 3px;
     transition: 0.2s;
+    color: black;
 }
 
 .choose-file-button {
@@ -73,11 +80,37 @@ code {
     gap: 10px;
 }
 
-.lecturer-questionnaire-buttons > div > {
-    margin: 0.2em;
+.lecturer-questionnaire-buttons > div a {
+    color: var(--bg-primary);
+    border: 2px solid var(--accent-clr);
+    background-color: var(--bs-gray-100);
+    text-decoration: none;
+    padding: 0 1em;
+    border-radius: 10px;
+    transition: all 200ms ease-in;
+}
+.lecturer-questionnaire-buttons > div a:hover {
+    background-color: var(--accent-clr);
+    color: white;
+    transition: all 200ms ease-in;
 }
 
 .lecturer-questionnaire-buttons > div > span {
     width: 13em;
     margin: 0.2em;
+}
+
+
+.error{
+    color:red;
+    font-size: 1.2em;
+}
+
+.input-error{
+    display: block;
+    padding: 5px;
+}
+
+.center-content{
+    text-align: center;
 }
