@@ -36,6 +36,7 @@ function LoginFormView() {
         const {email, password} = state;
         const response = await login(email, password);
         if(!response.ok) setState({...state, loginError: response.data.message});
+        else      window.location =  "/";
     }
 
     return (

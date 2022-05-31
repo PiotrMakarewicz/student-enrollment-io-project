@@ -18,13 +18,7 @@ function Navbar() {
                     <Link to="/questionnaires">Your polls</Link>
                 </li>
                 <li>
-                    <span onClick={() => login("jan.profesorski@agh.edu.pl","12345")}>Login</span>
-                </li>
-                <li>
-                    <span onClick={() => login("wacław.f@agh.edu.pl","12345")}>Login</span>
-                </li>
-                <li>
-                    <span onClick={logout}>Logout</span>
+                    <Link to="/logout">Logout</Link>
                 </li>
             </ul>
         </header>
