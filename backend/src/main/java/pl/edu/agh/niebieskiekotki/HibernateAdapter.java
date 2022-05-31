@@ -26,7 +26,7 @@ public class HibernateAdapter {
 
         Root<T> root = criteriaQuery.from(c);
         criteriaQuery.select(root);
-        Query<T> query = getSession().createQuery(criteriaQuery);
+        Query<T> query = session.createQuery(criteriaQuery);
 
         return query.getResultList();
     }
