@@ -4,10 +4,10 @@ import pl.edu.agh.niebieskiekotki.entitites.Vote;
 
 import java.util.List;
 
-public class ImposibilitiesView {
+public class ImpossibilitiesView {
     private List<Vote> votes;
 
-    public ImposibilitiesView(List<Vote> votes) {
+    public ImpossibilitiesView(List<Vote> votes) {
         this.votes = votes;
     }
 

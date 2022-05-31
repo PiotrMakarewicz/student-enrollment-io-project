@@ -18,67 +18,63 @@ public class HibernateAdapter {
     @PersistenceContext
     public EntityManager entityManager;
 
-    public <T> List<T> getAll(Class<T> c) {
-        Session session = entityManager.unwrap(Session.class);
+
+    public  <T> List<T> getAll(Class<T> c) {
+        Session session = getSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(c);
 
         Root<T> root = criteriaQuery.from(c);
         criteriaQuery.select(root);
         Query<T> query = session.createQuery(criteriaQuery);
-        List<T> results = query.getResultList();
-        //session.close();
-        session.disconnect();
+
+        return query.getResultList();
+    }
 
 
-        return results;
+    public <T> void save(T itemToSave) {
+        Session session = getSession();
+        session.save(itemToSave);
     }
 
     public void clearDatabase() {
-
-        Session session = entityManager.unwrap(Session.class);
-        session.getTransaction().begin();
-
-        for(QuestionnaireTerm qt : getAll(QuestionnaireTerm.class))
+        Session session = getSession();
+        for (QuestionnaireTerm qt : getAll(QuestionnaireTerm.class))
             session.delete(qt);
 
-        for(QuestionnaireAccess qa : getAll(QuestionnaireAccess.class))
+        for (QuestionnaireAccess qa : getAll(QuestionnaireAccess.class))
             session.delete(qa);
 
-        for(QuestionnaireResults qr : getAll(QuestionnaireResults.class))
+        for (QuestionnaireResults qr : getAll(QuestionnaireResults.class))
             session.delete(qr);
 
-        for(Questionnaire q : getAll(Questionnaire.class))
+        for (Questionnaire q : getAll(Questionnaire.class))
             session.delete(q);
 
-        session.getTransaction().commit();
-        session.disconnect();
 
     }
 
     public void clearResultsWhere(long questionnaireId) {
-        Session session = entityManager.unwrap(Session.class);
-        //session.getTransaction().begin();
-
-        for(Results qr : getAll(Results.class)) {
-            if (qr.getQuestionnaire().getId() == questionnaireId) {
-                session.delete(qr);
-            }
+        Session session = getSession();
+        List<Results> allResults = getWhereEq(Results.class, "questionnaire", questionnaireId);
+        for (Results qr : allResults) {
+            session.delete(qr);
         }
-        //session.getTransaction().commit();
-        session.disconnect();
     }
-    public void clearVotesWhere(long questionnaireId,long studentIndex) {
-        Session session = entityManager.unwrap(Session.class);
-        //session.getTransaction().begin();
 
-        for(Vote qr : getAll(Vote.class)) {
-            if (qr.getQuestionnaire().getId() == questionnaireId && qr.getStudent().getIndexNumber()==studentIndex) {
+    public void clearVotesWhere(long questionnaireId, long studentIndex) {
+        Session session = getSession();
+        List<Vote> allVotes = getWhereEq(Vote.class, "questionnaire", questionnaireId);
+        for (Vote qr : allVotes) {
+            if (qr.getStudent().getIndexNumber() == studentIndex) {
                 session.delete(qr);
             }
         }
-        //session.getTransaction().commit();
-        session.disconnect();
+    }
+    public void clearVoteById(long voteId){
+        Session session = getSession();
+        Vote vote = getOneWhereEq(Vote.class,"id",voteId);
+        session.delete(vote);
     }
 
     public <T> T getById(Class<T> c, Long id) {
@@ -88,15 +84,14 @@ public class HibernateAdapter {
     }
 
     public <T, V> T getOneWhereEq(Class<T> c, String fieldName, V value) {
-
         List<T> results = getWhereEq(c, fieldName, value);
         if (results == null || results.size() == 0) return null;
         return results.get(0);
     }
 
     public <T, V> List<T> getWhereEq(Class<T> c, String fieldName, V value) {
+        Session session = getSession();
 
-        Session session = entityManager.unwrap(Session.class);
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(c);
         Root<T> root = criteriaQuery.from(c);
@@ -104,20 +99,15 @@ public class HibernateAdapter {
         criteriaQuery.where(builder.equal(root.get(fieldName), value));
         criteriaQuery.select(root);
         Query<T> query = session.createQuery(criteriaQuery);
-        List<T> result = query.getResultList();
-        //session.close();
-        session.disconnect();
+        var resultList = query.getResultList();
 
-        return result;
+
+        return resultList;
     }
 
-    public <T> void save(T itemToSave) {
-        Session session = entityManager.unwrap(Session.class).getSession();
-        session.getTransaction().begin();
-        session.save(itemToSave);
-        session.getTransaction().commit();
-        //session.close();
-        session.disconnect();
+    protected Session getSession() {
+        return entityManager.unwrap(Session.class).getSession();
     }
+
 
 }
