@@ -8,6 +8,7 @@ import pl.edu.agh.niebieskiekotki.views.QuestionnaireResults;
 import pl.edu.agh.niebieskiekotki.views.StudentVoteResults;
 import pl.edu.agh.niebieskiekotki.views.VoteView;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @CrossOrigin
@@ -19,7 +20,7 @@ public class VoteRouter {
     public VoteRouter(HibernateAdapter hibernateAdapter) {
         this.hibernateAdapter = hibernateAdapter;
     }
-
+    @Transactional
     @PostMapping(value = "/vote/{hash}")
     public void AddVote(@RequestBody VoteView vote, @PathVariable String hash) throws NotFoundException {
         //get questionnaire and student connected with hash
@@ -43,7 +44,7 @@ public class VoteRouter {
             }
         }
     }
-
+    @Transactional
     @GetMapping(value = "/vote/{hash}")
     public StudentVoteResults getStudentVotes(@PathVariable String hash) throws NotFoundException {
         QuestionnaireAccess questionnaireAccess = hibernateAdapter.getOneWhereEq(QuestionnaireAccess.class,
@@ -56,7 +57,7 @@ public class VoteRouter {
 
 
     }
-
+    @Transactional
     @GetMapping(value = "/votes/{id}")
     public QuestionnaireResults getVotes(@PathVariable Long id) throws NotFoundException {
 

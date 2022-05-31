@@ -8,6 +8,8 @@ import pl.edu.agh.niebieskiekotki.entitites.Term;
 import pl.edu.agh.niebieskiekotki.entitites.Timeslot;
 import pl.edu.agh.niebieskiekotki.views.CalendarView;
 
+import javax.transaction.Transactional;
+
 
 @CrossOrigin
 @RestController
@@ -18,7 +20,7 @@ public class TermRouter {
     public TermRouter(HibernateAdapter hibernateAdapter) {
         this.hibernateAdapter = hibernateAdapter;
     }
-
+    @Transactional
     @GetMapping(value = "/terms")
     public CalendarView getTerms() {
 

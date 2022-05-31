@@ -7,6 +7,7 @@ import pl.edu.agh.niebieskiekotki.entitites.Results;
 import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.NotFoundException;
 import pl.edu.agh.niebieskiekotki.views.AddResultView;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @CrossOrigin
@@ -17,12 +18,12 @@ public class ResultsRouter {
     public ResultsRouter(HibernateAdapter hibernateAdapter) {
         this.hibernateAdapter = hibernateAdapter;
     }
-
+    @Transactional
     @GetMapping(value = "/results")
     public List<Results> GetAll() {
         return hibernateAdapter.getAll(Results.class);
     }
-
+    @Transactional
     @GetMapping(value = "/results/{id}")
     public List<Results> GetOne(@PathVariable Long id) throws NotFoundException {
         List<Results> toReturn = hibernateAdapter.getWhereEq(Results.class, "questionnaire", id);
@@ -33,7 +34,7 @@ public class ResultsRouter {
 
         return toReturn;
     }
-
+    @Transactional
     @PostMapping(value = "/results")
     public void Post(@RequestBody AddResultView addResultView) {
         Results newResult = new Results();

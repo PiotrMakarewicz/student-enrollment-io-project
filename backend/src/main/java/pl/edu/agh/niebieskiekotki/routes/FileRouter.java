@@ -18,6 +18,7 @@ import pl.edu.agh.niebieskiekotki.utility.FileCreator;
 import pl.edu.agh.niebieskiekotki.utility.FileWithLinksCreator;
 import pl.edu.agh.niebieskiekotki.utility.Language;
 
+import javax.transaction.Transactional;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 
@@ -46,7 +47,7 @@ public class FileRouter {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @Transactional
     @GetMapping(value = "/files/results/{language}/{id}")
     public ResponseEntity<ByteArrayResource> downloadResults(@PathVariable String language, @PathVariable long id) throws Exception {
         Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, id);
@@ -72,7 +73,7 @@ public class FileRouter {
         }
     }
 
-
+    @Transactional
     @GetMapping(value="/files/preferences/{language}/{id}")
     public ResponseEntity<ByteArrayResource> downloadPreferences(@PathVariable String language, @PathVariable long id) throws Exception {
         Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, id);
@@ -81,7 +82,7 @@ public class FileRouter {
         HSSFWorkbook workbook = FileCreator.createFileWithPreferences(questionnaire, Language.fromString(language));
         return createResponse(workbook,"preferences.xlsx");
     }
-
+    @Transactional
     @GetMapping(value="/files/links/{id}")
     public ResponseEntity<ByteArrayResource> downloadLinks( @PathVariable long id) throws Exception {
         Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, id);

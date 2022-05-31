@@ -14,6 +14,8 @@ import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.UnauthorizedExceptio
 import pl.edu.agh.niebieskiekotki.views.TokenView;
 import pl.edu.agh.niebieskiekotki.views.UserCredential;
 
+import javax.transaction.Transactional;
+
 @CrossOrigin
 @RestController
 public class AuthRoute {
@@ -24,7 +26,7 @@ public class AuthRoute {
     public AuthRoute(HibernateAdapter hibernateAdapter) {
         this.hibernateAdapter = hibernateAdapter;
     }
-
+    @Transactional
     @PostMapping(value = "/auth")
     public TokenView GetAll(@RequestBody UserCredential credential) throws NoProvideRequiredDataException, NotFoundException, InvalidPasswordException {
         System.out.println("hello");

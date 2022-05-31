@@ -10,6 +10,7 @@ import pl.edu.agh.niebieskiekotki.utility.EmailService;
 import pl.edu.agh.niebieskiekotki.views.AddQuestionnaireView;
 import pl.edu.agh.niebieskiekotki.views.QuestionnaireDetail;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,14 +27,14 @@ public class QuestionnaireRouter {
         this.hibernateAdapter = hibernateAdapter;
         this.emailService = emailService;
     }
-
+    @Transactional
     @GetMapping(value = "/questionnaires")
     public List<Questionnaire> GetAll(@RequestHeader("Auth-Token") String token) throws UnauthorizedException {
         Teacher teacher = AuthRoute.getTeacherFromToken(token, hibernateAdapter);
         System.out.println(teacher.getId());
         return hibernateAdapter.getWhereEq(Questionnaire.class, "teacher", teacher);
     }
-
+    @Transactional
     @GetMapping(value = "/questionnaires/{id}")
     public QuestionnaireDetail GetOne(@RequestHeader("Auth-Token") String token, @PathVariable Long id) throws NotFoundException, UnauthorizedException {
         Teacher teacher = AuthRoute.getTeacherFromToken(token, hibernateAdapter);
@@ -46,13 +47,13 @@ public class QuestionnaireRouter {
 
         return new QuestionnaireDetail(questionnaire);
     }
-
+    @Transactional
     @DeleteMapping(value = "/questionnaires")
     public void GetOne() throws NotFoundException {
         hibernateAdapter.clearDatabase();
     }
 
-
+    @Transactional
     @PostMapping(value = "/questionnaires")
     public QuestionnaireDetail Post(@RequestHeader("Auth-Token") String token, @RequestBody AddQuestionnaireView addQuestionnaireView) throws UnauthorizedException {
 

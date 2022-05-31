@@ -13,6 +13,8 @@ import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.UnauthorizedExceptio
 import pl.edu.agh.niebieskiekotki.groups.GroupGenerator;
 import pl.edu.agh.niebieskiekotki.groups.ResultUploader;
 
+import javax.transaction.Transactional;
+
 @CrossOrigin
 @RestController
 public class GenerationRouter {
@@ -24,7 +26,7 @@ public class GenerationRouter {
 
     @Autowired
     private ResultUploader uploader;
-
+    @Transactional
     @GetMapping("/generate_results/{id}/{numGroups}")
     public ResponseEntity<Object> startQuestionnaireResultsGeneration(@RequestHeader("Auth-Token") String token, @PathVariable Integer id, @PathVariable Integer numGroups) throws UnauthorizedException, NotFoundException {
 
