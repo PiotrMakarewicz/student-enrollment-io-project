@@ -57,7 +57,6 @@ public class QuestionnaireRouter {
     @PostMapping(value = "/questionnaires")
     public QuestionnaireDetail Post(@RequestHeader("Auth-Token") String token, @RequestBody AddQuestionnaireView addQuestionnaireView) throws UnauthorizedException {
 
-
         Teacher teacher = AuthRoute.getTeacherFromToken(token, hibernateAdapter);
 
         Questionnaire newQuestionnaire = new Questionnaire();
