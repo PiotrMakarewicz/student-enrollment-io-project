@@ -24,10 +24,13 @@ public class VoteRouter {
     public void AddVote(@RequestBody VoteView vote, @PathVariable String hash) throws NotFoundException {
         //get questionnaire and student connected with hash
         QuestionnaireAccess questionnaireAccess = hibernateAdapter.getOneWhereEq(QuestionnaireAccess.class, "linkPath", hash);
-        if (questionnaireAccess == null) throw new NotFoundException("Invalid hash");
+        if (questionnaireAccess == null) {
+            hibernateAdapter.closeTransaction();
+            throw new NotFoundException("Invalid hash");
+        }
         Questionnaire questionnaire = questionnaireAccess.getQuestionnaire();
         Student student = questionnaireAccess.getStudent();
-
+        hibernateAdapter.closeTransaction();
         //delete old votes
         hibernateAdapter.clearVotesWhere(questionnaire.getId(), student.getIndexNumber());
 
@@ -43,11 +46,15 @@ public class VoteRouter {
     @GetMapping(value = "/vote/{hash}")
     public StudentVoteResults getStudentVotes(@PathVariable String hash) throws NotFoundException {
         QuestionnaireAccess questionnaireAccess = hibernateAdapter.getOneWhereEq(QuestionnaireAccess.class, "linkPath", hash);
-        if (questionnaireAccess == null) throw new NotFoundException("Invalid hash");
+        if (questionnaireAccess == null){
+            hibernateAdapter.closeTransaction();
+            throw new NotFoundException("Invalid hash");
+        }
         Student student = questionnaireAccess.getStudent();
         Questionnaire questionnaire = questionnaireAccess.getQuestionnaire();
-
-        return new StudentVoteResults(student, questionnaire);
+        StudentVoteResults studentVoteResults = new StudentVoteResults(student, questionnaire);
+        hibernateAdapter.closeTransaction();
+        return studentVoteResults;
 
 
     }
@@ -56,10 +63,13 @@ public class VoteRouter {
     public QuestionnaireResults getVotes(@PathVariable Long id) throws NotFoundException {
 
         Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, id);
-        if (questionnaire == null)
+        if (questionnaire == null) {
+            hibernateAdapter.closeTransaction();
             throw new NotFoundException("Not found questionnaire with id " + id);
-
+        }
         List<Vote> votes = questionnaire.getVotes();
-        return new QuestionnaireResults(votes, questionnaire);
+        QuestionnaireResults questionnaireResults = new QuestionnaireResults(votes, questionnaire);
+        hibernateAdapter.closeTransaction();
+        return questionnaireResults;
     }
 }
