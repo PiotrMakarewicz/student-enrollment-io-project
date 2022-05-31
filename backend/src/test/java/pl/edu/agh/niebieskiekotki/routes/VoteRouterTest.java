@@ -27,7 +27,8 @@ public class VoteRouterTest extends AbstractRouterTest {
                 .perform(MockMvcRequestBuilders.post(uri)
                         .content("""
                                 {
-                                    "selectedTerms":[1,2,3]
+                                    "selectedTerms":[1,2,3],
+                                    "impossibleTerms":{"37": "kokoro", "47": "no tsumi"}
                                 }""").contentType("application/json")
                         .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 

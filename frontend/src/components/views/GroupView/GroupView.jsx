@@ -32,7 +32,7 @@ function GroupView() {
     };
 
     const askForResults = async () => {
-        const response = await http.get(
+        await http.get(
             `/generate_results/${id}/${numberOfGroupsState.number_of_groups}`
         );
     };

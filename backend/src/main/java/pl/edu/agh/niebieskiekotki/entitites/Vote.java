@@ -16,7 +16,7 @@ public class Vote {
     @JoinColumn(name = "student_id")
     private Student student;
 
-    private int type;
+    private int type; // type = 1 -> term available, type = 2 -> term impossible
 
     @ManyToOne
     @JoinColumn(name = "term_id")
@@ -72,5 +72,13 @@ public class Vote {
 
     public void setTerm(Term term) {
         this.term = term;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

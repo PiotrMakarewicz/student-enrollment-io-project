@@ -27,7 +27,7 @@ function ClientViewForm() {
         emailAddress: "",
         availableTermsSet: new Set(),
         selectedTerms: new Set(),
-        impossibleTerms: {},
+        impossibleTerms: new Map(),
         termsInfo: null,
         loadingState: 0,
         subjectName: ""
@@ -41,6 +41,8 @@ function ClientViewForm() {
                 ...state,
                 availableTermsSet: new Set(data["availableTerms"]),
                 selectedTerms: new Set(data["selectedTerms"]),
+                // eslint-disable-next-line no-new-object
+                impossibleTerms: new Object(data["impossibleTerms"]),
                 termsInfo: (await http.get("/terms"))["data"],
                 loadingState: 1,
                 subjectName: data["label"],
@@ -61,7 +63,7 @@ function ClientViewForm() {
             indexNumber,
             emailAddress,
             selectedTerms: Array.from(selectedTerms),
-            impossibleTerms: Array.from(impossibleTerms)
+            impossibleTerms: impossibleTerms
         });
 
         toast.success("Questionnaire sent", {
