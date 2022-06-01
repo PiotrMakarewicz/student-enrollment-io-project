@@ -21,6 +21,9 @@ function ImpossibilitiesAcceptance() {
         loading: true,
         decision: []
     });
+    const [inposibilitesState, setImposibilites] = useState({
+        imposibillities : "" 
+    });
 
     useEffect(() => {
         (async function () {
@@ -35,7 +38,7 @@ function ImpossibilitiesAcceptance() {
             }
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id]);
+    }, [id,inposibilitesState]);
 
     function button(mode, key) {
         let newDecision = [...state.decision];
@@ -53,15 +56,15 @@ function ImpossibilitiesAcceptance() {
                 decision.push(state.data.votes[i].id);
             }
         }
+        try {
         const response = await http.post(`/impossibilities/${id}`, {
             deletedImpossibilities: decision
         });
-        setState({
-            ...state,
-            votes: [],
-            loading: false,
-            decision: []
-        });
+        }
+        finally{
+        setImposibilites({...inposibilitesState,imposibillities : "1"})
+        // window.location = window.location.href;
+    }
     }
 
     return (
