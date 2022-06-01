@@ -42,7 +42,18 @@ public class GroupGeneratorTests {
         studentTerms.put(s7, List.of(t1, t2, t3, t4, t5, t6));
         studentTerms.put(s8, List.of(t4, t5, t7));
 
-        GenerationOutput output = generator.generate(studentTerms, 3, 3);
+        Map<Student, List<Term>> studentImpossibleTerms = new HashMap<>();
+
+        studentImpossibleTerms.put(s1, List.of(t4));
+        studentImpossibleTerms.put(s2, List.of(t1, t4));
+        studentImpossibleTerms.put(s3, List.of(t1, t5, t7));
+        studentImpossibleTerms.put(s4, List.of());
+        studentImpossibleTerms.put(s5, List.of(t1));
+        studentImpossibleTerms.put(s6, List.of(t5, t6, t7));
+        studentImpossibleTerms.put(s7, List.of(t7));
+        studentImpossibleTerms.put(s8, List.of(t1, t2));
+
+        GenerationOutput output = generator.generate(studentTerms, studentImpossibleTerms, 3, 3);
 
         testOutput(output, List.of(s1, s2, s3, s4, s5, s6, s7, s8), studentTerms, 3);
     }
@@ -52,12 +63,14 @@ public class GroupGeneratorTests {
         List<Student> students = new ArrayList<>();
         List<Term> terms = new ArrayList<>();
         Map<Student, List<Term>> studentTerms = new HashMap<>();
+        Map<Student, List<Term>> studentImpossibleTerms = new HashMap<>();
 
         studentsInit(students, 30);
         termsInit(terms, 9);
         studentTermsInit(studentTerms, students, terms, 3);
+        studentTermsInit(studentImpossibleTerms, students, terms, 2);
 
-        GenerationOutput output = generator.generate(studentTerms, 3, 3);
+        GenerationOutput output = generator.generate(studentTerms, studentImpossibleTerms, 3, 3);
 
         printOutputStats(output);
     }
@@ -73,16 +86,18 @@ public class GroupGeneratorTests {
             List<Student> students = new ArrayList<>();
             List<Term> terms = new ArrayList<>();
             Map<Student, List<Term>> studentTerms = new HashMap<>();
+            Map<Student, List<Term>> studentImpossibleTerms = new HashMap<>();
 
             studentsInit(students, 30);
             termsInit(terms, 15);
             studentTermsInit(studentTerms, students, terms, 3);
+            studentTermsInit(studentImpossibleTerms, students, terms, 2);
 
-            GenerationOutput output1 = generator.generate(studentTerms, 4, 1);
+            GenerationOutput output1 = generator.generate(studentTerms, studentImpossibleTerms, 4, 1);
 
-            GenerationOutput output2 = generator.generate(studentTerms, 4, 2);
+            GenerationOutput output2 = generator.generate(studentTerms, studentImpossibleTerms, 4, 2);
 
-            GenerationOutput output3 = generator.generate(studentTerms, 4, 3);
+            GenerationOutput output3 = generator.generate(studentTerms, studentImpossibleTerms, 4, 3);
 
             sumUnassigned1 += output1.getUnassignedStudents().size();
             sumUnassigned2 += output2.getUnassignedStudents().size();
@@ -99,16 +114,18 @@ public class GroupGeneratorTests {
         List<Student> students = new ArrayList<>();
         List<Term> terms = new ArrayList<>();
         Map<Student, List<Term>> studentTerms = new HashMap<>();
+        Map<Student, List<Term>> studentImpossibleTerms = new HashMap<>();
 
         studentsInit(students, 30);
         termsInit(terms, 15);
         studentTermsInit(studentTerms, students, terms, 5);
+        studentTermsInit(studentImpossibleTerms, students, terms, 2);
 
-        GenerationOutput output1 = generator.generate(studentTerms, 2, 1);
+        GenerationOutput output1 = generator.generate(studentTerms, studentImpossibleTerms, 2, 1);
 
-        GenerationOutput output2 = generator.generate(studentTerms, 2, 2);
+        GenerationOutput output2 = generator.generate(studentTerms, studentImpossibleTerms, 2, 2);
 
-        GenerationOutput output3 = generator.generate(studentTerms, 2, 3);
+        GenerationOutput output3 = generator.generate(studentTerms, studentImpossibleTerms, 2, 3);
 
         System.out.println("First algorithm:");
         printOutputStats(output1);
