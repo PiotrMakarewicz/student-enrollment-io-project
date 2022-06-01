@@ -7,6 +7,7 @@ import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.NotFoundException;
 import pl.edu.agh.niebieskiekotki.views.DeletedImpossibilitiesView;
 import pl.edu.agh.niebieskiekotki.views.ImpossibilitiesView;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class ImpossibilityRouter {
     public ImpossibilityRouter(HibernateAdapter hibernateAdapter) {
         this.hibernateAdapter = hibernateAdapter;
     }
-
+    @Transactional
     @GetMapping(value = "/impossibilities/{id}")
     public ImpossibilitiesView getImpossibilities(@PathVariable Long id) throws NotFoundException {
         List<Vote> votes = hibernateAdapter.getWhereEq(Vote.class, "questionnaire", id);
@@ -33,7 +34,7 @@ public class ImpossibilityRouter {
         }
         return new ImpossibilitiesView(votesWithImposibilities);
     }
-
+    @Transactional
     @PostMapping(value = "/impossibilities/{id}")
     public void deleteImpossibilities(@PathVariable Long id, @RequestBody DeletedImpossibilitiesView deleted) throws NotFoundException {
 
