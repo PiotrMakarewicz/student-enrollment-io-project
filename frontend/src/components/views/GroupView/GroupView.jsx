@@ -21,7 +21,7 @@ function GroupView() {
         hasData: false
     });
     const [numberOfGroupsState, setNumberOfGroupsState] = useState({
-        number_of_groups: 0
+        number_of_groups: 1
     });
     let maxGroupSize = 1;
     const daysArr = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -142,7 +142,7 @@ function GroupView() {
                             });
                         }}
                         id={"number_of_groups"}
-                        min="0"
+                        min="1"
                         style={{
                             width:
                                 (numberOfGroupsState.number_of_groups.toString().length + 4) * 8 +
