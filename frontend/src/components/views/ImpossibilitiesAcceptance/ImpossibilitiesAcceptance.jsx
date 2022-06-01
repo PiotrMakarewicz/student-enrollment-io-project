@@ -48,13 +48,13 @@ function ImpossibilitiesAcceptance() {
 
     async function onSubmit() {
         let decision = [];
-        for (let i = 0; i < state.data.votes; i++) {
+        for (let i = 0; i < state.data.votes.length; i++) {
             if (state.decision[i] === "rejected") {
                 decision.push(state.data.votes[i].id);
             }
         }
         const response = await http.post(`/impossibilities/${id}`, {
-            rejected: decision
+            deletedImpossibilities: decision
         });
         setState({
             ...state,
@@ -116,7 +116,7 @@ function ImpossibilitiesAcceptance() {
                             ))}
                             <Submit
                                 value={"Submit"}
-                                onClick={onSubmit}
+                                onSubmit={onSubmit}
                             ></Submit>
                         </>
                     )}
