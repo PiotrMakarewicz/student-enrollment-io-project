@@ -9,6 +9,7 @@ import LecturerForm from "./LecturerForm";
 import QuestionnaireResults from "./QuestionnaireResults";
 import GroupView from "./GroupView/GroupView";
 import ViewSwitch from "./ViewSwitch/ViewSwitch";
+import ImpossibilitiesAcceptance from "./ImpossibilitiesAcceptance/ImpossibilitiesAcceptance";
 
 export {
     ChooseForm,
@@ -17,5 +18,6 @@ export {
     QuestionnaireResults,
     GroupView,
     ViewSwitch,
-    LecturerQuestionaire
+    LecturerQuestionaire,
+    ImpossibilitiesAcceptance
 };
