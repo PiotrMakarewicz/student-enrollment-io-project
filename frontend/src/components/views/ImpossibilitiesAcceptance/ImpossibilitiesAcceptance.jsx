@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import http from "../../../services/http";
 import { Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import TextareaAutosize from "react-textarea-autosize";
 import { DayHeader, TermHeader, GroupBody } from "../../group";
 import "./impossibilities.css";
+import { Submit } from "../../form/basic";
 
 /**
  * @description function returning view with impossibilities in current questionnaire
@@ -17,78 +19,50 @@ function ImpossibilitiesAcceptance() {
     const [state, setState] = useState({
         data: [],
         loading: true,
-        hasData: false
+        decision: []
     });
-    
-    const daysArr = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const sortDays = function (a, b) {
-        a = daysArr.indexOf(a.name);
-        b = daysArr.indexOf(b.name);
-        return a < b ? -1 : 1;
-    };
-
 
     useEffect(() => {
         (async function () {
             const response = await http.get(`/impossibilities/${id}`);
             if (response.ok) {
-                {console.log(response);}
                 setState({
                     ...state,
                     data: response["data"],
                     loading: false,
-                    hasData: true
-                });
-            } else {
-                setState({
-                    ...state,
-                    loading: false,
-                    hasData: false
+                    decision: new Array(response["data"].votes.length).fill("default")
                 });
             }
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
-    // const days = [];
-    // state.data.forEach((el) => {
-    //     const student = `${el.student.firstName} ${el.student.lastName}`.trim();
-    //     if (days.some((e) => e.name === el.term.day)) {
-    //         let day = days.find((e) => e.name === el.term.day);
-    //         if (!day.terms.some((e) => e.timeslot.id === el.term.timeslot.id)) {
-    //             day.terms = [...day.terms, { timeslot: el.term.timeslot, students: [student] }];
-    //             day.termsCount += 1;
-    //         } else {
-    //             let term = day.terms.find((e) => e.timeslot.id === el.term.timeslot.id);
-    //             term.students = [...term.students, student];
-    //             if (term.students.length > maxGroupSize) maxGroupSize = term.students.length;
-    //         }
-    //     } else {
-    //         const day = {
-    //             name: el.term.day,
-    //             terms: [{ timeslot: el.term.timeslot, students: [student] }],
-    //             termsCount: 1
-    //         };
-    //         days.push(day);
-    //     }
-    // });
+    function button(mode, key) {
+        let newDecision = [...state.decision];
+        newDecision[key] = mode;
+        setState({
+            ...state,
+            decision: newDecision
+        });
+    }
 
-    // const cols = Array.from(days).sort(sortDays);
-
-    // let rows = [];
-    // for (let count = 0; count < maxGroupSize; count++) {
-    //     let row = [];
-    //     for (let i = 0; i < cols.length; i++) {
-    //         for (let j = 0; j < cols[i].termsCount; j++) {
-    //             if (count >= cols[i].terms[j].students.length) {
-    //                 row.push("");
-    //             } else {
-    //                 row.push(cols[i].terms[j].students[count]);
-    //             }
-    //         }
-    //     }
-    //     rows.push(row);
-    // }
+    async function onSubmit() {
+        let decision = [];
+        for (let i = 0; i < state.data.votes; i++) {
+            if (state.decision[i] === "rejected") {
+                decision.push(state.data.votes[i].id);
+            }
+        }
+        const response = await http.post(`/impossibilities/${id}`, {
+            rejected: decision
+        });
+        setState({
+            ...state,
+            votes: [],
+            loading: false,
+            decision: []
+        });
+    }
 
     return (
         <>
@@ -97,13 +71,56 @@ function ImpossibilitiesAcceptance() {
                     <Spinner animation="border" />
                 </>
             ) : (
-                <div>
-                    {state.data.votes.map((vote, key) =>{
-                        <input className="default" readOnly={true} defaultValue={vote.questionnaire.label}/>
-                    })
-
-                    }
-                </div>
+                <>
+                    {state.data.votes.length === 0 ? (
+                        <label>There are no impossibilities to resolve</label>
+                    ) : (
+                        <>
+                            {state.data.votes.map((vote, key) => (
+                                <div
+                                    className="impossibilities"
+                                    key={key}
+                                >
+                                    <label>
+                                        {vote.student.firstName} {vote.student.lastName} at{" "}
+                                        {vote.term.day} {vote.term.timeslot.startTime.slice(0, -3)}{" "}
+                                        - {vote.term.timeslot.endTime.slice(0, -3)}
+                                    </label>
+                                    <br />
+                                    <TextareaAutosize
+                                        className={state.decision[key]}
+                                        readOnly={true}
+                                        defaultValue={vote.note}
+                                        resize="none"
+                                    />
+                                    <br />
+                                    <button
+                                        type="submit"
+                                        className="buttons"
+                                        onClick={() => {
+                                            button("accepted", key);
+                                        }}
+                                    >
+                                        Accept
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="buttons"
+                                        onClick={() => {
+                                            button("rejected", key);
+                                        }}
+                                    >
+                                        Reject
+                                    </button>
+                                </div>
+                            ))}
+                            <Submit
+                                value={"Submit"}
+                                onClick={onSubmit}
+                            ></Submit>
+                        </>
+                    )}
+                </>
             )}
         </>
     );
