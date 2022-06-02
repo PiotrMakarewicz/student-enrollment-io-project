@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { QuestionnaireResults, GroupView } from "../";
+import { QuestionnaireResults, GroupView, ImpossibilitiesAcceptance } from "../";
 import { Link } from "react-router-dom";
 import "./styles.css";
 
@@ -61,8 +61,7 @@ function ViewSwitch({ values, selected_ }) {
             <div className="app">
                 {state.selected === "Results" && <QuestionnaireResults />}
                 {state.selected === "Groups" && <GroupView />}
-                {state.selected === "Impossibility" && <GroupView />}
-                <hr />
+                {state.selected === "Impossibility" && <ImpossibilitiesAcceptance />}
             </div>
         </>
     );

@@ -55,6 +55,12 @@
     padding: 0;
 }
 
+.app + hr {
+    height: 2px;
+    width: 90%;
+    border-radius: 1px;
+}
+
 .backArrow {
     top: 1.45rem;
     left: 1.45rem;

@@ -10,7 +10,7 @@ import React from "react";
 
 const styles = {
     formStyle: {
-        padding: "1.25em 1em",
+        padding: "1.25em 1.5em",
         margin: ".75em .25em",
         height: "fit-content",
         backgroundColor: "var(--bs-gray-700)",

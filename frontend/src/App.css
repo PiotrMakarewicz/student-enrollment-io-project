@@ -120,7 +120,7 @@ title {
     justify-content: flex-end;
     flex-direction: row;
     bottom: 3rem;
-    right: 2.5rem;
+    right: 3rem;
     background: linear-gradient(to bottom right, var(--accent-clr-3), var(--accent-clr));
     /* background-color: var(--accent-clr); */
     border: 0;

@@ -15,7 +15,9 @@ import java.util.stream.Collectors;
 @Component
 public class GenerationAlgorithm {
 
-    public GenerationOutput generate(Map<Student, List<Term>> studentsTerms, int numGroups,
+    public GenerationOutput generate(Map<Student, List<Term>> studentsTerms,
+                                     Map<Student, List<Term>> studentsImpossibleTerms,
+                                     int numGroups,
                                      int algorithmVersion, int groupSizeVariation){
         Set<Term> allTerms = getAllTerms(studentsTerms);
         int additionalTerms = additionalTermsFunction(numGroups);
@@ -30,11 +32,11 @@ public class GenerationAlgorithm {
         }
 
         GenerationOutput output = runCorrectAlgorithm(studentsTerms, algorithmVersion,
-                candidateTerms, termIndexes, groupSizeVariation);
+                candidateTerms, termIndexes, studentsImpossibleTerms, groupSizeVariation);
 
         while (createNextIndexes(termIndexes, candidateTerms.size())) {
             GenerationOutput newOutput = runCorrectAlgorithm(studentsTerms, algorithmVersion,
-                    candidateTerms, termIndexes, groupSizeVariation);
+                    candidateTerms, termIndexes, studentsImpossibleTerms, groupSizeVariation);
 
             if (newOutput.getUnassignedStudents().size() < output.getUnassignedStudents().size()){
                 output = newOutput;
@@ -43,22 +45,26 @@ public class GenerationAlgorithm {
 
         return output;
     }
-    public GenerationOutput generate(Map<Student, List<Term>> studentsTerms, int numGroups, int algorithmVersion){
-        return generate(studentsTerms, numGroups, algorithmVersion, 1);
+    public GenerationOutput generate(Map<Student, List<Term>> studentsTerms,
+                                     Map<Student, List<Term>> studentsImpossibleTerms,
+                                     int numGroups,
+                                     int algorithmVersion){
+        return generate(studentsTerms, studentsImpossibleTerms, numGroups, algorithmVersion, 1);
     }
 
     private GenerationOutput runCorrectAlgorithm(Map<Student, List<Term>> studentsTerms, int algorithmVersion,
                                                  List<Term> candidateTerms, List<Integer> termIndexes,
+                                                 Map<Student, List<Term>> studentsImpossibleTerms,
                                                  int groupSizeVariation){
         if (algorithmVersion == 1) {
             return divideForTerms(studentsTerms, chooseTerms(candidateTerms, termIndexes));
         } else if (algorithmVersion == 2) {
             return divideForTermsSecondAlgorithm(studentsTerms, chooseTerms(candidateTerms, termIndexes),
-                    groupSizeVariation);
+                    studentsImpossibleTerms, groupSizeVariation);
         } else if (algorithmVersion == 3) {
             GenerationOutput output1 = divideForTerms(studentsTerms, chooseTerms(candidateTerms, termIndexes));
             GenerationOutput output2 = divideForTermsSecondAlgorithm(studentsTerms, chooseTerms(candidateTerms, termIndexes),
-                    groupSizeVariation);
+                    studentsImpossibleTerms, groupSizeVariation);
             if (rateOutput(output1) < rateOutput(output2)){
                 return output1;
             }
@@ -128,6 +134,7 @@ public class GenerationAlgorithm {
     }
 
     private GenerationOutput divideForTermsSecondAlgorithm(Map<Student, List<Term>> studentsTerms, Set<Term> terms,
+                                                           Map<Student, List<Term>> studentsImpossibleTerms,
                                                            int groupSizeVariation){
         Set<Student> allStudents = studentsTerms.keySet();
         int averageGroupSize = (int) Math.round(((double) allStudents.size() / terms.size()));
@@ -165,12 +172,25 @@ public class GenerationAlgorithm {
         for (var student: allStudents){
             network.addVertex(student);
             supplyDict.put(student, 1);
-            for (var term : studentsTerms.get(student)) {
-                if (network.containsVertex(term)) {
+//            for (var term : studentsTerms.get(student)) {
+//                if (network.containsVertex(term)) {
+//                    network.addEdge(student, term);
+//                    capacityDict.put(network.getEdge(student, term), 1);
+//                    minCapacityDict.put(network.getEdge(student, term), 0);
+//                    network.setEdgeWeight(student, term, -500);
+//                }
+//            }
+            for (Term term : terms){
+                if (studentsTerms.get(student).contains(term)){
                     network.addEdge(student, term);
                     capacityDict.put(network.getEdge(student, term), 1);
                     minCapacityDict.put(network.getEdge(student, term), 0);
                     network.setEdgeWeight(student, term, -100);
+                } else if (!studentsImpossibleTerms.get(student).contains(term)) {
+                    network.addEdge(student, term);
+                    capacityDict.put(network.getEdge(student, term), 1);
+                    minCapacityDict.put(network.getEdge(student, term), 0);
+                    network.setEdgeWeight(student, term, -2);
                 }
             }
             network.addEdge(student, unassigned);
@@ -190,9 +210,21 @@ public class GenerationAlgorithm {
 
         GenerationOutput output = new GenerationOutput(terms);
 
-        for (Map.Entry<Student, List<Term>> entry : studentsTerms.entrySet()) {
-            Student student = entry.getKey();
-            for (Term term : entry.getValue()) {
+//        for (Map.Entry<Student, List<Term>> entry : studentsTerms.entrySet()) {
+//            Student student = entry.getKey();
+//            for (Term term : entry.getValue()) {
+//                if (flowMap.getOrDefault(network.getEdge(student, term), 0.0) > 0){
+//                    //System.out.println("Student " + student.getId() + " goes to group " + term.getId());
+//                    output.getTermStudents().get(term).add(student);
+//                }
+//            }
+//            if (flowMap.getOrDefault(network.getEdge(student, unassigned), 0.0) > 0){
+//                output.getUnassignedStudents().add(student);
+//            }
+//        }
+
+        for (var student: allStudents){
+            for (Term term : terms){
                 if (flowMap.getOrDefault(network.getEdge(student, term), 0.0) > 0){
                     //System.out.println("Student " + student.getId() + " goes to group " + term.getId());
                     output.getTermStudents().get(term).add(student);

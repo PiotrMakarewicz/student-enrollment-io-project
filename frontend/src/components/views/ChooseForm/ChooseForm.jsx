@@ -5,7 +5,6 @@ import "./choose.css";
 import SimpleWrapper from "../../SimpleWrapper";
 import { Spinner } from "react-bootstrap";
 import FloatingActionButton from "../../form/services/FloatingActionButton";
-import { getLoggedUser } from "../../../services/auth";
 
 /**
  * Example form
@@ -64,8 +63,6 @@ function ChooseForm() {
     // 3 - app could not divide students into groups
 
     // I don't know if states 2 and 3 will be used, but they are implemented here nevertheless
-
-    const user = getLoggedUser();
 
     const [state, setState] = useState({
         forms: [],
