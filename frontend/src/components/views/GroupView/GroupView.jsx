@@ -3,6 +3,7 @@ import http from "../../../services/http";
 import { Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { DayHeader, TermHeader, GroupBody } from "../../group";
+import NumberPicker from "react-widgets/NumberPicker";
 import "./styles.css";
 
 /**
@@ -32,11 +33,13 @@ function GroupView() {
     };
 
     const askForResults = async () => {
+        setState({ ...state, loading: true });
         await http.get(
             `/generate_results/${id}/${
                 numberOfGroupsState.number_of_groups > 0 ? numberOfGroupsState.number_of_groups : 1
             }`
         );
+        setState({ ...state, loading: false });
     };
 
     useEffect(() => {
@@ -128,19 +131,16 @@ function GroupView() {
 
                         <div className="groupsNumber">
                             <label>Number of groups: </label>
-                            <input
-                                type="number"
+
+                            <NumberPicker
+                                defaultValue={numberOfGroupsState.number_of_groups}
                                 min={1}
                                 max={20}
-                                value={numberOfGroupsState.number_of_groups}
+                                className="numberPicker"
                                 onChange={(v) => {
-                                    console.log(typeof v.target.value);
                                     setNumberOfGroupsState({
                                         ...numberOfGroupsState,
-                                        number_of_groups: parseInt(
-                                            v.target.value > 20 ? 20 : v.target.value,
-                                            10
-                                        )
+                                        number_of_groups: parseInt(v > 20 ? 20 : v, 10)
                                     });
                                 }}
                                 id={"number_of_groups"}

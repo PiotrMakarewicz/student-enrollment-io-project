@@ -14,7 +14,7 @@ const styles = {
         margin: ".75em .25em",
         height: "fit-content",
         backgroundColor: "var(--bs-gray-700)",
-        boxShadow: "0 8px 16px 4px ##6c757d",
+        boxShadow: "0 4px 16px 4px #6c757d",
         borderRadius: ".25em",
         display: "flex",
         flexDirection: "column",

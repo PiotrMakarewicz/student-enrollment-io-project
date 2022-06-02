@@ -46,6 +46,7 @@ const download = async (path, filename, extension) => {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
+            Accept: "application/json",
             "auth-token": token,
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
@@ -61,6 +62,7 @@ const get = async (path, options) => {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
+            Accept: "application/json",
             "auth-token": token,
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
@@ -76,6 +78,7 @@ const post = async (path, body) => {
         body: JSON.stringify(body),
         headers: {
             "Content-Type": "application/json",
+            Accept: "application/json",
             "auth-token": token,
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"

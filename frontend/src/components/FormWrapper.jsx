@@ -38,15 +38,7 @@ function FormWrapper(props) {
         });
     });
 
-    return (
-        <form
-            className="needs-validation"
-            noValidate
-            style={styles.formStyle}
-        >
-            {clones}
-        </form>
-    );
+    return <form style={styles.formStyle}>{clones}</form>;
 }
 
 export default FormWrapper;

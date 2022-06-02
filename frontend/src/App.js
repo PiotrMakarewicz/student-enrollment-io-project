@@ -12,7 +12,7 @@ import StartPage from "./components/StartPage";
 
 function App() {
     const user = getLoggedUser();
-    console.log(user);
+    // console.log(user);
 
     return (
         <>

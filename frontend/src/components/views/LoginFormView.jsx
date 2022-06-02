@@ -5,8 +5,6 @@ import { login } from "../../services/auth";
 import { Link } from "react-router-dom";
 
 function LoginFormView() {
-    console.log("render");
-
     const [state, setState] = useState({
         email: "",
         emailError: "",
@@ -20,7 +18,7 @@ function LoginFormView() {
         let regexEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
         if (!newEmail.match(regexEmail)) emailError = "Email is no valid";
         else emailError = null;
-        console.log(newEmail, { ...state, email: newEmail, emailError });
+        // console.log(newEmail, { ...state, email: newEmail, emailError });
         setState({ ...state, email: newEmail, emailError });
     };
 

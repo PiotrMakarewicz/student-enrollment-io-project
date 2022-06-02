@@ -6,18 +6,16 @@ import Dropzone from "react-dropzone";
  *
  * @example <DropZone fileHandler ={(file)=>console.log(file)}/>
  */
-//                 ".csv, text/csv, application/vnd.ms-excel, application/csv, text/x-csv, application/x-csv, text/comma-separated-values, text/x-comma-separated-values"
 
 function DropZone({ fileHandler }) {
     return (
         <Dropzone
             onDrop={(acceptedFiles) => {
-                console.log(acceptedFiles);
                 document.getElementById("selectedFileLabel").innerHTML = acceptedFiles[0]["path"];
                 fileHandler(acceptedFiles);
             }}
-            // accept={[".xslx, .csv"]}
             maxFiles={1}
+            accept={[".txt", ".xlsx", ".csv"]}
         >
             {({ getRootProps, getInputProps }) => (
                 <div className="form-group">
@@ -31,7 +29,6 @@ function DropZone({ fileHandler }) {
                                 className="file-message"
                                 id="selectedFileLabel"
                             >
-                                {" "}
                                 or drag and drop files here
                             </span>
                         </div>

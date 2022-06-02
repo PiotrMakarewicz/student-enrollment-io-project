@@ -176,3 +176,7 @@ title {
 .Toastify__toast-body {
     white-space: break-spaces !important;
 }
+
+.spinner-border {
+    margin-top: 3rem;
+}
