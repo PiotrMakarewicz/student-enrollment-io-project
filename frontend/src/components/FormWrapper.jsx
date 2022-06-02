@@ -19,7 +19,7 @@ const styles = {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        width: "70vw",
+        width: "55vw",
         color: "white"
     }
 };
@@ -38,7 +38,15 @@ function FormWrapper(props) {
         });
     });
 
-    return <form style={styles.formStyle}>{clones}</form>;
+    return (
+        <form
+            className="needs-validation"
+            noValidate
+            style={styles.formStyle}
+        >
+            {clones}
+        </form>
+    );
 }
 
 export default FormWrapper;

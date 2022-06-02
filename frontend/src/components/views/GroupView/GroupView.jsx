@@ -21,7 +21,7 @@ function GroupView() {
         hasData: false
     });
     const [numberOfGroupsState, setNumberOfGroupsState] = useState({
-        number_of_groups: 0
+        number_of_groups: 1
     });
     let maxGroupSize = 1;
     const daysArr = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -33,7 +33,9 @@ function GroupView() {
 
     const askForResults = async () => {
         await http.get(
-            `/generate_results/${id}/${numberOfGroupsState.number_of_groups}`
+            `/generate_results/${id}/${
+                numberOfGroupsState.number_of_groups > 0 ? numberOfGroupsState.number_of_groups : 1
+            }`
         );
     };
 
@@ -124,6 +126,26 @@ function GroupView() {
                             </tbody>
                         </table>
 
+                        <div className="groupsNumber">
+                            <label>Number of groups: </label>
+                            <input
+                                type="number"
+                                min={1}
+                                max={20}
+                                value={numberOfGroupsState.number_of_groups}
+                                onChange={(v) => {
+                                    console.log(typeof v.target.value);
+                                    setNumberOfGroupsState({
+                                        ...numberOfGroupsState,
+                                        number_of_groups: parseInt(
+                                            v.target.value > 20 ? 20 : v.target.value,
+                                            10
+                                        )
+                                    });
+                                }}
+                                id={"number_of_groups"}
+                            />
+                        </div>
                         <button
                             className="generateGroupsButton"
                             onClick={askForResults}
@@ -131,24 +153,6 @@ function GroupView() {
                             Generate groups
                         </button>
                     </div>
-                    <label>Number Of Groups: </label>
-                    <input
-                        type={"number"}
-                        value={numberOfGroupsState.number_of_groups}
-                        onChange={(v) => {
-                            setNumberOfGroupsState({
-                                ...numberOfGroupsState,
-                                number_of_groups: v.target.value
-                            });
-                        }}
-                        id={"number_of_groups"}
-                        min="0"
-                        style={{
-                            width:
-                                (numberOfGroupsState.number_of_groups.toString().length + 4) * 8 +
-                                "px"
-                        }}
-                    />
                 </div>
             )}
         </>

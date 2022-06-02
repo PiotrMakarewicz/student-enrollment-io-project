@@ -51,13 +51,16 @@ function LecturerForm() {
             students_info,
             auto_sending_links
         } = state;
+
         const response = await http.post("/questionnaires", {
             expirationDate: new Date(
-                date_input.getFullYear(),
-                date_input.getMonth(),
-                date_input.getDate(),
-                time_input.getHours(),
-                time_input.getMinutes()
+                Date.UTC(
+                    date_input.getFullYear(),
+                    date_input.getMonth(),
+                    date_input.getDate(),
+                    time_input.getHours(),
+                    time_input.getMinutes()
+                )
             ),
             label: name_input,
             availableTerms: Array.from(selected_terms),
@@ -84,6 +87,19 @@ function LecturerForm() {
                 selected_terms: new Set(),
                 auto_sending_links: true
             });
+        } else {
+            toast.error(
+                "Could not create new questionnaire.\nTry again later or contact the server administrator.",
+                {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined
+                }
+            );
         }
     };
     function fileHandler(files) {
@@ -109,6 +125,25 @@ function LecturerForm() {
         setState({ ...state });
     };
 
+    const forms = document.querySelectorAll(".needs-validation");
+
+    console.log(forms);
+    Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener(
+            "submit",
+            function (event) {
+                console.log("dupas");
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+
+                form.classList.add("was-validated");
+            },
+            false
+        );
+    });
+
     return (
         <>
             {state.loading ? (
@@ -126,6 +161,7 @@ function LecturerForm() {
                             onChange={(v) => setState({ ...state, name_input: v })}
                             id={"name_input"}
                         />
+                        <div class="invalid-feedback">You must agree before submitting.</div>
 
                         <Input
                             type={"text"}
@@ -141,6 +177,7 @@ function LecturerForm() {
                                 <label htmlFor="date_picker">Expiry Date</label>
                                 <DatePicker
                                     defaultValue={new Date()}
+                                    minDate={new Date()}
                                     className="mb-1"
                                     value={state.date_input}
                                     id="date_picker"
@@ -180,7 +217,7 @@ function LecturerForm() {
                             termsInfo={state.terms_info}
                         />
                         <Submit
-                            value={"Continue"}
+                            value={"Create"}
                             onSubmit={onSubmit}
                         />
                     </FormWrapper>

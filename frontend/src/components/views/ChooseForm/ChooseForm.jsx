@@ -5,6 +5,7 @@ import "./choose.css";
 import SimpleWrapper from "../../SimpleWrapper";
 import { Spinner } from "react-bootstrap";
 import FloatingActionButton from "../../form/services/FloatingActionButton";
+import { getLoggedUser } from "../../../services/auth";
 
 /**
  * Example form
@@ -64,16 +65,21 @@ function ChooseForm() {
 
     // I don't know if states 2 and 3 will be used, but they are implemented here nevertheless
 
+    const user = getLoggedUser();
+
     const [state, setState] = useState({
         forms: [],
         loading: true
     });
     useEffect(() => {
         (async function () {
-            setState({
-                forms: (await http.get("/questionnaires")).data,
-                loading: false
-            });
+            const response = await http.get("/questionnaires");
+            if (response.ok) {
+                setState({
+                    forms: (await http.get("/questionnaires")).data,
+                    loading: false
+                });
+            }
         })();
     }, []);
 

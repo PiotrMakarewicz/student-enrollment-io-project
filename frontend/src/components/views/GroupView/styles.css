@@ -1,3 +1,7 @@
+.groupView {
+    display: flex;
+    flex-direction: column;
+}
 .groupView table {
     align-items: center;
     border-collapse: separate;
@@ -30,8 +34,45 @@
     box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.25);
     border-radius: 100px;
     position: relative;
-    margin: 1.8rem 0 4rem 0;
+    margin: 1.5rem 0;
     cursor: pointer;
     align-self: center;
+
+    color: var(--bg-primary);
+    border: 2px solid var(--accent-clr);
+    background-color: var(--bs-gray-100);
+    text-decoration: none;
+    padding: 0 1em;
+    border-radius: 10px;
+    transition: all 200ms ease-in;
 }
 
+.generateGroupsButton:hover {
+    background-color: var(--accent-clr);
+    color: white;
+    transition: all 200ms ease-in;
+}
+
+.groupsNumber {
+    display: flex;
+    margin: 2rem auto 0;
+    gap: 1em;
+}
+
+/* .form-control:focus, */
+/* #date_picker_input:focus, */
+input[type="number"]:focus {
+    border: 1px solid var(--accent-clr);
+    box-shadow: 0 0 0 0.25rem rgba(253, 148, 82, 0.25);
+}
+
+input[type="number"] {
+    border-radius: 0.25em;
+    border: 1px solid white;
+    max-width: 64px !important;
+    text-align: center;
+}
+
+input[type="number"]:focus-visible {
+    outline: none;
+}
