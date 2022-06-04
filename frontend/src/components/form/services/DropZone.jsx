@@ -1,4 +1,5 @@
 import Dropzone from "react-dropzone";
+import { toast } from "react-toastify";
 /**
  * @memberof form
  *
@@ -15,6 +16,7 @@ function DropZone({ fileHandler }) {
                 console.log(isFilesCorrect);
                 if(isFilesCorrect){
                     document.getElementById("selectedFileLabel").innerHTML = acceptedFiles[0]["path"];
+                    toast.success("Succesfuly added file",acceptedFiles[0]["path"]);
                 }
                 
             }}
