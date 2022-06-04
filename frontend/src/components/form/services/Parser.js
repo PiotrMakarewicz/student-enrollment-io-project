@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 class Student {
     constructor(firstName, lastName, phoneNumber, fieldOfStudy, faculty, indexNumber, emailAdress) {
         this.firstName = firstName;
@@ -9,6 +10,34 @@ class Student {
         this.emailAddress = emailAdress;
     }
 }
+function createStudent(firstName, lastName, phoneNumber, fieldOfStudy, faculty, indexNumber, emailAdress){
+    const nameReg = /^\D+$/
+    const phoneReg = /^[0-9]{9}$/
+    const indexReg = /^[0-9]{6}$/
+    const emailReg = /^.+@[\\.a-z]+$/
+
+    if (!nameReg.test(firstName)){
+        toast.error("Invalid data in file","Name should contains only characters",firstName);
+        return null;
+    }
+    else if (!nameReg.test(lastName)){
+        toast.error("Invalid data in file","Name should contains only characters",lastName);
+        return null;
+    }
+    else if(!phoneReg.test(phoneNumber)){
+        toast.error("Invalid data in file","Wrong phonde number",phoneNumber);
+        return null;
+    }
+    else if(!indexReg.test(indexNumber)){
+        toast.error("Invalid data in file","Index number should have 6 digits",indexNumber);
+        return null;
+    }
+    else if(!emailReg.test(emailAdress.toLowerCase())){
+        toast.error("Invalid data in file","Wrong email address",emailAdress);
+        return null;
+    }
+    return new Student(firstName, lastName, phoneNumber, fieldOfStudy, faculty, indexNumber, emailAdress)
+}
 
 /**
  * function to convert array to Student object
@@ -17,7 +46,7 @@ class Student {
  * @returns Student object
  */
 function parseStudentRow(row) {
-    return new Student(row[0], row[1], row[2], row[3], row[4], row[5], row[6]);
+    return createStudent(row[0], row[1], row[2], row[3], row[4], row[5], row[6]);
 }
 
 /**
@@ -29,5 +58,8 @@ function parseStudentRow(row) {
 export function parseXlsxFile(fileData) {
     fileData.shift();
     var studentsList = fileData.map((el) => parseStudentRow(el));
+    if (studentsList.includes(null)){
+        return null;
+    }
     return studentsList;
 }

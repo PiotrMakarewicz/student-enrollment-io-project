@@ -87,10 +87,16 @@ function LecturerForm() {
         }
     };
     function fileHandler(files) {
-        readXlsxFile(files[0]).then((rows) => {
+        let isCorrect = true;
+        let v = readXlsxFile(files[0]).then((rows) => {
             let result = parseXlsxFile(rows);
+            if (result == null){
+                isCorrect = false;
+            }
             setState({ ...state, students_info: result });
         });
+        
+        return v.then(()=>{return isCorrect});
     }
 
     function handleSwitchChange() {

@@ -10,9 +10,13 @@ import Dropzone from "react-dropzone";
 function DropZone({ fileHandler }) {
     return (
         <Dropzone
-            onDrop={(acceptedFiles) => {
-                document.getElementById("selectedFileLabel").innerHTML = acceptedFiles[0]["path"];
-                fileHandler(acceptedFiles);
+            onDrop={async (acceptedFiles) => {
+                let isFilesCorrect = (await fileHandler(acceptedFiles));
+                console.log(isFilesCorrect);
+                if(isFilesCorrect){
+                    document.getElementById("selectedFileLabel").innerHTML = acceptedFiles[0]["path"];
+                }
+                
             }}
         >
             {({ getRootProps, getInputProps }) => (
