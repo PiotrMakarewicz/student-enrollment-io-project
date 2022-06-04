@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Entity
 public class Questionnaire {
 
-    @OneToMany(mappedBy = "questionnaire")
+    @OneToMany(mappedBy = "questionnaire", cascade = CascadeType.REMOVE)
     @JsonIgnore
     public List<QuestionnaireAccess> questionnaireAccesses;
 
@@ -23,14 +23,14 @@ public class Questionnaire {
         this.questionnaireTerms = questionnaireTerms;
     }
 
-    @OneToMany(mappedBy = "questionnaire")
+    @OneToMany(mappedBy = "questionnaire", cascade = CascadeType.REMOVE)
     @JsonIgnore
     public List<QuestionnaireTerm> questionnaireTerms;
-    @OneToMany(mappedBy = "questionnaire")
+    @OneToMany(mappedBy = "questionnaire", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Vote> votes;
 
-    @OneToMany(mappedBy = "questionnaire")
+    @OneToMany(mappedBy = "questionnaire", cascade = CascadeType.REMOVE)
     @JsonIgnore
     public List<Results> results;
     @Id
