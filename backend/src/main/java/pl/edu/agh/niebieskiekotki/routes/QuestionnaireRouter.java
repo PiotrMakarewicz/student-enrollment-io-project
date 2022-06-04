@@ -21,7 +21,6 @@ public class QuestionnaireRouter {
 
     private final HibernateAdapter hibernateAdapter;
     private final EmailService emailService;
-    List<Questionnaire> questionnaires = new ArrayList<>();
 
     public QuestionnaireRouter(HibernateAdapter hibernateAdapter, EmailService emailService) {
         this.hibernateAdapter = hibernateAdapter;
@@ -45,6 +44,10 @@ public class QuestionnaireRouter {
     @DeleteMapping(value = "/questionnaires/{id}")
     public void deleteOne(@RequestHeader("Auth-Token") String token, @PathVariable Long id) throws NotFoundException, UnauthorizedException {
         Questionnaire questionnaire = getTeachersQuestionnaire(token, id);
+
+        if (hibernateAdapter.getWhereEq(Results.class, "questionnaire", id).size() > 0)
+            hibernateAdapter.clearResultsWhere(id);
+
         hibernateAdapter.delete(questionnaire);
     }
 
