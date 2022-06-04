@@ -13,7 +13,6 @@ function DropZone({ fileHandler }) {
         <Dropzone
             onDrop={async (acceptedFiles) => {
                 let isFilesCorrect = (await fileHandler(acceptedFiles));
-                console.log(isFilesCorrect);
                 if(isFilesCorrect){
                     document.getElementById("selectedFileLabel").innerHTML = acceptedFiles[0]["path"];
                     toast.success("Succesfuly added file",acceptedFiles[0]["path"]);
