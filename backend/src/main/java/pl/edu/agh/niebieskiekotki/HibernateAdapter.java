@@ -37,6 +37,11 @@ public class HibernateAdapter {
         session.save(itemToSave);
     }
 
+    public <T> void delete(T item) {
+        Session session = getSession();
+        session.delete(item);
+    }
+
     public void clearDatabase() {
         Session session = getSession();
         for (QuestionnaireTerm qt : getAll(QuestionnaireTerm.class))
