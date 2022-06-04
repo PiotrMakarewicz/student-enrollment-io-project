@@ -2,6 +2,7 @@ package pl.edu.agh.niebieskiekotki.entities;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
 import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
 import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireAccess;
 import pl.edu.agh.niebieskiekotki.entitites.Student;

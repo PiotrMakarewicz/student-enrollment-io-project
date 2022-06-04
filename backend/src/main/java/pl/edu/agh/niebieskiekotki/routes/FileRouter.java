@@ -2,6 +2,7 @@ package pl.edu.agh.niebieskiekotki.routes;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,9 @@ import java.io.File;
 public class FileRouter {
 
     private final HibernateAdapter hibernateAdapter;
+
+    @Value("${app.serverPath}")
+    String serverUrl;
 
     public FileRouter(HibernateAdapter hibernateAdapter) {
         this.hibernateAdapter = hibernateAdapter;
@@ -88,7 +92,7 @@ public class FileRouter {
         Questionnaire questionnaire = hibernateAdapter.getById(Questionnaire.class, id);
         if (questionnaire == null)
             throw new NotFoundException("Not found questionnaire with id " + id);
-        HSSFWorkbook workbook = FileWithLinksCreator.createFileWithLinks(questionnaire, Language.ENGLISH);
+        HSSFWorkbook workbook = FileWithLinksCreator.createFileWithLinks(questionnaire, Language.ENGLISH, serverUrl);
         return createResponse(workbook,questionnaire.getLabel()+"Links.xlsx");
     }
 }

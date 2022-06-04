@@ -2,6 +2,7 @@ package pl.edu.agh.niebieskiekotki.routes;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MvcResult;
@@ -18,7 +19,7 @@ public class QuestionnaireRouterTest extends AbstractRouterTest {
 	}
 
 	@Test
-	public void getProductsList() throws Exception {
+	public void getAllQuestionares() throws Exception {
 
 		String uri = "/questionnaires";
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
@@ -44,14 +45,14 @@ public class QuestionnaireRouterTest extends AbstractRouterTest {
 
 		assertEquals("Should return status 200",200, status);
 
-		uri = "/questionnaires/12333";
+		uri = "/questionnaires/1";
 
 		mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
 				.header("Auth-Token","eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYW4ucHJvZmVzb3Jza2lAYWdoLmVkdS5wbCJ9.UDo9s4GiJzXDsPekwF6EMNQevup4NJT3Ns1rei09vhUrUajFvS2e8TJkpsPDjOtTBGV_oLoifwyA5i7FC1GHDg")
 				.accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 		status = mvcResult.getResponse().getStatus();
 
-		assertEquals("Should return status 404",404, status);
+		assertEquals("Should return status 200",200, status);
 	}
 
 	@Test

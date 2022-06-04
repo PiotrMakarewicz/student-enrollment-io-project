@@ -1,6 +1,7 @@
 package pl.edu.agh.niebieskiekotki.routes;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.niebieskiekotki.HibernateAdapter;
 import pl.edu.agh.niebieskiekotki.entitites.*;
@@ -17,11 +18,15 @@ import java.util.Map;
 
 @CrossOrigin
 @RestController
+
 public class QuestionnaireRouter {
 
     private final HibernateAdapter hibernateAdapter;
     private final EmailService emailService;
     List<Questionnaire> questionnaires = new ArrayList<>();
+
+    @Value("${app.serverPath}")
+    private String serverPath;
 
     public QuestionnaireRouter(HibernateAdapter hibernateAdapter, EmailService emailService) {
         this.hibernateAdapter = hibernateAdapter;
@@ -30,6 +35,7 @@ public class QuestionnaireRouter {
     @Transactional
     @GetMapping(value = "/questionnaires")
     public List<Questionnaire> GetAll(@RequestHeader("Auth-Token") String token) throws UnauthorizedException {
+        System.out.println(serverPath);
         Teacher teacher = AuthRoute.getTeacherFromToken(token, hibernateAdapter);
         System.out.println(teacher.getId());
         return hibernateAdapter.getWhereEq(Questionnaire.class, "teacher", teacher);
