@@ -2,6 +2,7 @@ package pl.edu.agh.niebieskiekotki.views;
 
 import org.apache.commons.math3.analysis.function.Add;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.annotation.Profile;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 

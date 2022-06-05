@@ -1,6 +1,7 @@
 package pl.edu.agh.niebieskiekotki.groups;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.context.annotation.Profile;
 import pl.edu.agh.niebieskiekotki.entitites.Student;
 import pl.edu.agh.niebieskiekotki.entitites.Term;
 import pl.edu.agh.niebieskiekotki.utility.Days;
@@ -8,6 +9,7 @@ import pl.edu.agh.niebieskiekotki.utility.Days;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 
 public class GroupGeneratorTests {
 

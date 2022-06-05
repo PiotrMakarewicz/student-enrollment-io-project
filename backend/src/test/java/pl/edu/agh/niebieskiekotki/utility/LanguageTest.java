@@ -1,6 +1,7 @@
 package pl.edu.agh.niebieskiekotki.utility;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.context.annotation.Profile;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 

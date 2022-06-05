@@ -1,6 +1,7 @@
 package pl.edu.agh.niebieskiekotki.entities;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.context.annotation.Profile;
 import pl.edu.agh.niebieskiekotki.entitites.Term;
 import pl.edu.agh.niebieskiekotki.entitites.Timeslot;
 import pl.edu.agh.niebieskiekotki.utility.Days;
@@ -9,7 +10,6 @@ import pl.edu.agh.niebieskiekotki.utility.Language;
 import java.time.LocalTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 public class TermTest {
     @Test
     public void toStringTest() {
