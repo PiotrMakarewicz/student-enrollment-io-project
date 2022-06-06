@@ -40,7 +40,7 @@ public class QuestionnaireResults {
                 questionnaireResultsRow = new QuestionnaireResultsRow(vote.getStudent());
                 rows.add(questionnaireResultsRow);
             }
-            questionnaireResultsRow.setTerm(vote.getTerm());
+            questionnaireResultsRow.setTerm(vote);
 
         }
     }
@@ -74,10 +74,15 @@ public class QuestionnaireResults {
             studentChoose = new int[questionnaireAvailableTerms.size()];
         }
 
-        void setTerm(Term term) {
-            int index = questionnaireAvailableTerms.indexOf(term);
+        void setTerm(Vote vote) {
+            int index = questionnaireAvailableTerms.indexOf(vote.getTerm());
             if (index == -1) return;
-            studentChoose[index] = 1;
+            if (vote.getType() == 1){
+                studentChoose[index] = 1;
+            }
+            else if (vote.getType() == 2){
+                studentChoose[index] = 2;
+            }
         }
 
         public int getStudentIndex() {
