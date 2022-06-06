@@ -116,10 +116,11 @@ public class QuestionnaireRouter {
         }
         if (addQuestionnaireView.isAutoSendingLinks()) {
             Map<Student, String> studentsWithLinks = newQuestionnaire.studentsWithLinks();
+
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    emailService.sendToAll(studentsWithLinks);
+                    emailService.sendToAll(studentsWithLinks,newQuestionnaire.getLabel(),serverPath);
                 }
             });
             thread.start();
