@@ -152,8 +152,8 @@ function ClientViewForm() {
             <>
                 <h1>Thanks!</h1>
                 <Confetti
-                    width={1920}
-                    height={900}
+                    width={window.innerWidth}
+                    height={window.innerHeight}
                 />
             </>
         );

@@ -19,7 +19,7 @@ const styles = {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        width: "70vw",
+        width: "55vw",
         color: "white"
     }
 };

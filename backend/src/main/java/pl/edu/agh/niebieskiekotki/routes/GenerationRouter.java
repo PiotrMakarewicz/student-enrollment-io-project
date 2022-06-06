@@ -1,5 +1,6 @@
 package pl.edu.agh.niebieskiekotki.routes;
 
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import pl.edu.agh.niebieskiekotki.HibernateAdapter;
 import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
 import pl.edu.agh.niebieskiekotki.entitites.Results;
 import pl.edu.agh.niebieskiekotki.entitites.Teacher;
+import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.GroupCreationFailedException;
 import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.NotFoundException;
 import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.UnauthorizedException;
 import pl.edu.agh.niebieskiekotki.groups.GroupGenerator;
@@ -28,7 +30,14 @@ public class GenerationRouter {
     private ResultUploader uploader;
     @Transactional
     @GetMapping("/generate_results/{id}/{numGroups}")
-    public ResponseEntity<Object> startQuestionnaireResultsGeneration(@RequestHeader("Auth-Token") String token, @PathVariable Integer id, @PathVariable Integer numGroups) throws UnauthorizedException, NotFoundException {
+    public ResponseEntity<Object> startQuestionnaireResultsGeneration(@RequestHeader("Auth-Token") String token,
+                                                                      @PathVariable Integer id,
+                                                                      @PathVariable Integer numGroups)
+            throws UnauthorizedException, NotFoundException, GroupCreationFailedException {
+
+        if (numGroups < 1){
+            throw new GroupCreationFailedException("Can't divide students into " + numGroups + " groups.");
+        }
 
         Teacher teacher = AuthRoute.getTeacherFromToken(token, hibernateAdapter);
 
@@ -46,6 +55,6 @@ public class GenerationRouter {
 
         uploader.upload(questionnaire, generator.generate(questionnaire, numGroups));
 
-        return new ResponseEntity<>("Successfully generated results for questionnaire.", HttpStatus.ACCEPTED);
+        return new ResponseEntity<>("\"Successfully generated results for questionnaire.\"", HttpStatus.ACCEPTED);
     }
 }

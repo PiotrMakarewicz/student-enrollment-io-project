@@ -1,8 +1,17 @@
-   plugins {
+plugins {
 	id 'org.springframework.boot' version '2.6.5'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	id 'jacoco'
+	id 'application'
+}
+apply plugin: "java"
+jar {
+	enabled = false
+}
+
+ext {
+	javaMainClass = "pl.edu.agh.niebieskiekotki.StudentEnrollmentApplication"
 }
 
 group = 'pl.edu.agh'
@@ -17,9 +26,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'mysql:mysql-connector-java'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'junit:junit:4.13.1'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'junit:junit:4.13.1'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.6.7.Final', ext: 'pom'
 	implementation group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.6.7.Final'
 	implementation group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api',version:  '1.0.2.Final'
@@ -39,12 +48,26 @@ jacoco {
 test {
 	finalizedBy jacocoTestReport
 }
+
+application {
+	mainClassName = javaMainClass
+}
+
+task runWithJavaExec(type: JavaExec) {
+	group = "Execution"
+	description = "Run the main class with JavaExecTask"
+	classpath = sourceSets.main.runtimeClasspath
+	main = javaMainClass
+}
+
 jacocoTestReport {
 	dependsOn test
 	reports {
 		csv.enabled true
 	}
 }
+//mainClassName = "pl.edu.agh.niebieskiekotki.StudentEnrollmentApplication"
+
 
 tasks.named('test') {
 	useJUnitPlatform()

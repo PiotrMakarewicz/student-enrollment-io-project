@@ -21,19 +21,24 @@ public class GroupGenerator {
 
     public GenerationOutput generate(Questionnaire questionnaire, int numGroups){
         Map<Student, List<Term>> studentsTerms = new HashMap<>();
+        Map<Student, List<Term>> studentsImpossibleTerms = new HashMap<>();
         for (Vote vote: questionnaire.getVotes()){
             Student student = vote.getStudent();
             if (! studentsTerms.containsKey(student)){
                 studentsTerms.put(student, new ArrayList<>());
+                studentsImpossibleTerms.put(student, new ArrayList<>());
             }
 
             int type = vote.getType();
             if (type == 1){
                 Term term = vote.getTerm();
                 studentsTerms.get(student).add(term);
+            } else if (type == 2) {
+                Term term = vote.getTerm();
+                studentsImpossibleTerms.get(student).add(term);
             }
         }
-        return algorithm.generate(studentsTerms, numGroups, 3);
+        return algorithm.generate(studentsTerms, studentsImpossibleTerms, numGroups, 2);
     }
 
 }

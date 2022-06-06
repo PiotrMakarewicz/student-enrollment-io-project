@@ -3,7 +3,6 @@ import http from "../../../services/http";
 import { Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import TextareaAutosize from "react-textarea-autosize";
-import { DayHeader, TermHeader, GroupBody } from "../../group";
 import "./impossibilities.css";
 import { Submit } from "../../form/basic";
 
@@ -56,6 +55,7 @@ function ImpossibilitiesAcceptance() {
                 decision.push(state.data.votes[i].id);
             }
         }
+
         try {
         const response = await http.post(`/impossibilities/${id}`, {
             deletedImpossibilities: decision
@@ -63,7 +63,6 @@ function ImpossibilitiesAcceptance() {
         }
         finally{
         setImposibilites({...inposibilitesState,imposibillities : "1"})
-        // window.location = window.location.href;
     }
     }
 
