@@ -1,25 +1,40 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {login, logout} from "../services/auth"
+import { getLoggedUser } from "../services/auth";
 /**
  *
  * Returns Navbar component for Lecturer page
  */
 
 function Navbar() {
+    const user = getLoggedUser();
     return (
-        <header className="App-header px-4">
+        <header className="App-header">
             <Link to="/">Home</Link>
             <ul>
-                <li data-active="false">
-                    <Link to="/addQuestionnaire">New poll</Link>
-                </li>
-                <li data-active="false">
-                    <Link to="/questionnaires">Your polls</Link>
-                </li>
-                <li>
-                    <Link to="/logout">Logout</Link>
-                </li>
+                {user != null ? (
+                    <li>
+                        <Link to="/addQuestionnaire">New poll</Link>
+                    </li>
+                ) : (
+                    <></>
+                )}
+                {user != null ? (
+                    <li>
+                        <Link to="/questionnaires">Your polls</Link>
+                    </li>
+                ) : (
+                    <></>
+                )}
+                {user != null ? (
+                    <li>
+                        <Link to="/logout">Logout</Link>
+                    </li>
+                ) : (
+                    <li>
+                        <Link to="/login">Login</Link>
+                    </li>
+                )}
             </ul>
         </header>
     );

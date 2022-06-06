@@ -70,10 +70,13 @@ function ChooseForm() {
     });
     useEffect(() => {
         (async function () {
-            setState({
-                forms: (await http.get("/questionnaires")).data,
-                loading: false
-            });
+            const response = await http.get("/questionnaires");
+            if (response.ok) {
+                setState({
+                    forms: (await http.get("/questionnaires")).data,
+                    loading: false
+                });
+            }
         })();
     }, []);
 

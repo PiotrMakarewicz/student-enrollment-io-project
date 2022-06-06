@@ -13,6 +13,7 @@ function LecturerQuestionaire() {
                 values={["Results", "Groups", "Impossibility"]}
                 selected_="Results"
             />
+            <hr />
             <div className="lecturer-questionnaire-buttons">
                 <div>
                     <span>File with user preferences</span>

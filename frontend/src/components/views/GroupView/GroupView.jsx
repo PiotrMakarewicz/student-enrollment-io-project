@@ -3,6 +3,7 @@ import http from "../../../services/http";
 import { Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { DayHeader, TermHeader, GroupBody } from "../../group";
+import NumberPicker from "react-widgets/NumberPicker";
 import "./styles.css";
 
 /**
@@ -32,9 +33,13 @@ function GroupView() {
     };
 
     const askForResults = async () => {
+        setState({ ...state, loading: true });
         await http.get(
-            `/generate_results/${id}/${numberOfGroupsState.number_of_groups}`
+            `/generate_results/${id}/${
+                numberOfGroupsState.number_of_groups > 0 ? numberOfGroupsState.number_of_groups : 1
+            }`
         );
+        setState({ ...state, loading: false });
     };
 
     useEffect(() => {
@@ -124,6 +129,23 @@ function GroupView() {
                             </tbody>
                         </table>
 
+                        <div className="groupsNumber">
+                            <label>Number of groups: </label>
+
+                            <NumberPicker
+                                defaultValue={numberOfGroupsState.number_of_groups}
+                                min={1}
+                                max={20}
+                                className="numberPicker"
+                                onChange={(v) => {
+                                    setNumberOfGroupsState({
+                                        ...numberOfGroupsState,
+                                        number_of_groups: parseInt(v > 20 ? 20 : v, 10)
+                                    });
+                                }}
+                                id={"number_of_groups"}
+                            />
+                        </div>
                         <button
                             className="generateGroupsButton"
                             onClick={askForResults}
@@ -131,24 +153,6 @@ function GroupView() {
                             Generate groups
                         </button>
                     </div>
-                    <label>Number Of Groups: </label>
-                    <input
-                        type={"number"}
-                        value={numberOfGroupsState.number_of_groups}
-                        onChange={(v) => {
-                            setNumberOfGroupsState({
-                                ...numberOfGroupsState,
-                                number_of_groups: v.target.value
-                            });
-                        }}
-                        id={"number_of_groups"}
-                        min="1"
-                        style={{
-                            width:
-                                (numberOfGroupsState.number_of_groups.toString().length + 4) * 8 +
-                                "px"
-                        }}
-                    />
                 </div>
             )}
         </>

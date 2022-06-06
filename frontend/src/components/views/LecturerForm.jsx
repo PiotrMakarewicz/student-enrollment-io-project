@@ -14,7 +14,7 @@ import { parseXlsxFile } from "../form/services/Parser";
 import { toast } from "react-toastify";
 import { Spinner } from "react-bootstrap";
 import { useEffect } from "react";
-// import FileLoader from "../form/services/FileLoader"
+// import FileLoader from "../form/services/FileLoader";
 
 /**
  *
@@ -51,20 +51,24 @@ function LecturerForm() {
             students_info,
             auto_sending_links
         } = state;
+
+        setState({ ...state, loading: true });
         const response = await http.post("/questionnaires", {
             expirationDate: new Date(
-                date_input.getFullYear(),
-                date_input.getMonth(),
-                date_input.getDate(),
-                time_input.getHours(),
-                time_input.getMinutes()
+                Date.UTC(
+                    date_input.getFullYear(),
+                    date_input.getMonth(),
+                    date_input.getDate(),
+                    !!time_input ? time_input.getHours() : 12,
+                    !!time_input ? time_input.getMinutes() : 0
+                )
             ),
             label: name_input,
             availableTerms: Array.from(selected_terms),
             studentsInfo: students_info,
             autoSendingLinks: auto_sending_links
         });
-
+        setState({ ...state, loading: false });
         if (response.ok) {
             toast.success("Questionnaire created", {
                 position: "top-center",
@@ -84,6 +88,19 @@ function LecturerForm() {
                 selected_terms: new Set(),
                 auto_sending_links: true
             });
+        } else {
+            toast.error(
+                "Could not create new questionnaire.\nTry again later or contact the server administrator.",
+                {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined
+                }
+            );
         }
     };
     function fileHandler(files) {
@@ -109,6 +126,24 @@ function LecturerForm() {
         setState({ ...state });
     };
 
+    // const forms = document.querySelectorAll(".needs-validation");
+    //
+    // Array.prototype.slice.call(forms).forEach(function (form) {
+    //     form.addEventListener(
+    //         "submit",
+    //         function (event) {
+    //             console.log("dupas");
+    //             if (!form.checkValidity()) {
+    //                 event.preventDefault();
+    //                 event.stopPropagation();
+    //             }
+
+    //             form.classList.add("was-validated");
+    //         },
+    //         false
+    //     );
+    // });
+
     return (
         <>
             {state.loading ? (
@@ -133,14 +168,24 @@ function LecturerForm() {
                             value={state.fullname_input}
                             onChange={(v) => setState({ ...state, fullname_input: v })}
                             id={"fullname_input"}
-                            placeholder={""}
                         />
 
                         <div className="row">
                             <div className="col-xs-12 col-sm-6">
                                 <label htmlFor="date_picker">Expiry Date</label>
                                 <DatePicker
+                                    inputProps={{
+                                        component: React.forwardRef((props, ref) => (
+                                            <input
+                                                ref={ref}
+                                                {...props}
+                                                readOnly
+                                            />
+                                        ))
+                                    }}
                                     defaultValue={new Date()}
+                                    min={new Date()}
+                                    dropUp={true}
                                     className="mb-1"
                                     value={state.date_input}
                                     id="date_picker"
@@ -155,12 +200,18 @@ function LecturerForm() {
                                     Expiry Time
                                 </label>
                                 <TimeInput
-                                    defaultValue={null}
+                                    defaultValue={new Date()}
                                     className="mb-1"
                                     style={{ width: "min(84%, 30vw, 155px)" }}
                                     value={state.time_input}
                                     id="time_input"
-                                    onChange={(v) => setState({ ...state, time_input: v })}
+                                    onChange={(v) => {
+                                        setState({
+                                            ...state,
+                                            time_input: v
+                                        });
+                                    }}
+                                    required
                                 />
                             </div>
                         </div>
@@ -180,7 +231,7 @@ function LecturerForm() {
                             termsInfo={state.terms_info}
                         />
                         <Submit
-                            value={"Continue"}
+                            value={"Create"}
                             onSubmit={onSubmit}
                         />
                     </FormWrapper>
