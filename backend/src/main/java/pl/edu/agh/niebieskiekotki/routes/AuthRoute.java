@@ -44,7 +44,7 @@ public class AuthRoute {
         System.out.println(teacher.getPassword());
 
         if( !teacher.getPassword().equals(sha256hex) )
-            throw new InvalidPasswordException("Teacher password and sended password are not equal");
+            throw new InvalidPasswordException("Teacher password and sent password are not equal");
 
         return new TokenView(doGenerateToken(teacher.getEmailAddress()));
     }

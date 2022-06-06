@@ -6,10 +6,9 @@ import { _download } from "./downloader";
 const serverUrl = "http://localhost:8080";
 
 let token;
-const setToken = (t)  => {
-  token = t;
-}
-
+const setToken = (t) => {
+    token = t;
+};
 
 function optionsObjectToString(options) {
     if (!options) return "";
@@ -46,9 +45,12 @@ const download = async (path, filename, extension) => {
     const response = await fetch(serverUrl + path, {
         method: "GET",
         headers: {
-            'Content-Type': 'application/json',
-            'auth-token': token,
-        },
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "auth-token": token,
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+        }
     });
     const reader = response.body.getReader();
     var bytes = (await reader.read()).value;
@@ -60,7 +62,10 @@ const get = async (path, options) => {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            'auth-token': token,
+            Accept: "application/json",
+            "auth-token": token,
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
         }
     });
 
@@ -73,7 +78,10 @@ const post = async (path, body) => {
         body: JSON.stringify(body),
         headers: {
             "Content-Type": "application/json",
-            'auth-token': token,
+            Accept: "application/json",
+            "auth-token": token,
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
         }
     });
     return await proccesResponse(response, "GET " + path);

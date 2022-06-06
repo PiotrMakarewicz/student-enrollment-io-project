@@ -62,7 +62,6 @@ function ViewSwitch({ values, selected_ }) {
                 {state.selected === "Results" && <QuestionnaireResults />}
                 {state.selected === "Groups" && <GroupView />}
                 {state.selected === "Impossibility" && <ImpossibilitiesAcceptance />}
-                <hr />
             </div>
         </>
     );
