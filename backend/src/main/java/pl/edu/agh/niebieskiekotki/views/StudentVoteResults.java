@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class StudentVoteResults {
     private Student student;
@@ -20,7 +21,8 @@ public class StudentVoteResults {
         this.selectedTerms = new ArrayList<>();
         this.availableTerms = new ArrayList<>();
         this.impossibleTerms = new HashMap<>();
-        for (Vote vote : questionnaire.getVotes()) {
+        List<Vote> votes = questionnaire.getVotes().stream().filter(vote -> vote.getStudent().getIndexNumber() == student.getIndexNumber()).toList();
+        for (Vote vote : votes) {
             if (vote.getType() == 1) {
                 selectedTerms.add(vote.getTerm().getId());
             } else if (vote.getType() == 2) {
