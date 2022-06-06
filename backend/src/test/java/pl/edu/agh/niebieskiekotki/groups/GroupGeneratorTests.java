@@ -160,7 +160,8 @@ public class GroupGeneratorTests {
         for (Student s : students) {
             List<Term> termsCopy = new ArrayList<>(terms);
             Collections.shuffle(termsCopy);
-            studentTerms.put(s, termsCopy.subList(0, Math.max(randomGaussianInt(r, averageStudentTerms, 2), 0)));
+            studentTerms.put(s, termsCopy.subList(0,
+                    Math.min(Math.max(randomGaussianInt(r, averageStudentTerms, 2), 0), termsCopy.size()-1)));
         }
     }
 

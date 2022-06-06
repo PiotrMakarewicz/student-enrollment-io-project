@@ -2,11 +2,8 @@ package pl.edu.agh.niebieskiekotki.groups;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.niebieskiekotki.HibernateAdapter;
-import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
-import pl.edu.agh.niebieskiekotki.entitites.Student;
-import pl.edu.agh.niebieskiekotki.entitites.Term;
-import pl.edu.agh.niebieskiekotki.entitites.Vote;
+import pl.edu.agh.niebieskiekotki.entitites.*;
+import pl.edu.agh.niebieskiekotki.errorsHandling.exceptions.GroupCreationFailedException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,14 +16,20 @@ public class GroupGenerator {
     @Autowired
     private GenerationAlgorithm algorithm;
 
-    public GenerationOutput generate(Questionnaire questionnaire, int numGroups){
+    public GenerationOutput generate(Questionnaire questionnaire, int numGroups) throws GroupCreationFailedException {
         Map<Student, List<Term>> studentsTerms = new HashMap<>();
         Map<Student, List<Term>> studentsImpossibleTerms = new HashMap<>();
+        if (questionnaire.getQuestionnaireAccesses().size() == 0){
+            throw new GroupCreationFailedException("There are no students assigned to this questionnaire, can't generate groups!");
+        }
+        for (QuestionnaireAccess acc : questionnaire.getQuestionnaireAccesses()){
+            studentsTerms.put(acc.getStudent(), new ArrayList<>());
+            studentsImpossibleTerms.put(acc.getStudent(), new ArrayList<>());
+        }
         for (Vote vote: questionnaire.getVotes()){
             Student student = vote.getStudent();
             if (! studentsTerms.containsKey(student)){
-                studentsTerms.put(student, new ArrayList<>());
-                studentsImpossibleTerms.put(student, new ArrayList<>());
+                throw new GroupCreationFailedException("There are votes posted by unauthorized students in this questionnaire!");
             }
 
             int type = vote.getType();
