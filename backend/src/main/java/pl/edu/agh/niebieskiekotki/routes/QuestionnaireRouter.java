@@ -116,7 +116,7 @@ public class QuestionnaireRouter {
         }
         if (addQuestionnaireView.isAutoSendingLinks()) {
             Map<Student, String> studentsWithLinks = newQuestionnaire.studentsWithLinks();
-            emailService.sendToAll(studentsWithLinks,newQuestionnaire.getLabel());
+            emailService.sendToAll(studentsWithLinks,newQuestionnaire.getLabel(),serverPath);
         }
 
         return new QuestionnaireDetail(newQuestionnaire);
