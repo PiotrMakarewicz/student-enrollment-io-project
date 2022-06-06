@@ -14,6 +14,8 @@ function DropZone({ fileHandler }) {
                 document.getElementById("selectedFileLabel").innerHTML = acceptedFiles[0]["path"];
                 fileHandler(acceptedFiles);
             }}
+            maxFiles={1}
+            accept={[".txt", ".xlsx", ".csv"]}
         >
             {({ getRootProps, getInputProps }) => (
                 <div className="form-group">
@@ -21,14 +23,18 @@ function DropZone({ fileHandler }) {
                         {...getRootProps()}
                         className="file-drop-area"
                     >
-                        <span className="choose-file-button">Choose files</span>
-                        <span
-                            className="file-message"
-                            id="selectedFileLabel"
-                        >
-                            {" "}
-                            or drag and drop files here
-                        </span>
+                        <div className="mb-3">
+                            <span className="choose-file-button">Choose files</span>
+                            <span
+                                className="file-message"
+                                id="selectedFileLabel"
+                            >
+                                or drag and drop files here
+                            </span>
+                        </div>
+                        <div className="file-message">
+                            <em>(Only *.csv, *.txt and *.xlsx files will be accepted)</em>
+                        </div>
                         <input
                             {...getInputProps()}
                             className="file-input"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import CalendarBody from "./CalendarBody";
 import CalendarHeader from "./CalendarHeader";
 
@@ -25,16 +25,6 @@ import CalendarHeader from "./CalendarHeader";
  */
 
 function Calendar({ selectedTerms, toggleTerm, availableTermsSet, impossibleTerms, termsInfo }) {
-    // const [state, setState] = useState({
-    //     val: 1,
-    //     loading: true
-    // });
-
-    // useEffect(() => {
-    //     (async function () {
-    //         setState({ termsInfo: (await http.get("/terms"))["data"], loading: false });
-    //     })();
-    // }, []);
     return (
         <>
             <table className="calendar">
