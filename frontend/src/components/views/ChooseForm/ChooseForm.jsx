@@ -5,6 +5,9 @@ import "./choose.css";
 import SimpleWrapper from "../../SimpleWrapper";
 import { Spinner } from "react-bootstrap";
 import FloatingActionButton from "../../form/services/FloatingActionButton";
+import DeletionConfirmation from "./DeletionConfirmation";
+import Button from "../../basic/Button";
+import { toast } from "react-toastify";
 
 /**
  * Example form
@@ -16,7 +19,7 @@ import FloatingActionButton from "../../form/services/FloatingActionButton";
  *
  */
 
-function createListElement(id, name, date) {
+function createListElement(id, name, date, onDeletion) {
     var badgeType = "";
     var badgeValue = "";
     var state = 0;
@@ -35,14 +38,29 @@ function createListElement(id, name, date) {
         badgeValue = "nieudany podział";
     }
     return (
+        <div 
+        className="rowContainer"
+        key={id}>
         <Link
             to={"/questionnaire/" + id}
-            className="list-group-item d-flex list-group-item-action justify-content-between"
+            className="list-group-item d-flex list-group-item-action justify-content-between floater"
             key={id}
         >
             {name}
             <span className={badgeType}>{badgeValue}</span>
+            
         </Link>
+        <div
+                className="deleteButton"
+                
+            >
+                <button 
+                onClick={()=>{
+                    onDeletion({id, name})
+                }}
+                >{"\u2715"}</button>
+            </div>
+        </div>
     );
 }
 
@@ -66,23 +84,78 @@ function ChooseForm() {
 
     const [state, setState] = useState({
         forms: [],
-        loading: true
+        loading: true,
+        deleting: false,
+        deletingId: -1,
+        deletingName: null
     });
     useEffect(() => {
         (async function () {
             const response = await http.get("/questionnaires");
             if (response.ok) {
                 setState({
+                    ...state,
                     forms: (await http.get("/questionnaires")).data,
                     loading: false
                 });
             }
         })();
-    }, []);
+    }, [state.deleting]);
+
+    const onDeletion = async (id, name) => {
+        setState({ 
+            ...state, 
+            deleting:true,
+            deletingId:id,
+            deletingName:name
+        });
+    }
+
+    const onConfirmation = async(id) => {
+        setState({ 
+            ...state, 
+            loading:true
+        });
+        const response = await http.deleteH(`/questionnaires/${id}`)
+        if (response.ok) {
+            setState({ 
+                ...state, 
+                loading:false,
+                deleting:false
+            });
+            toast.success("Questionnaire deleted", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
+            });
+        } else {
+            setState({ 
+                ...state, 
+                loading:false,
+                deleting:false
+            });
+            toast.error(
+                "Could not delete questionnaire.\nTry again later or contact the server administrator.",
+                {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined
+                }
+            );
+        }
+    }
 
     var rows = [];
     state.forms.forEach((element) =>
-        rows.push(createListElement(element.id, element.label, element.expirationDate))
+        rows.push(createListElement(element.id, element.label, element.expirationDate, onDeletion))
     );
 
     return (
@@ -97,6 +170,19 @@ function ChooseForm() {
                         <ul className="list-group main-list">{rows}</ul>
                     </SimpleWrapper>
                     <FloatingActionButton />
+                    {state.deleting ? (
+                        <DeletionConfirmation
+                            questionnaireId={state.deletingId}
+                            onRefusal={() => {setState({ 
+                                ...state,
+                                deleting:false
+                            })}}
+                            onConfirmation={() => {onConfirmation(state.deletingId.id)}}
+                        ></DeletionConfirmation>
+                        
+                    ) : (
+                        <></>
+                    )}
                 </>
             )}
         </>

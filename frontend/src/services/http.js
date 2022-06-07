@@ -87,11 +87,31 @@ const post = async (path, body) => {
     return await proccesResponse(response, "GET " + path);
 };
 
+const deleteH = async (path, body) => {
+    const response = await fetch(serverUrl + path, {
+        method: "DELETE",
+        body: JSON.stringify(body),
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "auth-token": token,
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+        }
+    });
+    if (response.ok){
+        return {ok:true}
+    } else{
+        return {ok:false}
+    }
+};
+
 const http = {
     get,
     post,
     download,
-    setToken
+    setToken,
+    deleteH
 };
 
 export default http;
