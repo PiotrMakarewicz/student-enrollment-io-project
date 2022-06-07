@@ -55,6 +55,8 @@ public class QuestionnaireRouter {
             hibernateAdapter.clearResultsWhere(id);
 
         hibernateAdapter.delete(questionnaire);
+
+        return;
     }
 
     private Questionnaire getTeachersQuestionnaire(String token, Long id) throws UnauthorizedException, NotFoundException {

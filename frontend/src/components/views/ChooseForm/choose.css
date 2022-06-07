@@ -6,3 +6,128 @@
 .container-lg {
     width: 70%;
 }
+
+.badge-fl {
+    float: right;
+}
+
+
+.rowContainer {
+    display: flex;
+    border: 100px;
+    border-radius: 30px;
+    background-color: grey;
+}
+
+.floater {
+    flex: 1;
+    margin-right: 20px;
+    border-radius: 30px;
+    size: 10px;
+}
+
+
+.deleteButton {
+    /*top: 1.45rem;
+    left: 1.45rem;*/
+    border-radius: 50%;
+    /* position: relative; */
+    size: 10px;
+    flex: 0;
+}
+
+.d-flex > .deleteButton {
+    position: relative;
+    left: 0;
+    top: 0;
+    width: auto;
+}
+
+.deleteButton button {
+    /* transform: rotate(180deg); */
+    font-size: 1.5em;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    transition: all 120ms ease-in;
+}
+
+.deleteButton button:hover {
+    background-color: var(--accent-clr);
+    color: whitesmoke;
+}
+
+.gg-trash {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs,1));
+    width: 10px;
+    height: 12px;
+    border: 2px solid transparent;
+    box-shadow:
+    0 0 0 2px,
+    inset -2px 0 0,
+    inset 2px 0 0;
+    border-bottom-left-radius: 1px;
+    border-bottom-right-radius: 1px;
+    margin-top: 4px
+   }
+   
+   .gg-trash::after,
+   .gg-trash::before {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute
+   }
+   
+   .gg-trash::after {
+    background: currentColor;
+    border-radius: 3px;
+    width: 16px;
+    height: 2px;
+    top: -4px;
+    left: -5px
+   }
+   
+   .gg-trash::before {
+    width: 10px;
+    height: 4px;
+    border: 2px solid;
+    border-bottom: transparent;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    top: -7px;
+    left: -2px
+   } 
+
+
+   .floatingConfirmation {
+    position: fixed;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: column;
+    top: 15vw;
+    background: linear-gradient(to bottom right, grey, #404050);
+    /* background-color: var(--accent-clr); */
+    border: 0;
+    border-radius: 2rem;
+    color: white;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 2.5;
+    outline: transparent;
+    padding: 0.4rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    transition: box-shadow 0.2s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+   }
