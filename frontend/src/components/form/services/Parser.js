@@ -18,7 +18,6 @@ function createStudent(firstName, lastName, phoneNumber, fieldOfStudy, faculty, 
 
     if (!nameReg.test(firstName)){
         toast.error("Invalid data in file","Name should contains only characters",firstName);
-        return null;
     }
     else if (!nameReg.test(lastName)){
         toast.error("Invalid data in file","Name should contains only characters",lastName);
@@ -26,18 +25,17 @@ function createStudent(firstName, lastName, phoneNumber, fieldOfStudy, faculty, 
     }
     else if(!phoneReg.test(phoneNumber)){
         toast.error("Invalid data in file","Wrong phonde number",phoneNumber);
-        return null;
     }
     else if(!indexReg.test(indexNumber)){
         toast.error("Invalid data in file","Index number should have 6 digits",indexNumber);
-        return null;
     }
     else if(!emailReg.test(emailAdress.toLowerCase())){
         toast.error("Invalid data in file","Wrong email address",emailAdress);
-        return null;
     }
-    return new Student(firstName, lastName, phoneNumber, fieldOfStudy, faculty, indexNumber, emailAdress)
-}
+    else return new Student(firstName, lastName, phoneNumber, fieldOfStudy, faculty, indexNumber, emailAdress);
+    
+    return null;
+}   
 
 /**
  * function to convert array to Student object
