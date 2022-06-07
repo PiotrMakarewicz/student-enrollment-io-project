@@ -25,11 +25,17 @@ function optionsObjectToString(options) {
 async function proccesResponse(response, toastComunicat) {
     if (response.ok) {
         // toast.success(`${toastComunicat}`);
-        const data = await response.json();
-
+        var data;
+        try{
+            data = await response.json();
+        }
+        catch(e){
+            console.error(e);
+            data = [];
+        }
         return {
             ok: true,
-            data
+            data: data
         };
     } else {
         const text = await response.json();
@@ -68,7 +74,6 @@ const get = async (path, options) => {
             "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
         }
     });
-
     return await proccesResponse(response, "GET " + path);
 };
 
@@ -84,6 +89,8 @@ const post = async (path, body) => {
             "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
         }
     });
+    console.log("response");
+    console.log(response);
     return await proccesResponse(response, "GET " + path);
 };
 
