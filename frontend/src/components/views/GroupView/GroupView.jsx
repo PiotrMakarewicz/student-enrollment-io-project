@@ -21,6 +21,9 @@ function GroupView() {
         loading: true,
         hasData: false
     });
+    const [generetedState,setGenerated] = useState({
+        generated : ""
+    }) 
     const [numberOfGroupsState, setNumberOfGroupsState] = useState({
         number_of_groups: 1
     });
@@ -33,13 +36,18 @@ function GroupView() {
     };
 
     const askForResults = async () => {
-        setState({ ...state, loading: true });
+
+        try{
         await http.get(
             `/generate_results/${id}/${
                 numberOfGroupsState.number_of_groups > 0 ? numberOfGroupsState.number_of_groups : 1
             }`
         );
-        setState({ ...state, loading: false });
+        }
+        finally{
+        setGenerated({...generetedState,generated : "1"});
+        }
+
     };
 
     useEffect(() => {
@@ -62,7 +70,7 @@ function GroupView() {
             }
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id]);
+    }, [id,generetedState]);
 
     const days = [];
     state.data.forEach((el) => {

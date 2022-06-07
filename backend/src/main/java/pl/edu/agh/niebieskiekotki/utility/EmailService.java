@@ -24,9 +24,12 @@ public class EmailService {
         mailSender.send(message);
     }
 
-    public void sendToAll(Map<Student,String> studentLinkMap) {
+    public void sendToAll(Map<Student,String> studentLinkMap,String questionaireName,String serverUrl) {
         for(Map.Entry<Student,String> entry : studentLinkMap.entrySet()){
-            send(entry.getKey().getEmailAddress(),"Link","localhost:3000/vote/"+entry.getValue());
+            String link = serverUrl + "/vote/";
+            String message = String.format("Witaj %s,\n\nPrzesyłam link do ankiety %s.\nlink: %s\n\nWiadomość wygenerowana automatycznie.\n" +
+                    "Prosimy o nie odpowiadanie",entry.getKey().getFirstName(),questionaireName,link+entry.getValue());
+            send(entry.getKey().getEmailAddress(),"Link",message);
         }
     }
 }

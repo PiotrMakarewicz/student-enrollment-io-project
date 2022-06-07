@@ -1,4 +1,5 @@
 import Dropzone from "react-dropzone";
+import { toast } from "react-toastify";
 /**
  * @memberof form
  *
@@ -10,9 +11,13 @@ import Dropzone from "react-dropzone";
 function DropZone({ fileHandler }) {
     return (
         <Dropzone
-            onDrop={(acceptedFiles) => {
-                document.getElementById("selectedFileLabel").innerHTML = acceptedFiles[0]["path"];
-                fileHandler(acceptedFiles);
+            onDrop={async (acceptedFiles) => {
+                let isFilesCorrect = (await fileHandler(acceptedFiles));
+                if(isFilesCorrect){
+                    document.getElementById("selectedFileLabel").innerHTML = acceptedFiles[0]["path"];
+                    toast.success("Successfuly added file",acceptedFiles[0]["path"]);
+                }
+                
             }}
             maxFiles={1}
             accept={".xlsx"}

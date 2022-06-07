@@ -3,6 +3,7 @@ package pl.edu.agh.niebieskiekotki.utility;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.springframework.beans.factory.annotation.Value;
 import pl.edu.agh.niebieskiekotki.entitites.Questionnaire;
 import pl.edu.agh.niebieskiekotki.entitites.QuestionnaireAccess;
 import pl.edu.agh.niebieskiekotki.entitites.Student;
@@ -10,6 +11,8 @@ import pl.edu.agh.niebieskiekotki.entitites.Student;
 import java.util.List;
 
 public class FileWithLinksCreator {
+
+
     private static void addRow(Student student, String link, HSSFSheet sheet, int rowNumber) {
 
         HSSFRow row = sheet.createRow((short) rowNumber);
@@ -36,7 +39,7 @@ public class FileWithLinksCreator {
         rowhead.createCell(4).setCellValue("link");
     }
 
-    public static HSSFWorkbook createFileWithLinks(Questionnaire questionnaire, Language language) {
+    public static HSSFWorkbook createFileWithLinks(Questionnaire questionnaire, Language language, String serverURl) {
 
         List<QuestionnaireAccess> questionnaireAccessesList = questionnaire.questionnaireAccesses;
 
@@ -48,7 +51,7 @@ public class FileWithLinksCreator {
 
         int i = 1;
         for (QuestionnaireAccess questionnaireAccess : questionnaireAccessesList) {
-            addRow(questionnaireAccess.getStudent(), "localhost:3000/vote/" + questionnaireAccess.getLinkPath(), sheet, i);
+            addRow(questionnaireAccess.getStudent(), serverURl + "/vote/" + questionnaireAccess.getLinkPath(), sheet, i);
             i++;
         }
 

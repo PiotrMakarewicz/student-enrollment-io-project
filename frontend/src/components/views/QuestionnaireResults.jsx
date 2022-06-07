@@ -33,10 +33,20 @@ function QuestionnaireResults() {
             ) : (
                 <div className="resultsView">
                     <h2>{state.name}</h2>
+                    {console.log(state)}
                     <Table
                         headers={state.tableInfo.headers}
                         records={state.tableInfo.rows}
-                        lambda={(cell) => (cell === 1 ? "bg-success text-white" : "bg-light")}
+                        lambda={(cell) => {
+                            if(cell === 1){
+                                return "bg-success text-white";
+                            }
+                            else if (cell === 2){
+                                return "bg-danger text-white";
+                            }
+                            else return "bg-light";
+                        }
+                    }
                     />
                 </div>
             )}

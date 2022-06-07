@@ -104,10 +104,16 @@ function LecturerForm() {
         }
     };
     function fileHandler(files) {
-        readXlsxFile(files[0]).then((rows) => {
+        let isCorrect = true;
+        let v = readXlsxFile(files[0]).then((rows) => {
             let result = parseXlsxFile(rows);
+            if (result == null){
+                isCorrect = false;
+            }
             setState({ ...state, students_info: result });
         });
+        
+        return v.then(()=>{return isCorrect});
     }
 
     function handleSwitchChange() {
@@ -160,6 +166,7 @@ function LecturerForm() {
                             value={state.name_input}
                             onChange={(v) => setState({ ...state, name_input: v })}
                             id={"name_input"}
+                            maxLength="35"
                         />
 
                         <Input
@@ -168,6 +175,7 @@ function LecturerForm() {
                             value={state.fullname_input}
                             onChange={(v) => setState({ ...state, fullname_input: v })}
                             id={"fullname_input"}
+                            maxLength="35"
                         />
 
                         <div className="row">

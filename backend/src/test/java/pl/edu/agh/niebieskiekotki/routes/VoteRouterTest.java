@@ -4,6 +4,7 @@ package pl.edu.agh.niebieskiekotki.routes;
 import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -21,7 +22,7 @@ public class VoteRouterTest extends AbstractRouterTest {
     @Test
     public void addVote() throws Exception {
 
-        String hash = "0b998e0b5b298e793eb9bc308ca74f8d437d29c5ebdfab50d04748768428eb1f";
+        String hash = "d6b5915c46057bcb005f46f6433df65609dd3a7a57af75ac1a5a4a7c299ebffb";
         String uri = "/vote/"+hash;
         MvcResult mvcResult = mvc
                 .perform(MockMvcRequestBuilders.post(uri)

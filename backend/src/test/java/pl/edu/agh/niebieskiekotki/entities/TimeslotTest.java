@@ -1,12 +1,12 @@
 package pl.edu.agh.niebieskiekotki.entities;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.context.annotation.Profile;
 import pl.edu.agh.niebieskiekotki.entitites.Timeslot;
 
 import java.time.LocalTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 public class TimeslotTest {
     @Test
     public void toStringTest() {
