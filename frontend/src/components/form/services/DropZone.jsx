@@ -15,7 +15,7 @@ function DropZone({ fileHandler }) {
                 fileHandler(acceptedFiles);
             }}
             maxFiles={1}
-            accept={[".txt", ".xlsx", ".csv"]}
+            accept={".xlsx"}
         >
             {({ getRootProps, getInputProps }) => (
                 <div className="form-group">
