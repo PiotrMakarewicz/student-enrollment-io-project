@@ -3,6 +3,7 @@ import http from "../../../services/http";
 import { Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import TextareaAutosize from "react-textarea-autosize";
+import { toast } from "react-toastify";
 import "./impossibilities.css";
 import { Submit } from "../../form/basic";
 
@@ -55,11 +56,36 @@ function ImpossibilitiesAcceptance() {
                 decision.push(state.data.votes[i].id);
             }
         }
-
+        var response;
         try {
-        const response = await http.post(`/impossibilities/${id}`, {
+        response = await http.post(`/impossibilities/${id}`, {
             deletedImpossibilities: decision
         });
+        if (response.ok){
+            toast.success("Impossibilities resolved", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
+            });
+        }
+        else{
+            toast.error(
+                "Could not submit your decision.\nTry again later or contact the server administrator.",
+                {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined
+                }
+            );
+        }
         }
         finally{
         setImposibilites({...inposibilitesState,imposibillities : "1"})
