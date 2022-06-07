@@ -6,7 +6,6 @@ import SimpleWrapper from "../../SimpleWrapper";
 import { Spinner } from "react-bootstrap";
 import FloatingActionButton from "../../form/services/FloatingActionButton";
 import DeletionConfirmation from "./DeletionConfirmation";
-import Button from "../../basic/Button";
 import { toast } from "react-toastify";
 
 /**
@@ -100,6 +99,7 @@ function ChooseForm() {
                 });
             }
         })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state.deleting]);
 
     const onDeletion = async (id, name) => {

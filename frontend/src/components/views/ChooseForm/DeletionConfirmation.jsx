@@ -1,20 +1,9 @@
-import React, { useState, useEffect } from "react";
-import http from "../../../services/http";
-import Button from "../../basic/Button";
+import React from "react";
 import "./choose.css";
 
 
 
-async function onClick(questionnaireId){
-    http.post()
-}
-
-
-
 function DeletionConfirmation({questionnaireId, onRefusal, onConfirmation}){
-    const [state, setState] = useState({
-        loading:false
-    });
 
     return (
         <div className="floatingConfirmation">
