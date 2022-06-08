@@ -10,7 +10,7 @@ function Navbar() {
     const user = getLoggedUser();
     return (
         <header className="App-header">
-            <Link to="/">Home</Link>
+            <Link to="/aboutUs">About us</Link>
             <ul>
                 {user != null ? (
                     <li>

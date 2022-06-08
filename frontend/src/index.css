@@ -28,6 +28,7 @@ code {
     border-radius: 3px;
     transition: 0.2s;
     color: black;
+    margin-top: 0.75em;
 }
 
 .choose-file-button {

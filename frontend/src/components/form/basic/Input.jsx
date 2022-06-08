@@ -19,7 +19,7 @@
     />
  */
 
-function Input({ label, placeholder, value, onChange, type, id, error, maxLength }) {
+function Input({ label, placeholder, value, onChange, type, id, error, maxLength, required }) {
     const onChangeWrapper = (e) => {
         if (onChange) onChange(e.target.value);
     };
@@ -35,7 +35,6 @@ function Input({ label, placeholder, value, onChange, type, id, error, maxLength
                 placeholder={placeholder}
                 onChange={onChangeWrapper}
                 maxLength={maxLength}
-                required
             />
             <span className="error input-error">{error}</span>
         </div>

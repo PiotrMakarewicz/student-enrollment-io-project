@@ -13,7 +13,7 @@
     /* border: 0.5px solid; */
     border: none;
     transition: 0.3s;
-    font-size: min(2.3vw, 1em);
+    font-size: min(3vw, 1em);
     border-radius: 0.1em;
     font-weight: 600;
 }

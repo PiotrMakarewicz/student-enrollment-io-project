@@ -46,6 +46,7 @@
     flex-direction: row;
     gap: 0;
     margin: 0;
+    padding: 0;
 }
 
 .App-header ul li {
@@ -68,6 +69,7 @@
     /* height: var(--header-h); */
     padding: 0 2em;
     margin: 0;
+    /* min-width: calc(69px + 3em); */
 }
 
 .App-header a:hover {
@@ -85,8 +87,13 @@ title {
     display: block;
 }
 
+.list-group-item {
+    padding: 0.5em 0.75em;
+}
+
 .list-group-item span {
     vertical-align: middle;
+    height: 26px;
 }
 
 .rw-time-input-clear > svg {
@@ -103,6 +110,8 @@ title {
     border: none;
     border-radius: 0.1em;
     vertical-align: middle;
+    padding: 0.5rem 0.4rem;
+    font-size: 0.9em;
 }
 
 .dragDropField {
@@ -179,4 +188,82 @@ title {
 
 .spinner-border {
     margin-top: 3rem;
+}
+
+.startPage {
+    margin-top: 1rem;
+}
+
+.btn-light:hover {
+    background-color: rgba(248, 249, 250, 0.8);
+    border-color: rgba(248, 249, 250, 0.8);
+}
+
+.startPage h1 {
+    margin-bottom: 1em;
+}
+
+@media only screen and (max-width: 768px) {
+    .App-body form {
+        width: 90vw !important;
+    }
+
+    .App-header a {
+        padding: 0 0.75em;
+        width: fit-content;
+        white-space: nowrap;
+    }
+
+    .App-header ul li a {
+        padding: 0 1em;
+    }
+
+    .floatingActionBtn {
+        right: 1rem;
+        bottom: 1rem;
+        width: 6rem;
+        line-height: 2.5;
+        font-size: 0.85rem;
+    }
+    .floatingActionBtn::after {
+        font-size: 1rem;
+        bottom: 2.75rem;
+        left: 0.65em;
+    }
+
+    .container-lg {
+        width: 85vw !important;
+        margin-bottom: 3rem !important;
+        padding: 1em !important;
+    }
+
+    .rw-time-input-clear > svg {
+        opacity: 1 !important;
+        color: white;
+    }
+
+    .file-drop-area div.mb-3 {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .file-drop-area div.mb-3 .file-message {
+        display: none;
+    }
+
+    .choose-file-button {
+        text-align: center;
+    }
+
+    .calendar {
+        /* margin: 0 !important; */
+        width: 122% !important;
+        max-width: none;
+        margin-left: -11% !important;
+        margin-right: -11% !important;
+    }
+    .calendar thead .calendar-cell-label {
+        font-size: 9.5px !important;
+        /* text-overflow: ellipsis; */
+    }
 }

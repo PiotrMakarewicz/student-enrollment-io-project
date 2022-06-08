@@ -44,6 +44,10 @@ function App() {
                                         element={<ClientViewForm />}
                                     />
                                     <Route
+                                        path="/aboutUs"
+                                        element={<StartPage />}
+                                    />
+                                    <Route
                                         path="*"
                                         element={<ChooseForm />}
                                     />
