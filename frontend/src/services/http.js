@@ -106,10 +106,10 @@ const deleteH = async (path, body) => {
             "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
         }
     });
-    if (response.ok){
-        return {ok:true}
-    } else{
-        return {ok:false}
+    if (response.ok) {
+        return { ok: true };
+    } else {
+        return { ok: false };
     }
 };
 

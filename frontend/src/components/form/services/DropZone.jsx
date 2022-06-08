@@ -12,15 +12,15 @@ function DropZone({ fileHandler }) {
     return (
         <Dropzone
             onDrop={async (acceptedFiles) => {
-                let isFilesCorrect = (await fileHandler(acceptedFiles));
-                if(isFilesCorrect){
-                    document.getElementById("selectedFileLabel").innerHTML = acceptedFiles[0]["path"];
-                    toast.success("Successfuly added file",acceptedFiles[0]["path"]);
+                let isFilesCorrect = await fileHandler(acceptedFiles);
+                if (isFilesCorrect) {
+                    document.getElementById("selectedFileLabel").innerHTML =
+                        acceptedFiles[0]["path"];
+                    toast.success("Successfuly added file", acceptedFiles[0]["path"]);
                 }
-                
             }}
             maxFiles={1}
-            accept={[".txt", ".xlsx", ".csv"]}
+            accept={".xlsx"}
         >
             {({ getRootProps, getInputProps }) => (
                 <div className="form-group">
@@ -38,7 +38,7 @@ function DropZone({ fileHandler }) {
                             </span>
                         </div>
                         <div className="file-message">
-                            <em>(Only *.csv, *.txt and *.xlsx files will be accepted)</em>
+                            <em>(Only *.xlsx files will be accepted)</em>
                         </div>
                         <input
                             {...getInputProps()}

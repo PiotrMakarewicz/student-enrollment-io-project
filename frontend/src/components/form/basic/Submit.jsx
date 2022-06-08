@@ -15,7 +15,7 @@
     />
  */
 
-function Submit({ onSubmit, value, disable, error }) {
+function Submit({ onSubmit, value, disable, error, cl = "btn btn-primary" }) {
     const onSubbmitWraper = (e) => {
         e.preventDefault();
         onSubmit();
@@ -25,7 +25,7 @@ function Submit({ onSubmit, value, disable, error }) {
         <div className="form-group center-content">
             <button
                 type="submit"
-                className="btn btn-primary"
+                className={cl}
                 onClick={onSubbmitWraper}
                 disabled={disable}
             >
@@ -33,7 +33,6 @@ function Submit({ onSubmit, value, disable, error }) {
             </button>
             <span className="error input-error">{error}</span>
         </div>
-
     );
 }
 

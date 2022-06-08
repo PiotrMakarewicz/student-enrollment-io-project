@@ -14,7 +14,6 @@ import { parseXlsxFile } from "../form/services/Parser";
 import { toast } from "react-toastify";
 import { Spinner } from "react-bootstrap";
 import { useEffect } from "react";
-// import FileLoader from "../form/services/FileLoader";
 
 /**
  *
@@ -29,19 +28,21 @@ function LecturerForm() {
         name_input: "",
         fullname_input: "",
         date_input: new Date(),
-        time_input: new Date(new Date().setHours(0, 0, 0, 0)),
+        time_input: new Date(new Date().setHours(12, 0, 0, 0)),
         selected_terms: new Set(),
         terms_info: null,
         students_info: [],
         auto_sending_links: true,
         loading: true
     });
+
     useEffect(() => {
         (async function () {
             setState({ ...state, terms_info: (await http.get("/terms"))["data"], loading: false });
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
     const onSubmit = async () => {
         const {
             date_input,
@@ -107,13 +108,15 @@ function LecturerForm() {
         let isCorrect = true;
         let v = readXlsxFile(files[0]).then((rows) => {
             let result = parseXlsxFile(rows);
-            if (result == null){
+            if (result == null) {
                 isCorrect = false;
             }
             setState({ ...state, students_info: result });
         });
-        
-        return v.then(()=>{return isCorrect});
+
+        return v.then(() => {
+            return isCorrect;
+        });
     }
 
     function handleSwitchChange() {
@@ -132,24 +135,6 @@ function LecturerForm() {
         setState({ ...state });
     };
 
-    // const forms = document.querySelectorAll(".needs-validation");
-    //
-    // Array.prototype.slice.call(forms).forEach(function (form) {
-    //     form.addEventListener(
-    //         "submit",
-    //         function (event) {
-    //             console.log("dupas");
-    //             if (!form.checkValidity()) {
-    //                 event.preventDefault();
-    //                 event.stopPropagation();
-    //             }
-
-    //             form.classList.add("was-validated");
-    //         },
-    //         false
-    //     );
-    // });
-
     return (
         <>
             {state.loading ? (
@@ -167,6 +152,7 @@ function LecturerForm() {
                             onChange={(v) => setState({ ...state, name_input: v })}
                             id={"name_input"}
                             maxLength="35"
+                            required
                         />
 
                         <Input
@@ -176,6 +162,7 @@ function LecturerForm() {
                             onChange={(v) => setState({ ...state, fullname_input: v })}
                             id={"fullname_input"}
                             maxLength="35"
+                            required
                         />
 
                         <div className="row">
@@ -208,9 +195,9 @@ function LecturerForm() {
                                     Expiry Time
                                 </label>
                                 <TimeInput
-                                    defaultValue={new Date()}
+                                    defaultValue={new Date().setHours(12)}
                                     className="mb-1"
-                                    style={{ width: "min(84%, 30vw, 155px)" }}
+                                    style={{ width: "min(84%, 36vw, 155px)" }}
                                     value={state.time_input}
                                     id="time_input"
                                     onChange={(v) => {

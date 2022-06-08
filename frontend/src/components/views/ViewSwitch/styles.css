@@ -89,3 +89,67 @@
     background-color: var(--accent-clr);
     color: whitesmoke;
 }
+
+@media only screen and (max-width: 700px) {
+    .backArrow button {
+        font-size: 1.15em !important;
+    }
+
+    .container-lg .backArrow {
+        display: none;
+    }
+
+    .switch {
+        width: 16.5em;
+    }
+
+    .switchSelection,
+    .radioLabel {
+        width: 5.5em;
+        height: 3em;
+    }
+
+    .radioLabel {
+        font-size: 0.85em;
+        margin: auto;
+        line-height: 3.5em;
+    }
+
+    .lecturer-questionnaire-buttons div span {
+        margin: 0;
+        font-size: 0.95em;
+        width: 12em;
+    }
+
+    .lecturer-questionnaire-buttons div a {
+        padding: 0 0.5em;
+    }
+
+    .resultsView .table {
+        max-width: 70vw;
+    }
+
+    .groupView {
+        max-width: 83vw;
+        margin: 0 1vw;
+        overflow: scroll;
+    }
+
+    .groupView th,
+    .groupView td {
+        padding: 0.15em !important;
+        font-size: 0.75em !important;
+    }
+
+    .resultsView {
+        max-width: 83vw;
+        margin: 0 1vw;
+        overflow: scroll;
+    }
+
+    .resultsView th,
+    .resultsView td {
+        padding: 0.15em !important;
+        font-size: 0.75em !important;
+    }
+}

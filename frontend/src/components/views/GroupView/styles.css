@@ -15,10 +15,11 @@
 
 .groupView th,
 .groupView td {
+    font-size: 0.9em;
     border: none;
     border-radius: 0.1em;
     vertical-align: middle;
-    padding: 0.5rem 0.5rem;
+    padding: 0.5rem 0.25rem;
     color: black;
     background-color: lightgray;
 }

@@ -37,28 +37,30 @@ function createListElement(id, name, date, onDeletion) {
         badgeValue = "nieudany podział";
     }
     return (
-        <div 
-        className="rowContainer"
-        key={id}>
-        <Link
-            to={"/questionnaire/" + id}
-            className="list-group-item d-flex list-group-item-action justify-content-between floater"
+        <div
+            className="rowContainer"
             key={id}
         >
-            {name}
-            <span className={badgeType}>{badgeValue}</span>
-            
-        </Link>
-        <div
-                className="deleteButton"
-                
+            <Link
+                to={"/questionnaire/" + id}
+                className="list-group-item d-flex list-group-item-action justify-content-between"
+                key={id}
             >
-                <button 
-                onClick={()=>{
-                    onDeletion({id, name})
-                }}
-                >{"\u2715"}</button>
-            </div>
+                {name}
+                <div className="badgeAndDelete">
+                    <span className={badgeType}>{badgeValue}</span>
+                    <div className="deleteButton">
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                onDeletion({ id, name });
+                            }}
+                        >
+                            {"\u2715"}
+                        </button>
+                    </div>
+                </div>
+            </Link>
         </div>
     );
 }
@@ -99,29 +101,29 @@ function ChooseForm() {
                 });
             }
         })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state.deleting]);
 
     const onDeletion = async (id, name) => {
-        setState({ 
-            ...state, 
-            deleting:true,
-            deletingId:id,
-            deletingName:name
+        setState({
+            ...state,
+            deleting: true,
+            deletingId: id,
+            deletingName: name
         });
-    }
+    };
 
-    const onConfirmation = async(id) => {
-        setState({ 
-            ...state, 
-            loading:true
+    const onConfirmation = async (id) => {
+        setState({
+            ...state,
+            loading: true
         });
-        const response = await http.deleteH(`/questionnaires/${id}`)
+        const response = await http.deleteH(`/questionnaires/${id}`);
         if (response.ok) {
-            setState({ 
-                ...state, 
-                loading:false,
-                deleting:false
+            setState({
+                ...state,
+                loading: false,
+                deleting: false
             });
             toast.success("Questionnaire deleted", {
                 position: "top-center",
@@ -133,10 +135,10 @@ function ChooseForm() {
                 progress: undefined
             });
         } else {
-            setState({ 
-                ...state, 
-                loading:false,
-                deleting:false
+            setState({
+                ...state,
+                loading: false,
+                deleting: false
             });
             toast.error(
                 "Could not delete questionnaire.\nTry again later or contact the server administrator.",
@@ -151,7 +153,7 @@ function ChooseForm() {
                 }
             );
         }
-    }
+    };
 
     var rows = [];
     state.forms.forEach((element) =>
@@ -173,13 +175,16 @@ function ChooseForm() {
                     {state.deleting ? (
                         <DeletionConfirmation
                             questionnaireId={state.deletingId}
-                            onRefusal={() => {setState({ 
-                                ...state,
-                                deleting:false
-                            })}}
-                            onConfirmation={() => {onConfirmation(state.deletingId.id)}}
-                        ></DeletionConfirmation>
-                        
+                            onRefusal={() => {
+                                setState({
+                                    ...state,
+                                    deleting: false
+                                });
+                            }}
+                            onConfirmation={() => {
+                                onConfirmation(state.deletingId.id);
+                            }}
+                        />
                     ) : (
                         <></>
                     )}
