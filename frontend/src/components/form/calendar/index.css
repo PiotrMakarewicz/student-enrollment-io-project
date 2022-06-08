@@ -1,0 +1,67 @@
+.calendar {
+    table-layout: fixed;
+    padding: 0;
+    width: 96%;
+    text-align: center;
+    margin: 2%;
+    border-collapse: separate;
+    border-spacing: 0.15em;
+}
+
+.calendar-cell {
+    padding: 0.9em 0;
+    /* border: 0.5px solid; */
+    border: none;
+    transition: 0.3s;
+    font-size: min(3vw, 1em);
+    border-radius: 0.1em;
+    font-weight: 600;
+}
+
+.calendar-cell-label {
+    user-select: none;
+    background-color: var(--accent-clr);
+    opacity: 1;
+}
+
+.calendar-cell-chosen {
+    cursor: pointer;
+    opacity: 0.8;
+    background-color: var(--light-green);
+}
+
+.calendar-cell-available {
+    opacity: 0.6;
+    cursor: pointer;
+    background-color: lightgray;
+}
+
+.calendar-cell-not-available {
+    opacity: 1;
+    background-color: dimgray;
+}
+
+.calendar-cell-impossibility {
+    cursor: pointer;
+    opacity: 0.8;
+    background-color: rgb(128, 0, 0);
+}
+
+.calendar-cell-available:hover {
+    opacity: 1;
+    transition: 0.3s;
+}
+
+.calendar-cell-chosen:hover {
+    opacity: 1;
+    transition: 0.3s;
+}
+
+.calendar-cell-impossibility:hover {
+    opacity: 1;
+    transition: 0.3s;
+}
+
+.calendar thead tr td:first-child::after {
+    content: "\01F4C6";
+}

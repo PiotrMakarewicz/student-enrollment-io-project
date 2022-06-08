@@ -1,0 +1,166 @@
+.main-list {
+    width: 100%;
+    font-size: calc(10px + 1vmin);
+}
+
+.container-lg {
+    width: 70%;
+}
+
+.badge-fl {
+    float: right;
+}
+
+.rowContainer {
+    display: flex;
+    border: 100px;
+    width: 100%;
+    /* border-radius: 30px; */
+    /* background-color: grey; */
+}
+
+/* .floater {
+    flex: 1;
+    margin-right: 20px;
+    border-radius: 30px;
+    size: 10px;
+} */
+
+.badgeAndDelete {
+    display: flex;
+    flex-direction: row;
+}
+
+.deleteButton {
+    /*top: 1.45rem;
+    left: 1.45rem;*/
+    border-radius: 50%;
+    margin-left: 0.5em;
+    size: 10px;
+    flex: 0;
+    line-height: 100%;
+}
+
+.d-flex > .deleteButton {
+    /* position: relative;
+    left: 0;
+    top: 0;
+    width: auto; */
+}
+
+.deleteButton button {
+    /* transform: rotate(180deg); */
+    font-size: 0.75em;
+    /* border: 1px solid black; */
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    transition: all 120ms ease-in;
+}
+
+.deleteButton button:hover {
+    background-color: var(--accent-clr-3);
+    color: whitesmoke;
+}
+
+.gg-trash {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs, 1));
+    width: 10px;
+    height: 12px;
+    border: 2px solid transparent;
+    box-shadow: 0 0 0 2px, inset -2px 0 0, inset 2px 0 0;
+    border-bottom-left-radius: 1px;
+    border-bottom-right-radius: 1px;
+    margin-top: 4px;
+}
+
+.gg-trash::after,
+.gg-trash::before {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+}
+
+.gg-trash::after {
+    background: currentColor;
+    border-radius: 3px;
+    width: 16px;
+    height: 2px;
+    top: -4px;
+    left: -5px;
+}
+
+.gg-trash::before {
+    width: 10px;
+    height: 4px;
+    border: 2px solid;
+    border-bottom: transparent;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    top: -7px;
+    left: -2px;
+}
+
+.floatingConfirmation {
+    position: fixed;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: column;
+    top: 15vh;
+    background: linear-gradient(to bottom right, grey, var(--bs-gray-700));
+    /* background-color: var(--accent-clr); */
+    border: 0;
+    border-radius: 2rem;
+    color: white;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 2.5;
+    outline: transparent;
+    padding: 0.75rem 1.25rem;
+    text-align: center;
+    text-decoration: none;
+    transition: box-shadow 0.2s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    /* width: 350px; */
+    transition: all 200ms ease;
+}
+
+.floatingConfirmation > div {
+    display: flex;
+    flex-direction: row;
+    /* width: 30%; */
+    /* justify-content: space-between; */
+}
+
+.floatingConfirmation div div button {
+    padding: 0.5em 1.25em;
+    margin: 0 1em;
+}
+
+@media only screen and (max-width: 800px) {
+    .list-group-item span {
+        line-height: 1.5;
+    }
+
+    .floatingConfirmation {
+        top: 25vh;
+        max-width: 90vw;
+        line-height: 1.75;
+        white-space: initial !important;
+    }
+    .floatingConfirmation > div {
+        margin-top: 1em;
+    }
+}
