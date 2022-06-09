@@ -139,8 +139,8 @@ public class GenerationAlgorithm {
         Set<Student> allStudents = studentsTerms.keySet();
         int averageGroupSize = (int) Math.round(((double) allStudents.size() / terms.size()));
         int maxGroupSize = averageGroupSize + groupSizeVariation;
-        //int minGroupSize = averageGroupSize - groupSizeVariation;
-        int minGroupSize = 0;
+        int minGroupSize = averageGroupSize - groupSizeVariation;
+        //int minGroupSize = 0;
         var network = new DefaultDirectedWeightedGraph<>(DefaultWeightedEdge.class);
         var destination = new Object();
 
